@@ -9,15 +9,20 @@ Installation
 1. Download [LTspice Infineon NMOS Library](https://github.com/metacollin/LTspiceInfineonNMOSLibrary/archive/master.zip).
 2. Unzip the downloaded file.
   * macOS:
-      1. Copy the `LTspiceInfineonNMOSLibrary/sym/InfineonNMOS` folder into `~/Library/Application\ Support/Ltspice/lib/sym`
-      2. Copy the *contents* of the `LTspiceInfineonNMOSLibrary/sub` folder into `~/Library/Application\ Support/Ltspice/lib/sub` (Do NOT overwrite anything!)
+      1. Copy the `LTspiceInfineonNMOSLibrary/sym/InfineonNMOS` folder  
+         into `~/Library/Application\ Support/Ltspice/lib/sym`
+      2. Copy the **contents** of the `LTspiceInfineonNMOSLibrary/sub` folder  
+         into `~/Library/Application\ Support/Ltspice/lib/sub` (Do NOT overwrite anything!)
   * Windows LTspice IV:
-      1. Copy `LTspiceInfineonNMOSLibrary\sym\InfineonNMOS` to `C:\Program Files\LTC\LTspiceIV\lib\sym\InfineonNMOS`
-      2. Copy the *contents* of `LTspiceInfineonNMOSLibrary\sub` to `C:\Program Files\LTC\LTspiceIV\lib\sub` (Do NOT overwrite anything!)
+      1. Copy `LTspiceInfineonNMOSLibrary\sym\InfineonNMOS`  
+         to `C:\Program Files\LTC\LTspiceIV\lib\sym\InfineonNMOS`
+      2. Copy the **contents** of `LTspiceInfineonNMOSLibrary\sub`   
+         to `C:\Program Files\LTC\LTspiceIV\lib\sub` (Do NOT overwrite anything!)
   * Windows LTspice XVII:
-      1. Copy `LTspiceInfineonNMOSLibrary\sym\InfineonNMOS` to 
-      `%USERPROFILE%\Documents\LTspiceXVII\lib\sym\InfineonNMOS`
-      2. Copy the *contents* of `LTspiceInfineonNMOSLibrary\sub` to `%USERPROFILE%\Documents\LTspiceXVII\lib\sub` (Do NOT overwrite anything!)
+      1. Copy `LTspiceInfineonNMOSLibrary\sym\InfineonNMOS`  
+         to `%USERPROFILE%\Documents\LTspiceXVII\lib\sym\InfineonNMOS`
+      2. Copy the **contents** of `LTspiceInfineonNMOSLibrary\sub`   
+         to `%USERPROFILE%\Documents\LTspiceXVII\lib\sub` (Do NOT overwrite anything!)
 3. Restart LTspice IV / XVII. You should now be able to access the Infineon parts under 'InfineonNMOS'.
 4. Dance a happy jig.
 
