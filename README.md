@@ -9,8 +9,8 @@ Installation
 1. Download [LTspice Infineon NMOS Library](https://github.com/metacollin/LTspiceInfineonNMOSLibrary/archive/master.zip).
 2. Unzip the downloaded file.
   * macOS:
-      Copy the `LTspiceInfineonNMOSLibrary/sym/InfineonNMOS` folder into `~/Library/Application\ Support/Ltspice/lib/sym`
-      Copy the *contents* of the `LTspiceInfineonNMOSLibrary/sub` folder into `~/Library/Application\ Support/Ltspice/lib/sub` (Do NOT overwrite anything!)
+      1. Copy the `LTspiceInfineonNMOSLibrary/sym/InfineonNMOS` folder into `~/Library/Application\ Support/Ltspice/lib/sym`
+      2. Copy the *contents* of the `LTspiceInfineonNMOSLibrary/sub` folder into `~/Library/Application\ Support/Ltspice/lib/sub` (Do NOT overwrite anything!)
   * Windows LTspice IV:
       Copy `LTspiceInfineonNMOSLibrary\sym\InfineonNMOS` to `C:\Program Files\LTC\LTspiceIV\lib\sym\InfineonNMOS`
       Copy the *contents* of `LTspiceInfineonNMOSLibrary\sub` to `C:\Program Files\LTC\LTspiceIV\lib\sub` (Do NOT overwrite anything!)
