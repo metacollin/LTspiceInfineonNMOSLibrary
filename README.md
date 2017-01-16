@@ -5,7 +5,7 @@ It is missing odd symbols such as power modules, dual MOSFETs, etc.
 It uses Infineon's publically available libraries, but includes native LTSpice symbols, allowing for easy use and installation.
 
 Installation
-==============
+--------------
 1. Download [LTspice Infineon NMOS Library](https://github.com/metacollin/LTspiceInfineonNMOSLibrary/archive/master.zip).
 2. Unzip the downloaded file.
   * macOS:
@@ -27,7 +27,7 @@ Installation
 4. Dance a happy jig.
 
 Notes
-===========================
+-----------------------
 - Original symbols of the LTspice Infineon NMOS Library are released under the [MIT License](LICENSE.txt)
 - All .lib files are Infineon's and subject to their licensing and usage terms which can be found in the text of each spice library.
 - Original models can be found [here](https://www.infineon.com/cms/en/product/power/power-mosfet/channel.html?channel=db3a304319c6f18c011a14e5341b25f1#ispnTab5)
