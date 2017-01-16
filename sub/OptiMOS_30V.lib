@@ -1,0 +1,362 @@
+*****************************************************************
+* INFINEON Power Transistors                                    *
+* Level-1 / 3 PSPICE Library for OptiMOS n-Channel Transistors  *
+* Version 2706715                                               *
+*                                                               *
+*****************************************************************
+*                                                               *
+* Models provided by Infineon are not warranted by Infineon as  *
+* fully representing all the specifications and operating       *
+* characteristics of the semiconductor product to which the     *
+* model relates. The models describe the characteristics of     *
+* typical devices.                                              *
+* In all cases, the current data sheet information for a given  *
+* device is the final design guideline and the only actual      *
+* performance specification.                                    *
+* Although models can be a useful tool in evaluating device     *
+* performance, they cannot model exact device performance under *
+* all conditions, nor are they intended to replace bread-       *
+* boarding for final verification. INFINEON therefore does not  *
+* assume any liability arising from their use.                  *
+* INFINEON reserves the right to change models without prior    *
+* notice.                                                       *
+*                                                               *
+* This library contains models of the following INFINEON        *
+* OptiMOS transistors:                                          *
+*                                                               *
+*                                                               *
+*   30V NL                        30V LL                        *
+*   SPD50N03S2-07                 SPD30N03S2L-10                *
+*                                                               *
+*****************************************************************
+
+.SUBCKT S2_30_n_var dd g s0 Tj PARAMS: a=1 dVth=0 dR=0 dgfs=0 Inn=1 Unn=1 Rmax=1
++gmin=1 Rs=1 Rp=1 dC=0 Rm=1u heat=1
+
+.PARAM  L=460n       g2=10m      vm=330k      Fm=0.55      Fm1=0.2
+.PARAM  c=2          Vth0=4.75   auth=3.7m    al=0.5       Eh=73.6n
+.PARAM  aubr=29m     lnBr=-23    Ubr=31       ka=12.7f
+.PARAM  UTnbr=207m   Wcm=10.8u   ph0=18.37    ph1=38m      dvgs=0.3
+
+.PARAM  Rd=22m       nmu=2.8     Tref=298     T0=273       lnIsj=-28.8
+.PARAM  ndi=1        Rdi=7m      nmu2=0       ta=20n       td=10n
+.PARAM  Rf=0.65
+
+.PARAM  f1=199p      f2=398p     f3=165p      U0=731m      bt=2.46u
+.PARAM  k10=116n     k11=1u      eps=0.01     dV=-1        e1=-1.77
+.PARAM  k6=22.1f     k3=426p     g1=1.289     k4=-40.2Meg  k5=35.8
+.PARAM  kbq=85.8u
+
+.PARAM  Vmin=3.85     Vmax=5.75    dCmax=0.33   dCmax2=0.5
+.PARAM  Vth={Vth0+(Vmax-Vth0)*limit(dVth,0,1)-(Vmin-Vth0)*limit(dVth,-1,0)}
+.PARAM  p0={Wcm/L*((T0/Tref)**1.5)*a}
+.PARAM  p1={(Unn-Inn*Rs-Vth0)*p0}
+.PARAM  p2={(Fm*SQRT(0.4)-c)*Inn*p0}
+.PARAM  Rlim={(p1+2*p2*Rmax-SQRT(p1**2+4*p2))/(2*p2)}
+.PARAM  dRd={Rd/a+if(dVth==0,limit(dR,0,1)*max(Rlim-Rd/a-Rs-Rp,0),0)}
+.PARAM  bm={(Tref/T0)**1.5/((Unn-Vth-Inn*Rs-0.2-c*Inn*(Rmax-Rs-dRd-Rp))*(Rmax-Rs-dRd-Rp))}
+.PARAM  gm={max(gmin,1/(SQRT(c/bm/Inn)+Rs))}
+.PARAM  bet={Wcm*if(dR==0,if(dVth==0,1+(1-L/(a*Wcm*Inn/c*(1/gm-Rs)**2))*(limit(dgfs,-1,0)),1),1)}
+.PARAM  dC1={1+dCmax*limit(dC,0,1)}
+.PARAM  dC2={1+dCmax2*limit(dC,0,1)}
+
+.PARAM  Cox={f1*a*dC2}
+.PARAM  Cds0={f2*a*dC1}
+.PARAM  Cgs0={f3*a*dC1}
+.PARAM  Cges={Cgs0+Cox}
+.PARAM  dRdi={Rdi/a}
+
+.PARAM  x0={Fm1+0.1}
+.PARAM  d={-0.5*(-x0+2*(x0-Fm1))/(SQRT(x0-Fm1)*x0**2)}
+.PARAM  e={1/(2*SQRT(x0-Fm1))-2*d*x0}
+.PARAM  f={0.2*k11**2}
+
+.FUNC  Ue(Ugs,Uds,T,Ux)  {Ugs-Vth+auth*(T-Tref)+Fm*max(Ux*(e+d*Ux),SQRT(max(Uds-Fm1,0)))}
+.FUNC  Ue0(Uee)          {Uee+(1+limit(Uee+0.4,0,1)**2*(2*limit(Uee+0.4,0,1)-3))*dvgs}
+.FUNC  b(Uds,T)          {bet/(L+Eh-SQRT(Eh**2+ka*Uds))*(T0/T)**1.5}
+.FUNC  I0(Uee,p,pp,z1)   {if(Uee>pp,(Uee-c*z1)*z1,p*(pp-p)/c*exp((Uee-pp)/p))}
+.FUNC  I2(Uds,p,Uee,z1,T) {b(Uds,T)/(1+g2*Uds/(vm*L))*I0(Uee,p,min(2*p,p+c*Uds),z1)}
+.FUNC  Ig(Uds,T,p,Uee)  {I2(Uds,p,Ue0(Uee),min(Uds,Ue0(Uee)/(2*c)),T)}
+.FUNC  Idbr(Uds,T)      {exp(min(lnBr+(Uds-UBr-aubr*(T-Tref))/UTnbr,25))}
+.FUNC  Iges(Uds,Ugs,T,Udsl)  
+ +{a*sgn(Uds)*(Ig(Udsl,T,1/(ph0-ph1*T),Ue(Ugs,Udsl,T,limit(Udsl,0,x0)))+Idbr(abs(Uds),T))}
+
+.FUNC  Isjt(Tj)           {exp(min(lnIsj+(Tj/Tref-1)*1.12/(ndi*kbq*Tj),7))*Tj/Tref}
+.FUNC  Idiode(Usd,Tj,Iss) {exp(min(log(Iss)+Usd/(ndi*kbq*Tj),7))-Iss}
+.FUNC  Idiod(Usd,Tj)      {a*Idiode(Usd,Tj,Isjt(Tj))}
+
+*Cgd
+.FUNC  w1(Udg,z1,z3)      {if(Udg>0,w2(Udg,z1,k4*z1-1,z3),Udg*(k3-z1*z1*k5))}
+.FUNC  w2(Udg,z1,z2,z3)   {2*(k3-k6*(1+z2*z2))/g1*(z3-1)+4/3*k6/g1*(z3*(1-g1*Udg/2)-1)-2*k6*z2*Udg}
+.FUNC  U3(Udg,z0)         {Udg-w1(Udg,(z0+k11-SQRT((z0-k11)**2+f))/2+bt,SQRT(1+g1*max(Udg,0)))/f1}
+
+*Cgs
+.FUNC  U5a(Ugs,a)         {Ugs*(1-Cgs0/Cges)-Cox/Cges*(-limit(Ugs-a,dV,0)**2/(2*dV)+min(Ugs-a-dV,0))}
+.FUNC  U5(Uds,Ugs)        {U5a(Ugs,e1*SQRT(max(Uds,0)+eps))}
+
+E_Edg     d   ox  VALUE {U3(V(d,g),k10*SQRT(max(V(d,s)+U0,0)))}
+C_Cdg    ox    g  {Cox}
+
+E_Eds     d edep  VALUE {(V(d,s)-2*(SQRT(U0*(limit(U0+V(d,s),0,2*UBr)))-U0))}
+C_Cds  edep    s  {Cds0}
+
+E_Egs     g  ox0  VALUE {U5(V(d,s),V(g,s))}
+C_Cgs   ox0    s  {Cges}
+
+G_chan    d    s VALUE=
+  +{Iges(V(d,s),V(g,s),T0+limit(V(Tj),-200,300),(SQRT(1+4*al*abs(V(d,s)))-1)/2/al)+LIMIT(I(V_sense3),-1k,1k)}
+G_RMos   d1    d  VALUE={V(d1,d)/(Rf*dRd+(1-Rf)*dRd*((limit(V(Tj),-200,999)+T0)/Tref)**nmu)}
+V_sense  dd   d1  0
+G_diode   s   d2  VALUE={Idiod(V(s,d2),T0+limit(V(Tj),-200,499))}
+G_Rdio   d2   d3  VALUE={V(d2,d3)/(dRdi*((limit(V(Tj),-200,999)+T0)/Tref)**nmu2)}
+V_sense2 d1   d3  0
+
+C_C001    a    0  {ta*td/(ta+td)}
+R_R001    a    b  1
+V_sense3  b    c  0
+E_E001    c    0  VALUE {-ta/td*I(V_sense2)}
+
+R1        g    s  1G
+Rd01      d    s  500Meg
+Rd02     d2    s  500Meg
+Rd03     d1    d  1k
+
+Rmet      s    s0 {Rm}
+
+G_TH      0   Tj  VALUE = {heat*LIMIT(I(V_sense)*V(dd,s)+(V(s,s0)**2)/Rm,0,100k)}
+
+.ENDS
+*$
+
+**********
+
+.SUBCKT S2_30_l_var dd g s0 Tj PARAMS: a=1 dVth=0 dR=0 dgfs=0 Inn=1 Unn=1 Rmax=1
++gmin=1 Rs=1 Rp=1 dC=0 Rm=1u heat=1
+
+.PARAM  L=420n       g2=11m      vm=330k      Fm=0.23      Fn=0.7
+.PARAM  c=1.5        Vth0=2.5    auth=3.45m   al=0.5       Eh=73.6n
+.PARAM  aubr=29m     lnBr=-23    Ubr=31       ka=8.82f
+.PARAM  UTnbr=207m   Wcm=11.7u   ph0=24.19    ph1=38m      dvgs=0.1
+
+.PARAM  Rd=22m       nmu=2.8     Tref=298     T0=273       lnIsj=-28.8
+.PARAM  ndi=1        Rdi=7m      nmu2=0       ta=20n       td=10n
+.PARAM  Rf=0.65
+
+.PARAM  f1=293p      f2=398p     f3=205p      U0=731m      bt=2.42u
+.PARAM  k10=116n     k11=1u      eps=0.01     dV=-1        e1=-1.2
+.PARAM  k6=15f       k3=628p     g1=2.797     k4=-59.2Meg  k5=52.7
+.PARAM  kbq=85.8u
+
+.PARAM  Vmin=2.1     Vmax=2.9    dCmax=0.33   dCmax2=0.5
+.PARAM  Vth={Vth0+(Vmax-Vth0)*limit(dVth,0,1)-(Vmin-Vth0)*limit(dVth,-1,0)}
+.PARAM  p0={Wcm/L*((T0/Tref)**1.5)*a}
+.PARAM  p1={(Unn-Inn*Rs-Vth0)*p0}
+.PARAM  p2={(Fm*SQRT(0.4)-c)*Inn*p0}
+.PARAM  Rlim={(p1+2*p2*Rmax-SQRT(p1**2+4*p2))/(2*p2)}
+.PARAM  dRd={Rd/a+if(dVth==0,limit(dR,0,1)*max(Rlim-Rd/a-Rs-Rp,0),0)}
+.PARAM  bm={(Tref/T0)**1.5/((Unn-Vth-Inn*Rs-0.1-c*Inn*(Rmax-Rs-dRd-Rp))*(Rmax-Rs-dRd-Rp))}
+.PARAM  gm={max(gmin,1/(SQRT(c/bm/Inn)+Rs))}
+.PARAM  bet={Wcm*if(dR==0,if(dVth==0,1+(1-L/(a*Wcm*Inn/c*(1/gm-Rs)**2))*(limit(dgfs,-1,0)),1),1)}
+.PARAM  dC1={1+dCmax*limit(dC,0,1)}
+.PARAM  dC2={1+dCmax2*limit(dC,0,1)}
+
+.PARAM  Cox={f1*a*dC2}
+.PARAM  Cds0={f2*a*dC1}
+.PARAM  Cgs0={f3*a*dC1}
+.PARAM  Cges={Cgs0+Cox}
+.PARAM  dRdi={Rdi/a}
+
+.PARAM  f={0.2*k11**2}
+
+.FUNC  Ue(Ugs,Uds,T)    {Ugs-Vth+auth*(T-Tref)+Fm*Uds**Fn}
+.FUNC  Ue0(Uee)          {Uee+(1+limit(Uee+0.4,0,1)**2*(2*limit(Uee+0.4,0,1)-3))*dvgs}
+.FUNC  b(Uds,T)          {bet/(L+Eh-SQRT(Eh**2+ka*Uds))*(T0/T)**1.5}
+.FUNC  I0(Uee,p,pp,z1)   {if(Uee>pp,(Uee-c*z1)*z1,p*(pp-p)/c*exp((Uee-pp)/p))}
+.FUNC  I2(Uds,p,Uee,z1,T) {b(Uds,T)/(1+g2*Uds/(vm*L))*I0(Uee,p,min(2*p,p+c*Uds),z1)}
+.FUNC  Ig(Uds,T,p,Uee)  {I2(Uds,p,Ue0(Uee),min(Uds,Ue0(Uee)/(2*c)),T)}
+.FUNC  Idbr(Uds,T)      {exp(min(lnBr+(Uds-UBr-aubr*(T-Tref))/UTnbr,25))}
+.FUNC  Iges(Uds,Ugs,T,Udsl)  
+ +{a*sgn(Uds)*(Ig(Udsl,T,1/(ph0-ph1*T),Ue(Ugs,Udsl,T))+Idbr(abs(Uds),T))}
+
+.FUNC  Isjt(Tj)           {exp(min(lnIsj+(Tj/Tref-1)*1.12/(ndi*kbq*Tj),7))*Tj/Tref}
+.FUNC  Idiode(Usd,Tj,Iss) {exp(min(log(Iss)+Usd/(ndi*kbq*Tj),7))-Iss}
+.FUNC  Idiod(Usd,Tj)      {a*Idiode(Usd,Tj,Isjt(Tj))}
+
+*Cgd
+.FUNC  w1(Udg,z1,z3)      {if(Udg>0,w2(Udg,z1,k4*z1-1,z3),Udg*(k3-z1*z1*k5))}
+.FUNC  w2(Udg,z1,z2,z3)   {2*(k3-k6*(1+z2*z2))/g1*(z3-1)+4/3*k6/g1*(z3*(1-g1*Udg/2)-1)-2*k6*z2*Udg}
+.FUNC  U3(Udg,z0)         {Udg-w1(Udg,(z0+k11-SQRT((z0-k11)**2+f))/2+bt,SQRT(1+g1*max(Udg,0)))/f1}
+
+*Cgs
+.FUNC  U5a(Ugs,a)         {Ugs*(1-Cgs0/Cges)-Cox/Cges*(-limit(Ugs-a,dV,0)**2/(2*dV)+min(Ugs-a-dV,0))}
+.FUNC  U5(Uds,Ugs)        {U5a(Ugs,e1*SQRT(max(Uds,0)+eps))}
+
+E_Edg     d   ox  VALUE {U3(V(d,g),k10*SQRT(max(V(d,s)+U0,0)))}
+C_Cdg    ox    g  {Cox}
+
+E_Eds     d edep  VALUE {(V(d,s)-2*(SQRT(U0*(limit(U0+V(d,s),0,2*UBr)))-U0))}
+C_Cds  edep    s  {Cds0}
+
+
+E_Egs     g  ox0  VALUE {U5(V(d,s),V(g,s))}
+C_Cgs   ox0    s  {Cges}
+
+G_chan    d    s VALUE=
+  +{Iges(V(d,s),V(g,s),T0+limit(V(Tj),-200,300),(SQRT(1+4*al*abs(V(d,s)))-1)/2/al)+LIMIT(I(V_sense3),-1k,1k)}
+G_RMos   d1    d  VALUE={V(d1,d)/(Rf*dRd+(1-Rf)*dRd*((limit(V(Tj),-200,999)+T0)/Tref)**nmu)}
+V_sense  dd   d1  0
+G_diode   s   d2  VALUE={Idiod(V(s,d2),T0+limit(V(Tj),-200,499))}
+C_par  s  d2 {2p*a}
+G_Rdio   d2   d3  VALUE={V(d2,d3)/(dRdi*((limit(V(Tj),-200,999)+T0)/Tref)**nmu2)}
+V_sense2 d1   d3  0
+
+C_C001    a    0  {ta*td/(ta+td)}
+R_R001    a    b  1
+V_sense3  b    c  0
+E_E001    c    0  VALUE {-ta/td*I(V_sense2)}
+
+R1        g    s  1G
+Rd01      d    s  500Meg
+Rd02     d2    s  500Meg
+Rd03     d1    d  1k
+    
+Rmet      s    s0 {Rm}
+
+*G_TH      0   Tj  VALUE = {heat*LIMIT(I(V_sense)*V(dd,s)+(V(s,s0)**2)/Rm,0,100k)}
+G_TH      0   Tj  VALUE = 
+ +{heat*LIMIT(I(V_sense2)*V(d1,s)+(V(s,s0)**2)/Rm+(I(V_sense)-I(V_sense2))*V(d1,d)+
+ +(I(V_sense)-I(V_sense2)-I(E_Edg)-I(E_Eds)-I(V_sense3))*V(d,s),-10k,100k)}
+
+.ENDS
+*$
+
+***********
+
+.SUBCKT SPD50N03S2-07 drain gate source Tj Tcase PARAMS: dVth=0 dRdson=0 dgfs=0 dC=0 Zthtype=0
+
+.PARAM Rs=1.89m     Rg=2.6       Rd=50u       Ls=8n        Ld=1n        Lg=6n        Rm=886u
+.PARAM Inn=50       Unn=10       Rmax=7.3m    gmin=29
+.PARAM RRf=467m     Rrbond=83m   Rtb=14.5     g2=805m
+.PARAM act=8.29
+
+.FUNC   Pb(I,dT,Rb)  {Rb/(2*Rtb)*(I-limit(dT/(max(I,1n)*Rb)+RRf*I*g2,0,I))**2}
+
+X1  d1 g s Tj S2_30_n_var PARAMS: a={act} dVth={dVth} dR={dRdson} dgfs={dgfs} Inn={Inn} Unn={Unn} 
+                                        +Rmax={Rmax} gmin={gmin} Rs={Rs} Rp={Rd} dC={dC} Rm={Rm} heat=1
+Rg    g1     g    {Rg}   
+Lg    gate   g1   {Lg*if(dgfs==99,0,1)}
+Gs    s1     s    VALUE={V(s1,s)/(Rs*(1+(limit(V(Tj),-200,999)-25)*4m)-Rm)}
+Rsa   s1     s    1Meg
+Ls    source s1   {Ls*if(dgfs==99,0,1)}
+Rda   d1     d2   {Rd}
+Ld    drain  d2   {Ld*if(dgfs==99,0,1)}
+Rsb   source s1    10
+Rga   gate   g1    10
+Rdb   drain  d2    10
+
+G_TH  0    Tb  VALUE =  {Pb(abs(I(Ls)),V(Tj,Tcase),Rrbond*(1+(limit((V(Tb)+V(Tj))/2,-200,999)-25)*4m))}
+Cthb  Tb      0               2.44m
+Rthb  Tb      Tj              {Rtb} 
+Rth1  Tj      t1              {3.17m+limit(Zthtype,0,1)*1.18m}
+Rth2  t1      t2              {42.43m+limit(Zthtype,0,1)*15.7m}
+Rth3  t2      t3              {161.36m+limit(Zthtype,0,1)*52.82m}
+Rth4  t3      t4              {172.42m+limit(Zthtype,0,1)*139.89m}
+Rth5  t4      Tcase           {282.13m+limit(Zthtype,0,1)*228.9m}
+Cth1  Tj      0               57.708u
+Cth2  t1      0               329.732u
+Cth3  t2      0               2.088m
+Cth4  t3      0               1.461m
+Cth5  t4      0               34.815m
+Cth6  Tcase   0               79.9m
+
+.ENDS
+
+**********
+
+.SUBCKT SPD30N03S2L-10 drain gate source Tj Tcase PARAMS: dVth=0 dRdson=0 dgfs=0 dC=0 Zthtype=0
+
+.PARAM Rs=2.51m     Rg=1.2       Rd=50u       Ls=7n        Ld=1n        Lg=6n        Rm=1m
+.PARAM Inn=30       Unn=4.5      Rmax=14.7m   gmin=23.8
+.PARAM RRf=488m     Rrbond=220m  Rtb=23.6     g2=871m
+.PARAM act=5.07
+
+.FUNC   Pb(I,dT,Rb)  {Rb/(2*Rtb)*(I-limit(dT/(max(I,1n)*Rb)+RRf*I*g2,0,I))**2}
+
+X1  d1 g s Tj S2_30_l_var PARAMS: a={act} dVth={dVth} dR={dRdson} dgfs={dgfs} Inn={Inn} Unn={Unn} 
+                                        +Rmax={Rmax} gmin={gmin} Rs={Rs} Rp={Rd} dC={dC} Rm={Rm} heat=1
+Rg    g1     g    {Rg}   
+Lg    gate   g1   {Lg*if(dgfs==99,0,1)}
+Gs    s1     s    VALUE={V(s1,s)/(Rs*(1+(limit(V(Tj),-200,999)-25)*4m)-Rm)}
+Rsa   s1     s    1Meg
+Ls    source s1   {Ls*if(dgfs==99,0,1)}
+Rda   d1     d2   {Rd}
+Ld    drain  d2   {Ld*if(dgfs==99,0,1)}
+Rsb   source s1    10
+Rga   gate   g1    10
+Rdb   drain  d2    10
+
+G_TH  0    Tb  VALUE =  {Pb(abs(I(Ls)),V(Tj,Tcase),Rrbond*(1+(limit((V(Tb)+V(Tj))/2,-200,999)-25)*4m))}
+Cthb  Tb      0               955.96u
+Rthb  Tb      Tj              {Rtb} 
+Rth1  Tj      t1              {5.19m+limit(Zthtype,0,1)*1.92m}
+Rth2  t1      t2              {68.31m+limit(Zthtype,0,1)*25.28m}
+Rth3  t2      t3              {248.58m+limit(Zthtype,0,1)*86.77m}
+Rth4  t3      t4              {281.92m+limit(Zthtype,0,1)*185.38m}
+Rth5  t4      Tcase           {359.96m+limit(Zthtype,0,1)*236.69m}
+Cth1  Tj      0               35.293u
+Cth2  t1      0               204.805u
+Cth3  t2      0               1.376m
+Cth4  t3      0               893.43u
+Cth5  t4      0               27.227m
+Cth6  Tcase   0               83.6m
+
+.ENDS
+
+**********
+
+.SUBCKT SPD50N03S2-07_L1 drain gate source PARAMS: dVth=0 dRdson=0 dgfs=0 dC=0 
+
+.PARAM Rs=1.89m     Rg=2.6       Rd=50u       Ls=8n        Ld=1n        Lg=6n        Rm=886u
+.PARAM Inn=50       Unn=10       Rmax=7.3m    gmin=29
+.PARAM act=8.29
+
+X1  d1 g s Tj S2_30_n_var PARAMS: a={act} dVth={dVth} dR={dRdson} dgfs={dgfs} Inn={Inn} Unn={Unn} 
+                                        +Rmax={Rmax} gmin={gmin} Rs={Rs} Rp={Rd} dC={dC} Rm={Rm} heat=0
+Rg    g1     g    {Rg}   
+Lg    gate   g1   {Lg*if(dgfs==99,0,1)}
+Gs    s1     s    VALUE={V(s1,s)/(Rs*(1+(limit(V(Tj),-200,999)-25)*4m)-Rm)}
+Rsa   s1     s    1Meg
+Ls    source s1   {Ls*if(dgfs==99,0,1)}
+Rda   d1     d2   {Rd}
+Ld    drain  d2   {Ld*if(dgfs==99,0,1)}
+
+E1    Tj     w      VALUE={TEMP}
+R1    w      0      1u
+
+.ENDS
+
+**********
+
+.SUBCKT SPD30N03S2L-10_L1 drain gate source PARAMS: dVth=0 dRdson=0 dgfs=0 dC=0 
+
+.PARAM Rs=2.51m     Rg=1.2       Rd=350u      Ls=8n        Ld=1n        Lg=8n        Rm=1.06m
+.PARAM Inn=30       Unn=4.5      Rmax=14.6m   gmin=23.8
+.PARAM act=5.07
+
+X1  d1 g s Tj S2_30_l_var PARAMS: a={act} dVth={dVth} dR={dRdson} dgfs={dgfs} Inn={Inn} Unn={Unn} 
+                                        +Rmax={Rmax} gmin={gmin} Rs={Rs} Rp={Rd} dC={dC} Rm={Rm} heat=0
+Rg    g1     g    {Rg}   
+Lg    gate   g1   {Lg*if(dgfs==99,0,1)}
+Gs    s1     s    VALUE={V(s1,s)/(Rs*(1+(limit(V(Tj),-200,999)-25)*4m)-Rm)}
+Rsa   s1     s    1Meg
+Ls    source s1   {Ls*if(dgfs==99,0,1)}
+Rda   d1     d2   {Rd}
+Ld    drain  d2   {Ld*if(dgfs==99,0,1)}
+
+E1    Tj     w      VALUE={TEMP}
+R1    w      0      1u
+
+.ENDS
+
+**********
+
