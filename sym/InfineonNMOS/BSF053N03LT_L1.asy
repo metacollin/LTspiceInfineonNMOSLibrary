@@ -17,7 +17,7 @@ WINDOW 0 56 32 Left 2
 WINDOW 3 56 72 Left 2
 SYMATTR Value BSF053N03LT_L1
 SYMATTR Prefix X
-SYMATTR ModelFile OptiMOS2-30V.lib
+SYMATTR ModelFile OptiMOS2_30V.lib
 SYMATTR Description N-Channel MOSFET transistor
 PIN 48 0 NONE 0
 PINATTR PinName D

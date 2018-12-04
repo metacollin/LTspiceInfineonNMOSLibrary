@@ -17,7 +17,7 @@ WINDOW 0 56 32 Left 2
 WINDOW 3 56 72 Left 2
 SYMATTR Value IPA093N06N3_L1
 SYMATTR Prefix X
-SYMATTR ModelFile OptiMOS3-60V.lib
+SYMATTR ModelFile OptiMOS3_60V.lib
 SYMATTR Description N-Channel MOSFET transistor
 PIN 48 0 NONE 0
 PINATTR PinName D

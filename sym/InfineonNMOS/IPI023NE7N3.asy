@@ -17,7 +17,7 @@ WINDOW 0 56 32 Left 2
 WINDOW 3 56 72 Left 2
 SYMATTR Value IPI023NE7N3
 SYMATTR Prefix X
-SYMATTR ModelFile OptiMOS3-75V.lib
+SYMATTR ModelFile OptiMOS3_75V.lib
 SYMATTR Description N-Channel MOSFET transistor
 PIN 48 0 NONE 0
 PINATTR PinName D
