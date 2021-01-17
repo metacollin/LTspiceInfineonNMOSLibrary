@@ -1,7 +1,9 @@
 LTspice Infineon NMOS Library
 ===========================
 **UPDATED:** LTspice Infineon NMOS Library is a semi-complete bundle of Infineon's Power N-Channel MOSFETs up to 950V, current as of January 2021.
+
 It is missing odd symbols such as power modules, dual MOSFETs, etc.
+
 It uses Infineon's publically available libraries, but includes native LTSpice symbols, allowing for easy use and installation.
 
 When available, it uses their native LTSpice libraries, but when not,  PSpice libraries are used.  LTSpice has no problem with PSpice libraries.
