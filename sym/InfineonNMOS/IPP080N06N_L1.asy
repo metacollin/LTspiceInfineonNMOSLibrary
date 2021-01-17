@@ -17,7 +17,7 @@ WINDOW 0 56 32 Left 2
 WINDOW 3 56 72 Left 2
 SYMATTR Value IPP080N06N_L1
 SYMATTR Prefix X
-SYMATTR ModelFile OptiMOS_60V.lib
+SYMATTR ModelFile OptiMOS__60V_LTSpice.lib
 SYMATTR Description N-Channel MOSFET transistor
 PIN 48 0 NONE 0
 PINATTR PinName D

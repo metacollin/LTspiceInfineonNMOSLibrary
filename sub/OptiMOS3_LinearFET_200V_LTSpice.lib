@@ -1,0 +1,326 @@
+*****************************************************************
+* INFINEON Power Transistors                                    *
+* LTSPICE Library for                                           *
+*       OptiMOS3 LinearFET 200V                                 *
+* n-channel Transistors                                         *
+* Version 06042020                                              *
+*                                                               *
+*****************************************************************
+*                                                               *
+* The Simulation Model is subject to change without notice. In  *
+* addition, models can be a useful tool in evaluating device    *
+* performance, they cannot reflect the accurate device          *
+* performance under all conditions, nor are they intended to    *
+* replace bread boarding for final verification. Infineon       *
+* therefore does not assume any warranty or liability           *
+* whatsoever arising from their use. Infineon does not assume   *
+* any warranty or liability for the values and functions of the *
+* Simulation Model.                                             *
+* The methods and results of the Simulation Model are to the    *
+* best of our knowledge                                         *
+* correct. However, the user is fully responsible to verify and *
+* validate these results under the operating conditions and in  *
+* the environment of its application. Infineon will not bear    *
+* the responsibility arising out of or in connection with any   *
+* malfunction of the Simulation Models.                         *
+* Models provided by Infineon are not warranted by Infineon as  *
+* completely and comprehensively representing all the           *
+* specifications and operating characteristics of the           *
+* semiconductor products to which these models relate. The      *
+* models describe the characteristics of typical devices. In    *
+* all cases, the current data sheet information for a given     *
+* device is the conclusive design guideline and the only actual * 
+* performance specification.                                    *
+*                                                               *
+*                                                               *
+* This library contains models of the following INFINEON        *
+* transistors:                                                  *
+*                                                               *  
+*   OptiMOS3 LinearFET 200V                                     *
+*     IPB110N20N3LF                                             *
+*                                                               *
+*****************************************************************
+* thermal nodes of level 3 models:                              *
+*                                                               *
+*  .SUBCKT IPB110N20N3LF drain gate source Tj Tcase             *
+*  Tj :    potential=temperature (in °C) at junction (typically *
+*          not connected)                                       *
+*  Tcase : node where the boundary contition - external heat    *
+*          sinks etc - have to be connected (ideal heat sink    *
+*          can be modeled by using a voltage source stating the *
+*          ambient temperature in °C between Tcase and ground.  *
+*                                                               *
+*****************************************************************
+
+.options Thev_Induc=1
+
+.SUBCKT S3_200_lf_var dd g gl s0 Tj PARAMS: a=1 dVth=0 dR=0 dgfs=0 Inn=1 
++Unn=1 Rmax=1 gmin=1 Rs=1 Rp=1 dC=0 Rm=1u
+
+.PARAM  Fm=0.08      Fn=0.5      kbq=85.8u
+.PARAM  c=0.95       muc=0       Vth0=3.7     auth=4.2m    al=0.5
+.PARAM  UT=100m      ab=167m     ab2=0        lB=-23       UB=216
+
+.PARAM  b0l=0.98     b0=11.02    p0=9.1035    p1=-33.65m   p2=55u
+
+.PARAM  Rdl=1.23     Rd=246m     nmu=3.1      Tref=298     T0=273       lnIsj=-27
+.PARAM  ndi=1.12     Rdi=30m     nmu2=-16m    ta=60n       td=200n
+.PARAM  Rf=0.2       nmu3=1.5    rpa=4.3m     
+
+.PARAM  f3l=19p     f3=240p
+
+.PARAM  ps1=14p      ps2=-2      ps3=10p      ps4=-0.1      ps5=0.05p     ps6=3.3p
+.PARAM  qs1=9p       qs2=35p     qs3=-2       qs4=185p      qs5=-0.0667
+.PARAM  q81=45p      q83=11p     q84=-0.00667
+.PARAM  x0=28.375    x1=34       
+.PARAM  dx={x1-x0}
+
+.PARAM  ps1l=0.8p    ps2l=-1    ps3l=0.9p    ps4l=-0.0666   ps5l=0.1p    ps6l=2.6p
+
+.PARAM  Vmin=2.7   Vmax=4.7  dCmax=0.33
+.PARAM  a0={a}
+.PARAM  Vth={Vth0+(Vmax-Vth0)*limit(dVth,0,1)-(Vmin-Vth0)*limit(dVth,-1,0)}
+.PARAM  q0={b0*((T0/Tref)**nmu3)*a}
+.PARAM  q1={(Unn-Inn*Rs-Vth0)*q0}
+.PARAM  q2={(Fm*SQRT(0.4)-c)*Inn*q0}
+.PARAM  Rlim={(q1+2*q2*Rmax-SQRT(q1**2+4*q2))/(2*q2)}
+.PARAM  dRd={Rd/a+if(dVth==0,limit(dR,0,1)*max(Rlim-Rd/a-Rs-Rp,0),0)}
+.PARAM  dRdl={Rdl/a}
+.PARAM  bm={c/((1/gmin-Rs)**2*Inn*a*(T0/Tref)**nmu3)}
+.PARAM  bet={b0+(b0-bm)*if(dR==0,if(dVth==0,limit(dgfs,-1,0),0),0)}
+.PARAM  betl={b0l}
+.PARAM  dC1={1+dCmax*limit(dC,0,1)}
+.PARAM  dC2={1+1.5*dCmax*limit(dC,0,1)}
+
+.PARAM  Cgs0={f3*a*dC1}
+.PARAM  Cgs0l={f3l*a*dC1}
+
+.PARAM  dRdi={Rdi/a}
+
+.PARAM  Cox1={ps1*a*dC1}
+.PARAM  Cox2={ps3*a*dC1}
+.PARAM  Cox3={(ps5*a+ps6)*dC1}
+.PARAM  Cox1l={ps1l*a*dC1}
+.PARAM  Cox2l={ps3l*a*dC1}
+.PARAM  Cox3l={(ps5l*a+ps6l)*dC1}
+
+.PARAM  Cds0={qs1*a*dC1}
+.PARAM  Cds1={qs2*a*dC1}
+.PARAM  Cds2={qs4*a*dC1}
+.PARAM  Cds3={(q81+qs1)*a*dC1}
+.PARAM  Cds4={q83*a*dC1}
+
+.FUNC  I0(Uee,p,pp,z1,cc)  {if(Uee>pp,(Uee-cc*z1)*z1,p*(pp-p)/cc*exp((Uee-pp)/p))}
+.FUNC  Ig(Uds,T,p,Uee,cc)  {bet*(T0/T)**nmu3*I0(Uee,p,min(2*p,p+cc*Uds),min(Uds,Uee/(2*cc)),cc)}
+.FUNC  J(d,g,T,da,s) 
++ {a*s*((Ig(da,T,(p0+(p1+p2*T)*T)*kbq*T,g-Vth+auth*(T-Tref)+Fm*da**Fn,c*(T/Tref)**muc)+exp(min(lB+(d-UB-ab*(T-Tref))/UT,25))))}
+
+.FUNC  Igl(Uds,T,p,Uee,cc)  {betl*(T0/T)**nmu3*I0(Uee,p,min(2*p,p+cc*Uds),min(Uds,Uee/(2*cc)),cc)}
+.FUNC  Jl(d,g,T,da,s) 
++ {a*s*((Igl(da,T,(p0+(p1+p2*T)*T)*kbq*T,g-Vth+auth*(T-Tref)+Fm*da**Fn,c*(T/Tref)**muc)+exp(min(lB+(d-UB-ab*(T-Tref))/UT,25))))}
+
+.FUNC  Idiode(Usd,Tj,Iss) {exp(min(log(Iss)+Usd/(ndi*kbq*Tj),7))-Iss}
+.FUNC  Idiod(Usd,Tj)      {a*Idiode(Usd,Tj,exp(min(lnIsj+(Tj/Tref-1)*1.12/(ndi*kbq*Tj),7))*(Tj/Tref)**3)}
+
+.FUNC QCds(x) {Cds3*min(x,x1)+Cds0*max(x-x1,0)+(Cds3-Cds0)*((limit(x,x0,x1)-x0)**3/(dx*dx)*((limit(x,x0,x1)-x0)/(2*dx)-1))}
+
+E_Edg1        d   ox    VALUE {if(V(d,g)>0,V(d,g)-(exp(ps2*max(V(d,g),0))-1)/ps2,0)}
+C_Cdg1       ox   g     {Cox1}
+E_Edg2        d   ox1   VALUE {if(V(d,g)>0,V(d,g)-(exp(ps4*max(V(d,g),0))-1)/ps4,0)}
+C_Cdg2      ox1   g     {Cox2}
+Vx            d   ox2   0
+C_Cdg3      ox2   g     {Cox3}
+
+E_Edg1l      dl  oxl    VALUE {if(V(dl,gl)>0,V(dl,gl)-(exp(ps2l*max(V(dl,gl),0))-1)/ps2l,0)}
+C_Cdg1l     oxl  gl     {Cox1l}
+E_Edg2l      dl  ox1l   VALUE {if(V(dl,gl)>0,V(dl,gl)-(exp(ps4l*max(V(dl,gl),0))-1)/ps4l,0)}
+C_Cdg2l    ox1l  gl     {Cox2l}
+Vxl          dl  ox2l   0
+C_Cdg3l    ox2l  gl     {Cox3l} 
+
+E_Eds         d  edep   VALUE {(V(d,s)-I(V_sense3)/(Cds1+Cds2))}
+C_Cds      edep  s      {Cds1+Cds2}
+
+E_Eds1       dl  edep1  VALUE {V(dl,s)-QCds(V(dl,s))/Cds3}
+C_Cds1    edep1  s      {Cds3} 
+
+C_Cgs         g  s      {Cgs0}
+C_Cgsl       gl  s      {Cgs0l}
+
+G_chan    d    s  VALUE={J(V(d,s),V(g,s),T0+limit(V(Tj),-200,500),(SQRT(1+4*al*abs(V(d,s)))-1)/2/al,sgn(V(d,s)))}
+G_RMos   d1    d  VALUE={V(d1,d)/(Rf*dRd+(1-Rf)*dRd*((limit(V(Tj),-200,999)+T0)/Tref)**nmu)/(1+rpa*(I(V_sense)/a)**2)}
+V_sense  dd   d1  0
+
+G_chanl  dl    s  VALUE={Jl(V(dl,s),V(gl,s),T0+limit(V(Tj),-200,500),(SQRT(1+4*al*abs(V(dl,s)))-1)/2/al,sgn(V(dl,s)))}
+G_RMosl  d1l    dl   VALUE={V(d1l,dl)/(Rf*dRdl+(1-Rf)*dRdl*((limit(V(Tj),-200,999)+T0)/Tref)**nmu)/(1+rpa*(I(V_sensel)/a)**2)}
+V_sensel dd    d1l   0
+
+G_diode   s   d3  VALUE={Idiod(V(s,d3),T0+limit(V(Tj),-200,499))}
+G_Rdio   d2   d1  VALUE={V(d2,d1)/(dRdi*((limit(V(Tj),-200,999)+T0)/Tref)**nmu2)}
+V_sense2 d2   d3  0
+
+L_L001    a    c  {td/(ta+td)}
+R_R001    a    b  {1/ta}
+V_sense3  c    0  0
+E_E001    b    0  VALUE {I(V_sense2)}
+E_E002    e    0  VALUE 
++ {Cds1/qs3*(exp(qs3*max(V(d1,s),-1))-1)+Cds2/qs5*(exp(qs5*max(V(d1,s),-1))-1)+Cds4/q84*(exp(q84*max(V(d1,s),-1))-1)} 
+
+R_R002    e    c  1
+R_R003    a    0  500Meg
+
+R1        g    s  1G
+Rd01      d    s  1G
+Rd02     d2    s  500Meg
+Rd03     d1    d  1k
+Rd04     dl    s  1G
+
+Rmet      s    s0 {Rm}
+
+G_TH      0   Tj  VALUE =
++{(LIMIT(I(V_sense2)*V(d1,s)+(V(s,s0)**2)/Rm+(I(V_sense)-I(V_sense2))*V(d1,d)+
++(I(V_sense)-I(V_sense2)-I(E_Edg1)-I(E_Edg2)-I(Vx)-I(E_Eds))*V(d,s)+I(V_sensel)*V(d1l,dl)+
++(I(V_sensel)-I(E_Edg1l)-I(E_Edg2l)-I(Vxl)-I(E_Eds1))*V(dl,s),-10k,100k))}
+
+.ENDS
+
+************************************************************************************************************************
+
+.SUBCKT IPB110N20N3LF drain gate source Tj Tcase PARAMS: dVth=0 dRdson=0 dgfs=0 dC=0 Zthtype=0 Ls=1.8n Ld=1n Lg=4n
+
+.PARAM Rs=893u      Rg=2         Rgl=60       Rd=50u       Rm=400u
+.PARAM Inn=44       Unn=10       Rmax=11m     gmin=16
+.PARAM RRf=350m     Rrbond=12m   Rtb=5.3      g2=729m
+.PARAM act=25.95    
+
+.FUNC   Pb(I,dT,Rb)  {Rb/(2*Rtb)*(I-limit(dT/(max(I,1n)*Rb)+RRf*I*g2,0,I))**2}
+
+X1  d1 g gl s Tj S3_200_lf_var PARAMS: a={act} dVth={dVth} dR={dRdson} dgfs={dgfs} Inn={Inn} Unn={Unn} 
+                                        +Rmax={Rmax} gmin={gmin} Rs={Rs} Rp={Rd} dC={dC} Rm={Rm}
+
+.MODEL D01 D(BV=330 CJO=1p VJ=0.9 M=0.5 RS=1k)
+.MODEL D02 D(BV=4.5 CJO=1p VJ=0.91 M=0.47)
+.MODEL D03 D(BV=5 CJO=1p VJ=0.91 M=0.47 RS=1k)
+.MODEL D04 D(BV=30 CJO=1p VJ=0.9 M=0.5)
+.MODEL PMOS PMOS ( LEVEL=1 VTO=-2.1 KP=40U LAMBDA=.001 GAMMA=.6 PHI=0.8 TOX=40n CGDO=5E-10 CGSO= 5e-10 CJ=1E-4 CJSW=5E-10
++ MJ=0.5 PB=0.95)
+.MODEL NMOS NMOS ( LEVEL=1 VTO=0.9 KP=40U LAMBDA=.001 GAMMA=.6 PHI=0.8 TOX=40n CGDO=5E-10 CGSO= 5e-10 CJ=1E-4 CJSW=5E-10
++ MJ=0.5 PB=0.95)
+
+M1   a1 a2 a3 a3 PMOS L=1.6u W=4.536m
+M2   a4 a5 a6 a6 NMOS L=1.6u W=453.6u
+
+G1   d1 a8 VALUE={min(V(d1,a8),1.55)/1.2Meg}
+G2   a2 a3 VALUE={if(V(a2,a3)<0,V(a2,a3)/10Meg,V(a2,a3)/1.7Meg)}
+
+D1   a8 d1 D01
+D2   a8 a2 D02
+D3   s a8 D03
+D4   z a7 D04
+
+R2   a8 a5 4.8Meg
+R3   a5 s 2.4Meg
+R4   a4 a7 39.7 TC=10m
+R5   s a6 7.94 TC=10n
+R6   z a1 7.9m TC=10m
+R7   g1l a3 6.35 TC=10m
+R8   a2 a3 1G
+R9   d1 a8 100G
+
+C1   a8 s 3p
+
+Rg    z   g    {Rg}   
+Rgl   g1l    gl   {Rgl}   
+Lgl   gate   g1l  {Lg*if(dgfs==99,0,1)}
+
+Gs    s1     s    VALUE={V(s1,s)/(Rs*(1+(limit(V(Tj),-200,999)-25)*4m)-Rm)}
+Rsa   s1     s    1Meg
+Ls    source s1   {Ls*if(dgfs==99,0,1)}
+Rda   d1     d2   {Rd}
+Ld    drain  d2   {Ld*if(dgfs==99,0,1)}
+Rsb   source s1    10
+Rga   gate   g1l   10
+Rdb   drain  d2    10
+
+G_TH  0    Tb  VALUE =  {Pb(abs(I(Ls)),V(Tj,Tcase),Rrbond*(1+(limit((V(Tb)+V(Tj))/2,-200,999)-25)*4m))}
+Cthb  Tb      0               8.05m
+Rthb  Tb      Tj              {Rtb} 
+Rth1  Tj      t1              {1.7m+limit(Zthtype,0,1)*633.75u}
+Rth2  t1      t2              {13.89m+limit(Zthtype,0,1)*5.14m}
+Rth3  t2      t3              {57.64m+limit(Zthtype,0,1)*26.04m}
+Rth4  t3      t4              {71.55m+limit(Zthtype,0,1)*42.24m}
+Rth5  t4      Tcase           {176.8m+limit(Zthtype,0,1)*104.37m}
+Cth1  Tj      0               677.403u
+Cth2  t1      0               494.27u
+Cth3  t2      0               6.391m
+Cth4  t3      0               4.411m
+Cth5  t4      0               131.795m
+Cth6  Tcase   0               190m
+
+.ENDS
+
+*******************
+
+.SUBCKT IPB110N20N3LF_L1 drain gate source PARAMS: dVth=0 dRdson=0 dgfs=0 dC=0 Ls=1.8n Ld=1n Lg=4n
+
+.PARAM Rs=893u      Rg=2         Rgl=60       Rd=50u       Rm=400u
+.PARAM Inn=44       Unn=10       Rmax=11m     gmin=16
+.PARAM act=25.95
+
+X1  d1 g gl s Tj1 S3_200_lf_var PARAMS: a={act} dVth={dVth} dR={dRdson} dgfs={dgfs} Inn={Inn} Unn={Unn} 
+                                        +Rmax={Rmax} gmin={gmin} Rs={Rs} Rp={Rd} dC={dC} Rm={Rm}
+
+.MODEL D01 D(BV=330 CJO=1p VJ=0.9 M=0.5 RS=1k)
+.MODEL D02 D(BV=4.5 CJO=1p VJ=0.91 M=0.47)
+.MODEL D03 D(BV=5 CJO=1p VJ=0.91 M=0.47 RS=1k)
+.MODEL D04 D(BV=30 CJO=1p VJ=0.9 M=0.5)
+.MODEL PMOS PMOS ( LEVEL=1 VTO=-2.1 KP=40U LAMBDA=.001 GAMMA=.6 PHI=0.8 TOX=40n CGDO=5E-10 CGSO= 5e-10 CJ=1E-4 CJSW=5E-10
++ MJ=0.5 PB=0.95)
+.MODEL NMOS NMOS ( LEVEL=1 VTO=0.9 KP=40U LAMBDA=.001 GAMMA=.6 PHI=0.8 TOX=40n CGDO=5E-10 CGSO= 5e-10 CJ=1E-4 CJSW=5E-10
++ MJ=0.5 PB=0.95)
+
+M1   a1 a2 a3 a3 PMOS L=1.6u W=4.536m
+M2   a4 a5 a6 a6 NMOS L=1.6u W=453.6u
+
+G1   d1 a8 VALUE={min(V(d1,a8),1.55)/1.2Meg}
+G2   a2 a3 VALUE={if(V(a2,a3)<0,V(a2,a3)/10Meg,V(a2,a3)/1.7Meg)}
+
+D1   a8 d1 D01
+D2   a8 a2 D02
+D3   s a8 D03
+D4   z a7 D04
+
+R2   a8 a5 4.8Meg
+R3   a5 s 2.4Meg
+R4   a4 a7 39.7 TC=10m
+R5   s a6 7.94 TC=10n
+R6   z a1 7.9m TC=10m
+R7   g1l a3 6.35 TC=10m
+R8   a2 a3 1G
+R9   d1 a8 100G
+
+C1   a8 s 3p
+
+Rg    z   g    {Rg}   
+Rgl   g1l    gl   {Rgl}   
+Lgl   gate   g1l  {Lg*if(dgfs==99,0,1)}
+
+Gs    s1     s    VALUE={V(s1,s)/(Rs*(1+(limit(V(Tj),-200,999)-25)*4m)-Rm)}
+Rsa   s1     s    1Meg
+Ls    source s1   {Ls*if(dgfs==99,0,1)}
+Rda   d1     d2   {Rd}
+Ld    drain  d2   {Ld*if(dgfs==99,0,1)}
+
+E2    Tj     w    VALUE={TEMP}
+Vp    Tj1    Tj   0
+R1    Tj     Tj1  1u
+G_power 0    Tj   VALUE =
++{V(s1,s)*V(s1,s)/(Rs*(1+(limit(V(Tj),-200,999)-25)*4m)-Rm)+V(z,g)*V(z,g)/Rg+V(g1l,gl)*V(g1l,gl)/Rgl+V(d1,d2)*V(d1,d2)/Rd+I(Vp)}
+R10     w    0    1u
+
+.ENDS
+
+**********
+
+
+

@@ -1,0 +1,4993 @@
+*****************************************************************
+* INFINEON Power Transistors                                    *
+* Level-0/1/3 PSPICE Library for CoolMOS Transistors C6 600V    *
+* Version 280714                                                *
+*                                                               *
+*****************************************************************
+*****************************************************************
+*                                                               *
+* Models provided by INFINEON are not warranted by INFINEON as  *
+* fully representing all of the specifications and operating    *
+* characteristics of the semiconductor product to which the     *
+* model relates. The model describe the characteristics of a    *
+* typical device.                                               *
+* In all cases, the current data sheet information for a given  *
+* device is the final design guideline and the only actual      *
+* performance specification.                                    *
+* Altough models can be a useful tool in evaluating device      *
+* performance, they cannot model exact device performance under *
+* all conditions, nor are they intended to replace bread-       *
+* boarding for final verification. INFINEON therefore does not  *
+* assume any liability arising from their use.                  *
+* INFINEON reserves the right to change models without prior    *
+* notice.                                                       *
+*                                                               *
+* This library contains models of the following INFINEON        *
+* CoolMOS transistors:                                          *
+*                                                               *
+*   600 V C6                                                    *
+*       IPA60R099C6        IPA60R125C6       IPA60R160C6        *
+*       IPA60R190C6        IPA60R280C6       IPA60R380C6        *
+*       IPA60R450C6        IPA60R520C6       IPA60R600C6        *
+*       IPA60R750C6        IPA60R950C6       IPD60R380C6        *
+*       IPD60R450C6        IPD60R520C6       IPD60R600C6        *
+*       IPD60R750C6        IPD60R950C6       IPD60R1K4C6        *
+*       IPD60R2K0C6        IPD60R3K3C6       IPP60R074C6        *
+*       IPP60R099C6        IPP60R125C6       IPP60R160C6        *
+*       IPP60R190C6        IPP60R280C6       IPP60R380C6        *
+*       IPP60R450C6        IPP60R520C6       IPP60R600C6        *
+*       IPP60R750C6        IPP60R950C6       IPP60R1K4C6        *
+*       IPP60R2K0C6        IPP60R3K3C6       IPW60R041C6        *
+*       IPW60R070C6        IPW60R099C6       IPW60R125C6        *
+*       IPW60R160C6        IPW60R190C6       IPW60R280C6        *
+*       IPL60R1K5C6S       IPL60R2K1C6S                         *
+*                                                               *
+*****************************************************************
+
+.SUBCKT IPW60R041C6_L0  drain  gate  source
+
+Lg     gate  g1    5n
+Ld     drain d1    3n
+Ls     source s1   5n
+Rs      s1    s2   2m
+
+Rg     g1    g2     0.7
+M1      d2    g2    s2    s2    DMOS    L=1u   W=1u
+.MODEL DMOS NMOS ( KP= 74.617  VTO=3.85  THETA=0  VMAX=1.5e5  ETA=0  LEVEL=3)
+Rd     d2    d1a    0.029 TC=15m
+.MODEL MVDR NMOS (KP=224.44 VTO=-1   LAMBDA=0.2)
+Mr d1 d2a d1a d1a MVDR W=1u L=1u
+Rx d2a d1a 1m
+Cds1 s2 d2 195.4p
+Dbd     s2    d2    Dbt
+.MODEL     Dbt    D(BV=600   M=0.9  CJO=77.58n  VJ=0.5V)
+Dbody   s2   21    DBODY
+.MODEL DBODY  D(IS=15p  N=1.08  RS=2u  EG=1.12  TT=400n)
+Rdiode  d1  21    0.81m TC=6m
+
+.MODEL   sw    NMOS(VTO=0  KP=10   LEVEL=1)
+Maux      g2   c    a    a   sw
+Maux2     b    d    g2    g2   sw
+Eaux      c    a    d2    g2   1
+Eaux2     d    g2   d2    g2   -1
+Cox       b    d2   13.44n
+.MODEL     DGD    D(M=0.88   CJO=13.44n   VJ=0.5)
+Rpar      b    d2   1Meg
+Dgd       a    d2   DGD
+Rpar2     d2   a    10Meg
+Cgs     g2    s2    6.51n
+
+.ENDS  IPW60R041C6_L0
+
+******
+
+.SUBCKT IPW60R070C6_L0  drain  gate  source
+
+Lg     gate  g1    5n
+Ld     drain d1    3n
+Ls     source s1   5n
+Rs      s1    s2   2m
+
+Rg     g1    g2     0.85
+M1      d2    g2    s2    s2    DMOS    L=1u   W=1u
+.MODEL DMOS NMOS ( KP= 43.369  VTO=3.85  THETA=0  VMAX=1.5e5  ETA=0  LEVEL=3)
+Rd     d2    d1a    0.05 TC=15m
+.MODEL MVDR NMOS (KP=130.45 VTO=-1   LAMBDA=0.2)
+Mr d1 d2a d1a d1a MVDR W=1u L=1u
+Rx d2a d1a 1m
+Cds1 s2 d2 113.6p
+Dbd     s2    d2    Dbt
+.MODEL     Dbt    D(BV=600   M=0.9  CJO=45.09n  VJ=0.5V)
+Dbody   s2   21    DBODY
+.MODEL DBODY  D(IS=8.7p  N=1.08  RS=4u  EG=1.12  TT=400n)
+Rdiode  d1  21    1.39m TC=6m
+
+.MODEL   sw    NMOS(VTO=0  KP=10   LEVEL=1)
+Maux      g2   c    a    a   sw
+Maux2     b    d    g2    g2   sw
+Eaux      c    a    d2    g2   1
+Eaux2     d    g2   d2    g2   -1
+Cox       b    d2   7.81n
+.MODEL     DGD    D(M=0.88   CJO=7.81n   VJ=0.5)
+Rpar      b    d2   1Meg
+Dgd       a    d2   DGD
+Rpar2     d2   a    10Meg
+Cgs     g2    s2    3.79n
+
+.ENDS  IPW60R070C6_L0
+
+******
+
+.SUBCKT IPP60R074C6_L0  drain  gate  source
+
+Lg     gate  g1    4n
+Ld     drain d1    2.5n
+Ls     source s1   2.5n
+Rs      s1    s2   2m
+
+Rg     g1    g2     0.6
+M1      d2    g2    s2    s2    DMOS    L=1u   W=1u
+.MODEL DMOS NMOS ( KP= 35.255  VTO=4.85  THETA=0  VMAX=1.5e5  ETA=0  LEVEL=3)
+Rd     d2    d1a    0.072 TC=10m
+.MODEL MVDR NMOS (KP=106.04 VTO=-1   LAMBDA=0.2)
+Mr d1 d2a d1a d1a MVDR W=1u L=1u
+Rx d2a d1a 1m
+Cds1 s2 d2 92.3p
+Dbd     s2    d2    Dbt
+.MODEL     Dbt    D(BV=650   M=0.9  CJO=36.65n  VJ=0.5V)
+Dbody   s2   21    DBODY
+.MODEL DBODY  D(IS=3245680p  N=2  RS=5u  EG=1.12  TT=250n)
+Rdiode  d1  21    4.25m TC=0
+
+.MODEL   sw    NMOS(VTO=0  KP=10   LEVEL=1)
+Maux      g2   c    a    a   sw
+Maux2     b    d    g2    g2   sw
+Eaux      c    a    d2    g2   1
+Eaux2     d    g2   d2    g2   -1
+Cox       b    d2   6.35n
+.MODEL     DGD    D(M=0.88   CJO=6.35n   VJ=0.5)
+Rpar      b    d2   1Meg
+Dgd       a    d2   DGD
+Rpar2     d2   a    10Meg
+Cgs     g2    s2    4n
+
+.ENDS  IPP60R074C6_L0
+
+******
+
+.SUBCKT IPW60R099C6_L0  drain  gate  source
+
+Lg     gate  g1    5n
+Ld     drain d1    3n
+Ls     source s1   5n
+Rs      s1    s2   2m
+
+Rg     g1    g2     1.6
+M1      d2    g2    s2    s2    DMOS    L=1u   W=1u
+.MODEL DMOS NMOS ( KP= 30.391  VTO=3.85  THETA=0  VMAX=1.5e5  ETA=0  LEVEL=3)
+Rd     d2    d1a    0.071 TC=15m
+.MODEL MVDR NMOS (KP=91.41 VTO=-1   LAMBDA=0.2)
+Mr d1 d2a d1a d1a MVDR W=1u L=1u
+Rx d2a d1a 1m
+Cds1 s2 d2 79.6p
+Dbd     s2    d2    Dbt
+.MODEL     Dbt    D(BV=600   M=0.9  CJO=31.6n  VJ=0.5V)
+Dbody   s2   21    DBODY
+.MODEL DBODY  D(IS=6.1p  N=1.08  RS=6u  EG=1.12  TT=400n)
+Rdiode  d1  21    1.99m TC=6m
+
+.MODEL   sw    NMOS(VTO=0  KP=10   LEVEL=1)
+Maux      g2   c    a    a   sw
+Maux2     b    d    g2    g2   sw
+Eaux      c    a    d2    g2   1
+Eaux2     d    g2   d2    g2   -1
+Cox       b    d2   5.48n
+.MODEL     DGD    D(M=0.88   CJO=5.48n   VJ=0.5)
+Rpar      b    d2   1Meg
+Dgd       a    d2   DGD
+Rpar2     d2   a    10Meg
+Cgs     g2    s2    2.65n
+
+.ENDS  IPW60R099C6_L0
+
+******
+
+.SUBCKT IPP60R099C6_L0  drain  gate  source
+
+Lg     gate  g1    4n
+Ld     drain d1    2.5n
+Ls     source s1   2.5n
+Rs      s1    s2   2m
+
+Rg     g1    g2     1.6
+M1      d2    g2    s2    s2    DMOS    L=1u   W=1u
+.MODEL DMOS NMOS ( KP= 30.391  VTO=3.85  THETA=0  VMAX=1.5e5  ETA=0  LEVEL=3)
+Rd     d2    d1a    0.071 TC=15m
+.MODEL MVDR NMOS (KP=91.41 VTO=-1   LAMBDA=0.2)
+Mr d1 d2a d1a d1a MVDR W=1u L=1u
+Rx d2a d1a 1m
+Cds1 s2 d2 79.6p
+Dbd     s2    d2    Dbt
+.MODEL     Dbt    D(BV=600   M=0.9  CJO=31.6n  VJ=0.5V)
+Dbody   s2   21    DBODY
+.MODEL DBODY  D(IS=6.1p  N=1.08  RS=6u  EG=1.12  TT=400n)
+Rdiode  d1  21    1.99m TC=6m
+
+.MODEL   sw    NMOS(VTO=0  KP=10   LEVEL=1)
+Maux      g2   c    a    a   sw
+Maux2     b    d    g2    g2   sw
+Eaux      c    a    d2    g2   1
+Eaux2     d    g2   d2    g2   -1
+Cox       b    d2   5.48n
+.MODEL     DGD    D(M=0.88   CJO=5.48n   VJ=0.5)
+Rpar      b    d2   1Meg
+Dgd       a    d2   DGD
+Rpar2     d2   a    10Meg
+Cgs     g2    s2    2.65n
+
+.ENDS  IPP60R099C6_L0
+
+******
+
+.SUBCKT IPA60R099C6_L0  drain  gate  source
+
+Lg     gate  g1    4n
+Ld     drain d1    2.5n
+Ls     source s1   2.5n
+Rs      s1    s2   2m
+
+Rg     g1    g2     1.6
+M1      d2    g2    s2    s2    DMOS    L=1u   W=1u
+.MODEL DMOS NMOS ( KP= 30.391  VTO=3.85  THETA=0  VMAX=1.5e5  ETA=0  LEVEL=3)
+Rd     d2    d1a    0.071 TC=15m
+.MODEL MVDR NMOS (KP=91.41 VTO=-1   LAMBDA=0.2)
+Mr d1 d2a d1a d1a MVDR W=1u L=1u
+Rx d2a d1a 1m
+Cds1 s2 d2 79.6p
+Dbd     s2    d2    Dbt
+.MODEL     Dbt    D(BV=600   M=0.9  CJO=31.6n  VJ=0.5V)
+Dbody   s2   21    DBODY
+.MODEL DBODY  D(IS=6.1p  N=1.08  RS=6u  EG=1.12  TT=400n)
+Rdiode  d1  21    1.99m TC=6m
+
+.MODEL   sw    NMOS(VTO=0  KP=10   LEVEL=1)
+Maux      g2   c    a    a   sw
+Maux2     b    d    g2    g2   sw
+Eaux      c    a    d2    g2   1
+Eaux2     d    g2   d2    g2   -1
+Cox       b    d2   5.48n
+.MODEL     DGD    D(M=0.88   CJO=5.48n   VJ=0.5)
+Rpar      b    d2   1Meg
+Dgd       a    d2   DGD
+Rpar2     d2   a    10Meg
+Cgs     g2    s2    2.65n
+
+.ENDS  IPA60R099C6_L0
+
+******
+
+.SUBCKT IPW60R125C6_L0  drain  gate  source
+
+Lg     gate  g1    5n
+Ld     drain d1    3n
+Ls     source s1   5n
+Rs      s1    s2   2m
+
+Rg     g1    g2     3.7
+M1      d2    g2    s2    s2    DMOS    L=1u   W=1u
+.MODEL DMOS NMOS ( KP= 24.293  VTO=3.85  THETA=0  VMAX=1.5e5  ETA=0  LEVEL=3)
+Rd     d2    d1a    0.089 TC=15m
+.MODEL MVDR NMOS (KP=73.07 VTO=-1   LAMBDA=0.2)
+Mr d1 d2a d1a d1a MVDR W=1u L=1u
+Rx d2a d1a 1m
+Cds1 s2 d2 63.6p
+Dbd     s2    d2    Dbt
+.MODEL     Dbt    D(BV=600   M=0.9  CJO=25.26n  VJ=0.5V)
+Dbody   s2   21    DBODY
+.MODEL DBODY  D(IS=4.9p  N=1.08  RS=7u  EG=1.12  TT=400n)
+Rdiode  d1  21    2.49m TC=6m
+
+.MODEL   sw    NMOS(VTO=0  KP=10   LEVEL=1)
+Maux      g2   c    a    a   sw
+Maux2     b    d    g2    g2   sw
+Eaux      c    a    d2    g2   1
+Eaux2     d    g2   d2    g2   -1
+Cox       b    d2   4.38n
+.MODEL     DGD    D(M=0.88   CJO=4.38n   VJ=0.5)
+Rpar      b    d2   1Meg
+Dgd       a    d2   DGD
+Rpar2     d2   a    10Meg
+Cgs     g2    s2    2.12n
+
+.ENDS  IPW60R125C6_L0
+
+******
+
+.SUBCKT IPP60R125C6_L0  drain  gate  source
+
+Lg     gate  g1    4n
+Ld     drain d1    2.5n
+Ls     source s1   2.5n
+Rs      s1    s2   2m
+
+Rg     g1    g2     3.7
+M1      d2    g2    s2    s2    DMOS    L=1u   W=1u
+.MODEL DMOS NMOS ( KP= 24.293  VTO=3.85  THETA=0  VMAX=1.5e5  ETA=0  LEVEL=3)
+Rd     d2    d1a    0.089 TC=15m
+.MODEL MVDR NMOS (KP=73.07 VTO=-1   LAMBDA=0.2)
+Mr d1 d2a d1a d1a MVDR W=1u L=1u
+Rx d2a d1a 1m
+Cds1 s2 d2 63.6p
+Dbd     s2    d2    Dbt
+.MODEL     Dbt    D(BV=600   M=0.9  CJO=25.26n  VJ=0.5V)
+Dbody   s2   21    DBODY
+.MODEL DBODY  D(IS=4.9p  N=1.08  RS=7u  EG=1.12  TT=400n)
+Rdiode  d1  21    2.49m TC=6m
+
+.MODEL   sw    NMOS(VTO=0  KP=10   LEVEL=1)
+Maux      g2   c    a    a   sw
+Maux2     b    d    g2    g2   sw
+Eaux      c    a    d2    g2   1
+Eaux2     d    g2   d2    g2   -1
+Cox       b    d2   4.38n
+.MODEL     DGD    D(M=0.88   CJO=4.38n   VJ=0.5)
+Rpar      b    d2   1Meg
+Dgd       a    d2   DGD
+Rpar2     d2   a    10Meg
+Cgs     g2    s2    2.12n
+
+.ENDS  IPP60R125C6_L0
+
+******
+
+.SUBCKT IPA60R125C6_L0  drain  gate  source
+
+Lg     gate  g1    4n
+Ld     drain d1    2.5n
+Ls     source s1   2.5n
+Rs      s1    s2   2m
+
+Rg     g1    g2     3.7
+M1      d2    g2    s2    s2    DMOS    L=1u   W=1u
+.MODEL DMOS NMOS ( KP= 24.293  VTO=3.85  THETA=0  VMAX=1.5e5  ETA=0  LEVEL=3)
+Rd     d2    d1a    0.089 TC=15m
+.MODEL MVDR NMOS (KP=73.07 VTO=-1   LAMBDA=0.2)
+Mr d1 d2a d1a d1a MVDR W=1u L=1u
+Rx d2a d1a 1m
+Cds1 s2 d2 63.6p
+Dbd     s2    d2    Dbt
+.MODEL     Dbt    D(BV=600   M=0.9  CJO=25.26n  VJ=0.5V)
+Dbody   s2   21    DBODY
+.MODEL DBODY  D(IS=4.9p  N=1.08  RS=7u  EG=1.12  TT=400n)
+Rdiode  d1  21    2.49m TC=6m
+
+.MODEL   sw    NMOS(VTO=0  KP=10   LEVEL=1)
+Maux      g2   c    a    a   sw
+Maux2     b    d    g2    g2   sw
+Eaux      c    a    d2    g2   1
+Eaux2     d    g2   d2    g2   -1
+Cox       b    d2   4.38n
+.MODEL     DGD    D(M=0.88   CJO=4.38n   VJ=0.5)
+Rpar      b    d2   1Meg
+Dgd       a    d2   DGD
+Rpar2     d2   a    10Meg
+Cgs     g2    s2    2.12n
+
+.ENDS  IPA60R125C6_L0
+
+******
+
+.SUBCKT IPW60R160C6_L0  drain  gate  source
+
+Lg     gate  g1    5n
+Ld     drain d1    3n
+Ls     source s1   5n
+Rs      s1    s2   2m
+
+Rg     g1    g2     6.4
+M1      d2    g2    s2    s2    DMOS    L=1u   W=1u
+.MODEL DMOS NMOS ( KP= 18.988  VTO=3.85  THETA=0  VMAX=1.5e5  ETA=0  LEVEL=3)
+Rd     d2    d1a    0.114 TC=15m
+.MODEL MVDR NMOS (KP=57.12 VTO=-1   LAMBDA=0.2)
+Mr d1 d2a d1a d1a MVDR W=1u L=1u
+Rx d2a d1a 1m
+Cds1 s2 d2 49.7p
+Dbd     s2    d2    Dbt
+.MODEL     Dbt    D(BV=600   M=0.9  CJO=19.74n  VJ=0.5V)
+Dbody   s2   21    DBODY
+.MODEL DBODY  D(IS=3.8p  N=1.08  RS=9u  EG=1.12  TT=400n)
+Rdiode  d1  21    3.19m TC=6m
+
+.MODEL   sw    NMOS(VTO=0  KP=10   LEVEL=1)
+Maux      g2   c    a    a   sw
+Maux2     b    d    g2    g2   sw
+Eaux      c    a    d2    g2   1
+Eaux2     d    g2   d2    g2   -1
+Cox       b    d2   3.42n
+.MODEL     DGD    D(M=0.88   CJO=3.42n   VJ=0.5)
+Rpar      b    d2   1Meg
+Dgd       a    d2   DGD
+Rpar2     d2   a    10Meg
+Cgs     g2    s2    1.66n
+
+.ENDS  IPW60R160C6_L0
+
+******
+
+.SUBCKT IPP60R160C6_L0  drain  gate  source
+
+Lg     gate  g1    4n
+Ld     drain d1    2.5n
+Ls     source s1   2.5n
+Rs      s1    s2   2m
+
+Rg     g1    g2     6.4
+M1      d2    g2    s2    s2    DMOS    L=1u   W=1u
+.MODEL DMOS NMOS ( KP= 18.988  VTO=3.85  THETA=0  VMAX=1.5e5  ETA=0  LEVEL=3)
+Rd     d2    d1a    0.114 TC=15m
+.MODEL MVDR NMOS (KP=57.12 VTO=-1   LAMBDA=0.2)
+Mr d1 d2a d1a d1a MVDR W=1u L=1u
+Rx d2a d1a 1m
+Cds1 s2 d2 49.7p
+Dbd     s2    d2    Dbt
+.MODEL     Dbt    D(BV=600   M=0.9  CJO=19.74n  VJ=0.5V)
+Dbody   s2   21    DBODY
+.MODEL DBODY  D(IS=3.8p  N=1.08  RS=9u  EG=1.12  TT=400n)
+Rdiode  d1  21    3.19m TC=6m
+
+.MODEL   sw    NMOS(VTO=0  KP=10   LEVEL=1)
+Maux      g2   c    a    a   sw
+Maux2     b    d    g2    g2   sw
+Eaux      c    a    d2    g2   1
+Eaux2     d    g2   d2    g2   -1
+Cox       b    d2   3.42n
+.MODEL     DGD    D(M=0.88   CJO=3.42n   VJ=0.5)
+Rpar      b    d2   1Meg
+Dgd       a    d2   DGD
+Rpar2     d2   a    10Meg
+Cgs     g2    s2    1.66n
+
+.ENDS  IPP60R160C6_L0
+
+******
+
+.SUBCKT IPA60R160C6_L0  drain  gate  source
+
+Lg     gate  g1    4n
+Ld     drain d1    2.5n
+Ls     source s1   2.5n
+Rs      s1    s2   2m
+
+Rg     g1    g2     6.4
+M1      d2    g2    s2    s2    DMOS    L=1u   W=1u
+.MODEL DMOS NMOS ( KP= 18.988  VTO=3.85  THETA=0  VMAX=1.5e5  ETA=0  LEVEL=3)
+Rd     d2    d1a    0.114 TC=15m
+.MODEL MVDR NMOS (KP=57.12 VTO=-1   LAMBDA=0.2)
+Mr d1 d2a d1a d1a MVDR W=1u L=1u
+Rx d2a d1a 1m
+Cds1 s2 d2 49.7p
+Dbd     s2    d2    Dbt
+.MODEL     Dbt    D(BV=600   M=0.9  CJO=19.74n  VJ=0.5V)
+Dbody   s2   21    DBODY
+.MODEL DBODY  D(IS=3.8p  N=1.08  RS=9u  EG=1.12  TT=400n)
+Rdiode  d1  21    3.19m TC=6m
+
+.MODEL   sw    NMOS(VTO=0  KP=10   LEVEL=1)
+Maux      g2   c    a    a   sw
+Maux2     b    d    g2    g2   sw
+Eaux      c    a    d2    g2   1
+Eaux2     d    g2   d2    g2   -1
+Cox       b    d2   3.42n
+.MODEL     DGD    D(M=0.88   CJO=3.42n   VJ=0.5)
+Rpar      b    d2   1Meg
+Dgd       a    d2   DGD
+Rpar2     d2   a    10Meg
+Cgs     g2    s2    1.66n
+
+.ENDS  IPA60R160C6_L0
+
+******
+
+.SUBCKT IPW60R190C6_L0  drain  gate  source
+
+Lg     gate  g1    5n
+Ld     drain d1    3n
+Ls     source s1   5n
+Rs      s1    s2   2m
+
+Rg     g1    g2     8.5
+M1      d2    g2    s2    s2    DMOS    L=1u   W=1u
+.MODEL DMOS NMOS ( KP= 15.989  VTO=3.85  THETA=0  VMAX=1.5e5  ETA=0  LEVEL=3)
+Rd     d2    d1a    0.135 TC=15m
+.MODEL MVDR NMOS (KP=48.1 VTO=-1   LAMBDA=0.2)
+Mr d1 d2a d1a d1a MVDR W=1u L=1u
+Rx d2a d1a 1m
+Cds1 s2 d2 41.9p
+Dbd     s2    d2    Dbt
+.MODEL     Dbt    D(BV=600   M=0.9  CJO=16.62n  VJ=0.5V)
+Dbody   s2   21    DBODY
+.MODEL DBODY  D(IS=3.2p  N=1.08  RS=10u  EG=1.12  TT=400n)
+Rdiode  d1  21    3.78m TC=6m
+
+.MODEL   sw    NMOS(VTO=0  KP=10   LEVEL=1)
+Maux      g2   c    a    a   sw
+Maux2     b    d    g2    g2   sw
+Eaux      c    a    d2    g2   1
+Eaux2     d    g2   d2    g2   -1
+Cox       b    d2   2.88n
+.MODEL     DGD    D(M=0.88   CJO=2.88n   VJ=0.5)
+Rpar      b    d2   1Meg
+Dgd       a    d2   DGD
+Rpar2     d2   a    10Meg
+Cgs     g2    s2    1.4n
+
+.ENDS  IPW60R190C6_L0
+
+******
+
+.SUBCKT IPP60R190C6_L0  drain  gate  source
+
+Lg     gate  g1    4n
+Ld     drain d1    2.5n
+Ls     source s1   2.5n
+Rs      s1    s2   2m
+
+Rg     g1    g2     8.5
+M1      d2    g2    s2    s2    DMOS    L=1u   W=1u
+.MODEL DMOS NMOS ( KP= 15.989  VTO=3.85  THETA=0  VMAX=1.5e5  ETA=0  LEVEL=3)
+Rd     d2    d1a    0.135 TC=15m
+.MODEL MVDR NMOS (KP=48.1 VTO=-1   LAMBDA=0.2)
+Mr d1 d2a d1a d1a MVDR W=1u L=1u
+Rx d2a d1a 1m
+Cds1 s2 d2 41.9p
+Dbd     s2    d2    Dbt
+.MODEL     Dbt    D(BV=600   M=0.9  CJO=16.62n  VJ=0.5V)
+Dbody   s2   21    DBODY
+.MODEL DBODY  D(IS=3.2p  N=1.08  RS=10u  EG=1.12  TT=400n)
+Rdiode  d1  21    3.78m TC=6m
+
+.MODEL   sw    NMOS(VTO=0  KP=10   LEVEL=1)
+Maux      g2   c    a    a   sw
+Maux2     b    d    g2    g2   sw
+Eaux      c    a    d2    g2   1
+Eaux2     d    g2   d2    g2   -1
+Cox       b    d2   2.88n
+.MODEL     DGD    D(M=0.88   CJO=2.88n   VJ=0.5)
+Rpar      b    d2   1Meg
+Dgd       a    d2   DGD
+Rpar2     d2   a    10Meg
+Cgs     g2    s2    1.4n
+
+.ENDS  IPP60R190C6_L0
+
+******
+
+.SUBCKT IPA60R190C6_L0  drain  gate  source
+
+Lg     gate  g1    4n
+Ld     drain d1    2.5n
+Ls     source s1   2.5n
+Rs      s1    s2   2m
+
+Rg     g1    g2     8.5
+M1      d2    g2    s2    s2    DMOS    L=1u   W=1u
+.MODEL DMOS NMOS ( KP= 15.989  VTO=3.85  THETA=0  VMAX=1.5e5  ETA=0  LEVEL=3)
+Rd     d2    d1a    0.135 TC=15m
+.MODEL MVDR NMOS (KP=48.1 VTO=-1   LAMBDA=0.2)
+Mr d1 d2a d1a d1a MVDR W=1u L=1u
+Rx d2a d1a 1m
+Cds1 s2 d2 41.9p
+Dbd     s2    d2    Dbt
+.MODEL     Dbt    D(BV=600   M=0.9  CJO=16.62n  VJ=0.5V)
+Dbody   s2   21    DBODY
+.MODEL DBODY  D(IS=3.2p  N=1.08  RS=10u  EG=1.12  TT=400n)
+Rdiode  d1  21    3.78m TC=6m
+
+.MODEL   sw    NMOS(VTO=0  KP=10   LEVEL=1)
+Maux      g2   c    a    a   sw
+Maux2     b    d    g2    g2   sw
+Eaux      c    a    d2    g2   1
+Eaux2     d    g2   d2    g2   -1
+Cox       b    d2   2.88n
+.MODEL     DGD    D(M=0.88   CJO=2.88n   VJ=0.5)
+Rpar      b    d2   1Meg
+Dgd       a    d2   DGD
+Rpar2     d2   a    10Meg
+Cgs     g2    s2    1.4n
+
+.ENDS  IPA60R190C6_L0
+
+******
+
+.SUBCKT IPW60R280C6_L0  drain  gate  source
+
+Lg     gate  g1    5n
+Ld     drain d1    3n
+Ls     source s1   5n
+Rs      s1    s2   2m
+
+Rg     g1    g2     11.5
+M1      d2    g2    s2    s2    DMOS    L=1u   W=1u
+.MODEL DMOS NMOS ( KP= 10.861  VTO=3.85  THETA=0  VMAX=1.5e5  ETA=0  LEVEL=3)
+Rd     d2    d1a    0.199 TC=15m
+.MODEL MVDR NMOS (KP=32.67 VTO=-1   LAMBDA=0.2)
+Mr d1 d2a d1a d1a MVDR W=1u L=1u
+Rx d2a d1a 1m
+Cds1 s2 d2 28.4p
+Dbd     s2    d2    Dbt
+.MODEL     Dbt    D(BV=600   M=0.9  CJO=11.29n  VJ=0.5V)
+Dbody   s2   21    DBODY
+.MODEL DBODY  D(IS=2.2p  N=1.08  RS=15u  EG=1.12  TT=400n)
+Rdiode  d1  21    5.57m TC=6m
+
+.MODEL   sw    NMOS(VTO=0  KP=10   LEVEL=1)
+Maux      g2   c    a    a   sw
+Maux2     b    d    g2    g2   sw
+Eaux      c    a    d2    g2   1
+Eaux2     d    g2   d2    g2   -1
+Cox       b    d2   1.96n
+.MODEL     DGD    D(M=0.88   CJO=1.96n   VJ=0.5)
+Rpar      b    d2   1Meg
+Dgd       a    d2   DGD
+Rpar2     d2   a    10Meg
+Cgs     g2    s2    0.95n
+
+.ENDS  IPW60R280C6_L0
+
+******
+
+.SUBCKT IPP60R280C6_L0  drain  gate  source
+
+Lg     gate  g1    4n
+Ld     drain d1    2.5n
+Ls     source s1   2.5n
+Rs      s1    s2   2m
+
+Rg     g1    g2     11.5
+M1      d2    g2    s2    s2    DMOS    L=1u   W=1u
+.MODEL DMOS NMOS ( KP= 10.861  VTO=3.85  THETA=0  VMAX=1.5e5  ETA=0  LEVEL=3)
+Rd     d2    d1a    0.199 TC=15m
+.MODEL MVDR NMOS (KP=32.67 VTO=-1   LAMBDA=0.2)
+Mr d1 d2a d1a d1a MVDR W=1u L=1u
+Rx d2a d1a 1m
+Cds1 s2 d2 28.4p
+Dbd     s2    d2    Dbt
+.MODEL     Dbt    D(BV=600   M=0.9  CJO=11.29n  VJ=0.5V)
+Dbody   s2   21    DBODY
+.MODEL DBODY  D(IS=2.2p  N=1.08  RS=15u  EG=1.12  TT=400n)
+Rdiode  d1  21    5.57m TC=6m
+
+.MODEL   sw    NMOS(VTO=0  KP=10   LEVEL=1)
+Maux      g2   c    a    a   sw
+Maux2     b    d    g2    g2   sw
+Eaux      c    a    d2    g2   1
+Eaux2     d    g2   d2    g2   -1
+Cox       b    d2   1.96n
+.MODEL     DGD    D(M=0.88   CJO=1.96n   VJ=0.5)
+Rpar      b    d2   1Meg
+Dgd       a    d2   DGD
+Rpar2     d2   a    10Meg
+Cgs     g2    s2    0.95n
+
+.ENDS  IPP60R280C6_L0
+
+******
+
+.SUBCKT IPA60R280C6_L0  drain  gate  source
+
+Lg     gate  g1    4n
+Ld     drain d1    2.5n
+Ls     source s1   2.5n
+Rs      s1    s2   2m
+
+Rg     g1    g2     11.5
+M1      d2    g2    s2    s2    DMOS    L=1u   W=1u
+.MODEL DMOS NMOS ( KP= 10.861  VTO=3.85  THETA=0  VMAX=1.5e5  ETA=0  LEVEL=3)
+Rd     d2    d1a    0.199 TC=15m
+.MODEL MVDR NMOS (KP=32.67 VTO=-1   LAMBDA=0.2)
+Mr d1 d2a d1a d1a MVDR W=1u L=1u
+Rx d2a d1a 1m
+Cds1 s2 d2 28.4p
+Dbd     s2    d2    Dbt
+.MODEL     Dbt    D(BV=600   M=0.9  CJO=11.29n  VJ=0.5V)
+Dbody   s2   21    DBODY
+.MODEL DBODY  D(IS=2.2p  N=1.08  RS=15u  EG=1.12  TT=400n)
+Rdiode  d1  21    5.57m TC=6m
+
+.MODEL   sw    NMOS(VTO=0  KP=10   LEVEL=1)
+Maux      g2   c    a    a   sw
+Maux2     b    d    g2    g2   sw
+Eaux      c    a    d2    g2   1
+Eaux2     d    g2   d2    g2   -1
+Cox       b    d2   1.96n
+.MODEL     DGD    D(M=0.88   CJO=1.96n   VJ=0.5)
+Rpar      b    d2   1Meg
+Dgd       a    d2   DGD
+Rpar2     d2   a    10Meg
+Cgs     g2    s2    0.95n
+
+.ENDS  IPA60R280C6_L0
+
+******
+
+.SUBCKT IPD60R380C6_L0  drain  gate  source
+
+Lg     gate  g1    3n
+Ld     drain d1    1n
+Ls     source s1   2n
+Rs      s1    s2   2m
+
+Rg     g1    g2     17.5
+M1      d2    g2    s2    s2    DMOS    L=1u   W=1u
+.MODEL DMOS NMOS ( KP= 7.988  VTO=3.85  THETA=0  VMAX=1.5e5  ETA=0  LEVEL=3)
+Rd     d2    d1a    0.27 TC=15m
+.MODEL MVDR NMOS (KP=24.03 VTO=-1   LAMBDA=0.2)
+Mr d1 d2a d1a d1a MVDR W=1u L=1u
+Rx d2a d1a 1m
+Cds1 s2 d2 20.9p
+Dbd     s2    d2    Dbt
+.MODEL     Dbt    D(BV=600   M=0.9  CJO=8.31n  VJ=0.5V)
+Dbody   s2   21    DBODY
+.MODEL DBODY  D(IS=1.6p  N=1.08  RS=21u  EG=1.12  TT=400n)
+Rdiode  d1  21    7.57m TC=6m
+
+.MODEL   sw    NMOS(VTO=0  KP=10   LEVEL=1)
+Maux      g2   c    a    a   sw
+Maux2     b    d    g2    g2   sw
+Eaux      c    a    d2    g2   1
+Eaux2     d    g2   d2    g2   -1
+Cox       b    d2   1.44n
+.MODEL     DGD    D(M=0.88   CJO=1.44n   VJ=0.5)
+Rpar      b    d2   1Meg
+Dgd       a    d2   DGD
+Rpar2     d2   a    10Meg
+Cgs     g2    s2    0.7n
+
+.ENDS  IPD60R380C6_L0
+
+******
+
+.SUBCKT IPP60R380C6_L0  drain  gate  source
+
+Lg     gate  g1    4n
+Ld     drain d1    2.5n
+Ls     source s1   2.5n
+Rs      s1    s2   2m
+
+Rg     g1    g2     17.5
+M1      d2    g2    s2    s2    DMOS    L=1u   W=1u
+.MODEL DMOS NMOS ( KP= 7.988  VTO=3.85  THETA=0  VMAX=1.5e5  ETA=0  LEVEL=3)
+Rd     d2    d1a    0.27 TC=15m
+.MODEL MVDR NMOS (KP=24.03 VTO=-1   LAMBDA=0.2)
+Mr d1 d2a d1a d1a MVDR W=1u L=1u
+Rx d2a d1a 1m
+Cds1 s2 d2 20.9p
+Dbd     s2    d2    Dbt
+.MODEL     Dbt    D(BV=600   M=0.9  CJO=8.31n  VJ=0.5V)
+Dbody   s2   21    DBODY
+.MODEL DBODY  D(IS=1.6p  N=1.08  RS=21u  EG=1.12  TT=400n)
+Rdiode  d1  21    7.57m TC=6m
+
+.MODEL   sw    NMOS(VTO=0  KP=10   LEVEL=1)
+Maux      g2   c    a    a   sw
+Maux2     b    d    g2    g2   sw
+Eaux      c    a    d2    g2   1
+Eaux2     d    g2   d2    g2   -1
+Cox       b    d2   1.44n
+.MODEL     DGD    D(M=0.88   CJO=1.44n   VJ=0.5)
+Rpar      b    d2   1Meg
+Dgd       a    d2   DGD
+Rpar2     d2   a    10Meg
+Cgs     g2    s2    0.7n
+
+.ENDS  IPP60R380C6_L0
+
+******
+
+.SUBCKT IPA60R380C6_L0  drain  gate  source
+
+Lg     gate  g1    4n
+Ld     drain d1    2.5n
+Ls     source s1   2.5n
+Rs      s1    s2   2m
+
+Rg     g1    g2     17.5
+M1      d2    g2    s2    s2    DMOS    L=1u   W=1u
+.MODEL DMOS NMOS ( KP= 7.988  VTO=3.85  THETA=0  VMAX=1.5e5  ETA=0  LEVEL=3)
+Rd     d2    d1a    0.27 TC=15m
+.MODEL MVDR NMOS (KP=24.03 VTO=-1   LAMBDA=0.2)
+Mr d1 d2a d1a d1a MVDR W=1u L=1u
+Rx d2a d1a 1m
+Cds1 s2 d2 20.9p
+Dbd     s2    d2    Dbt
+.MODEL     Dbt    D(BV=600   M=0.9  CJO=8.31n  VJ=0.5V)
+Dbody   s2   21    DBODY
+.MODEL DBODY  D(IS=1.6p  N=1.08  RS=21u  EG=1.12  TT=400n)
+Rdiode  d1  21    7.57m TC=6m
+
+.MODEL   sw    NMOS(VTO=0  KP=10   LEVEL=1)
+Maux      g2   c    a    a   sw
+Maux2     b    d    g2    g2   sw
+Eaux      c    a    d2    g2   1
+Eaux2     d    g2   d2    g2   -1
+Cox       b    d2   1.44n
+.MODEL     DGD    D(M=0.88   CJO=1.44n   VJ=0.5)
+Rpar      b    d2   1Meg
+Dgd       a    d2   DGD
+Rpar2     d2   a    10Meg
+Cgs     g2    s2    0.7n
+
+.ENDS  IPA60R380C6_L0
+
+******
+
+.SUBCKT IPD60R450C6_L0  drain  gate  source
+
+Lg     gate  g1    3n
+Ld     drain d1    1n
+Ls     source s1   2n
+Rs      s1    s2   2m
+
+Rg     g1    g2     16
+M1      d2    g2    s2    s2    DMOS    L=1u   W=1u
+.MODEL DMOS NMOS ( KP= 7.073  VTO=3.85  THETA=0  VMAX=1.5e5  ETA=0  LEVEL=3)
+Rd     d2    d1a    0.305 TC=15m
+.MODEL MVDR NMOS (KP=21.28 VTO=-1   LAMBDA=0.2)
+Mr d1 d2a d1a d1a MVDR W=1u L=1u
+Rx d2a d1a 1m
+Cds1 s2 d2 18.5p
+Dbd     s2    d2    Dbt
+.MODEL     Dbt    D(BV=600   M=0.9  CJO=7.35n  VJ=0.5V)
+Dbody   s2   21    DBODY
+.MODEL DBODY  D(IS=1.4p  N=1.08  RS=24u  EG=1.12  TT=400n)
+Rdiode  d1  21    8.55m TC=6m
+
+.MODEL   sw    NMOS(VTO=0  KP=10   LEVEL=1)
+Maux      g2   c    a    a   sw
+Maux2     b    d    g2    g2   sw
+Eaux      c    a    d2    g2   1
+Eaux2     d    g2   d2    g2   -1
+Cox       b    d2   1.27n
+.MODEL     DGD    D(M=0.88   CJO=1.27n   VJ=0.5)
+Rpar      b    d2   1Meg
+Dgd       a    d2   DGD
+Rpar2     d2   a    10Meg
+Cgs     g2    s2    0.62n
+
+.ENDS  IPD60R450C6_L0
+
+******
+
+.SUBCKT IPP60R450C6_L0  drain  gate  source
+
+Lg     gate  g1    4n
+Ld     drain d1    2.5n
+Ls     source s1   2.5n
+Rs      s1    s2   2m
+
+Rg     g1    g2     16
+M1      d2    g2    s2    s2    DMOS    L=1u   W=1u
+.MODEL DMOS NMOS ( KP= 7.073  VTO=3.85  THETA=0  VMAX=1.5e5  ETA=0  LEVEL=3)
+Rd     d2    d1a    0.305 TC=15m
+.MODEL MVDR NMOS (KP=21.28 VTO=-1   LAMBDA=0.2)
+Mr d1 d2a d1a d1a MVDR W=1u L=1u
+Rx d2a d1a 1m
+Cds1 s2 d2 18.5p
+Dbd     s2    d2    Dbt
+.MODEL     Dbt    D(BV=600   M=0.9  CJO=7.35n  VJ=0.5V)
+Dbody   s2   21    DBODY
+.MODEL DBODY  D(IS=1.4p  N=1.08  RS=24u  EG=1.12  TT=400n)
+Rdiode  d1  21    8.55m TC=6m
+
+.MODEL   sw    NMOS(VTO=0  KP=10   LEVEL=1)
+Maux      g2   c    a    a   sw
+Maux2     b    d    g2    g2   sw
+Eaux      c    a    d2    g2   1
+Eaux2     d    g2   d2    g2   -1
+Cox       b    d2   1.27n
+.MODEL     DGD    D(M=0.88   CJO=1.27n   VJ=0.5)
+Rpar      b    d2   1Meg
+Dgd       a    d2   DGD
+Rpar2     d2   a    10Meg
+Cgs     g2    s2    0.62n
+
+.ENDS  IPP60R450C6_L0
+
+******
+
+.SUBCKT IPA60R450C6_L0  drain  gate  source
+
+Lg     gate  g1    4n
+Ld     drain d1    2.5n
+Ls     source s1   2.5n
+Rs      s1    s2   2m
+
+Rg     g1    g2     16
+M1      d2    g2    s2    s2    DMOS    L=1u   W=1u
+.MODEL DMOS NMOS ( KP= 7.073  VTO=3.85  THETA=0  VMAX=1.5e5  ETA=0  LEVEL=3)
+Rd     d2    d1a    0.305 TC=15m
+.MODEL MVDR NMOS (KP=21.28 VTO=-1   LAMBDA=0.2)
+Mr d1 d2a d1a d1a MVDR W=1u L=1u
+Rx d2a d1a 1m
+Cds1 s2 d2 18.5p
+Dbd     s2    d2    Dbt
+.MODEL     Dbt    D(BV=600   M=0.9  CJO=7.35n  VJ=0.5V)
+Dbody   s2   21    DBODY
+.MODEL DBODY  D(IS=1.4p  N=1.08  RS=24u  EG=1.12  TT=400n)
+Rdiode  d1  21    8.55m TC=6m
+
+.MODEL   sw    NMOS(VTO=0  KP=10   LEVEL=1)
+Maux      g2   c    a    a   sw
+Maux2     b    d    g2    g2   sw
+Eaux      c    a    d2    g2   1
+Eaux2     d    g2   d2    g2   -1
+Cox       b    d2   1.27n
+.MODEL     DGD    D(M=0.88   CJO=1.27n   VJ=0.5)
+Rpar      b    d2   1Meg
+Dgd       a    d2   DGD
+Rpar2     d2   a    10Meg
+Cgs     g2    s2    0.62n
+
+.ENDS  IPA60R450C6_L0
+
+******
+
+.SUBCKT IPD60R520C6_L0  drain  gate  source
+
+Lg     gate  g1    3n
+Ld     drain d1    1n
+Ls     source s1   2n
+Rs      s1    s2   2m
+
+Rg     g1    g2     16.5
+M1      d2    g2    s2    s2    DMOS    L=1u   W=1u
+.MODEL DMOS NMOS ( KP= 5.846  VTO=3.85  THETA=0  VMAX=1.5e5  ETA=0  LEVEL=3)
+Rd     d2    d1a    0.369 TC=15m
+.MODEL MVDR NMOS (KP=17.59 VTO=-1   LAMBDA=0.2)
+Mr d1 d2a d1a d1a MVDR W=1u L=1u
+Rx d2a d1a 1m
+Cds1 s2 d2 15.3p
+Dbd     s2    d2    Dbt
+.MODEL     Dbt    D(BV=600   M=0.9  CJO=6.08n  VJ=0.5V)
+Dbody   s2   21    DBODY
+.MODEL DBODY  D(IS=1.2p  N=1.08  RS=29u  EG=1.12  TT=400n)
+Rdiode  d1  21    10.34m TC=6m
+
+.MODEL   sw    NMOS(VTO=0  KP=10   LEVEL=1)
+Maux      g2   c    a    a   sw
+Maux2     b    d    g2    g2   sw
+Eaux      c    a    d2    g2   1
+Eaux2     d    g2   d2    g2   -1
+Cox       b    d2   1.05n
+.MODEL     DGD    D(M=0.88   CJO=1.05n   VJ=0.5)
+Rpar      b    d2   1Meg
+Dgd       a    d2   DGD
+Rpar2     d2   a    10Meg
+Cgs     g2    s2    0.51n
+
+.ENDS  IPD60R520C6_L0
+
+******
+
+.SUBCKT IPP60R520C6_L0  drain  gate  source
+
+Lg     gate  g1    4n
+Ld     drain d1    2.5n
+Ls     source s1   2.5n
+Rs      s1    s2   2m
+
+Rg     g1    g2     16.5
+M1      d2    g2    s2    s2    DMOS    L=1u   W=1u
+.MODEL DMOS NMOS ( KP= 5.846  VTO=3.85  THETA=0  VMAX=1.5e5  ETA=0  LEVEL=3)
+Rd     d2    d1a    0.369 TC=15m
+.MODEL MVDR NMOS (KP=17.59 VTO=-1   LAMBDA=0.2)
+Mr d1 d2a d1a d1a MVDR W=1u L=1u
+Rx d2a d1a 1m
+Cds1 s2 d2 15.3p
+Dbd     s2    d2    Dbt
+.MODEL     Dbt    D(BV=600   M=0.9  CJO=6.08n  VJ=0.5V)
+Dbody   s2   21    DBODY
+.MODEL DBODY  D(IS=1.2p  N=1.08  RS=29u  EG=1.12  TT=400n)
+Rdiode  d1  21    10.34m TC=6m
+
+.MODEL   sw    NMOS(VTO=0  KP=10   LEVEL=1)
+Maux      g2   c    a    a   sw
+Maux2     b    d    g2    g2   sw
+Eaux      c    a    d2    g2   1
+Eaux2     d    g2   d2    g2   -1
+Cox       b    d2   1.05n
+.MODEL     DGD    D(M=0.88   CJO=1.05n   VJ=0.5)
+Rpar      b    d2   1Meg
+Dgd       a    d2   DGD
+Rpar2     d2   a    10Meg
+Cgs     g2    s2    0.51n
+
+.ENDS  IPP60R520C6_L0
+
+******
+
+.SUBCKT IPA60R520C6_L0  drain  gate  source
+
+Lg     gate  g1    4n
+Ld     drain d1    2.5n
+Ls     source s1   2.5n
+Rs      s1    s2   2m
+
+Rg     g1    g2     16.5
+M1      d2    g2    s2    s2    DMOS    L=1u   W=1u
+.MODEL DMOS NMOS ( KP= 5.846  VTO=3.85  THETA=0  VMAX=1.5e5  ETA=0  LEVEL=3)
+Rd     d2    d1a    0.369 TC=15m
+.MODEL MVDR NMOS (KP=17.59 VTO=-1   LAMBDA=0.2)
+Mr d1 d2a d1a d1a MVDR W=1u L=1u
+Rx d2a d1a 1m
+Cds1 s2 d2 15.3p
+Dbd     s2    d2    Dbt
+.MODEL     Dbt    D(BV=600   M=0.9  CJO=6.08n  VJ=0.5V)
+Dbody   s2   21    DBODY
+.MODEL DBODY  D(IS=1.2p  N=1.08  RS=29u  EG=1.12  TT=400n)
+Rdiode  d1  21    10.34m TC=6m
+
+.MODEL   sw    NMOS(VTO=0  KP=10   LEVEL=1)
+Maux      g2   c    a    a   sw
+Maux2     b    d    g2    g2   sw
+Eaux      c    a    d2    g2   1
+Eaux2     d    g2   d2    g2   -1
+Cox       b    d2   1.05n
+.MODEL     DGD    D(M=0.88   CJO=1.05n   VJ=0.5)
+Rpar      b    d2   1Meg
+Dgd       a    d2   DGD
+Rpar2     d2   a    10Meg
+Cgs     g2    s2    0.51n
+
+.ENDS  IPA60R520C6_L0
+
+******
+
+.SUBCKT IPD60R600C6_L0  drain  gate  source
+
+Lg     gate  g1    3n
+Ld     drain d1    1n
+Ls     source s1   2n
+Rs      s1    s2   2m
+
+Rg     g1    g2     17.5
+M1      d2    g2    s2    s2    DMOS    L=1u   W=1u
+.MODEL DMOS NMOS ( KP= 5.065  VTO=3.85  THETA=0  VMAX=1.5e5  ETA=0  LEVEL=3)
+Rd     d2    d1a    0.425 TC=15m
+.MODEL MVDR NMOS (KP=15.24 VTO=-1   LAMBDA=0.2)
+Mr d1 d2a d1a d1a MVDR W=1u L=1u
+Rx d2a d1a 1m
+Cds1 s2 d2 13.3p
+Dbd     s2    d2    Dbt
+.MODEL     Dbt    D(BV=600   M=0.9  CJO=5.27n  VJ=0.5V)
+Dbody   s2   21    DBODY
+.MODEL DBODY  D(IS=1p  N=1.08  RS=33u  EG=1.12  TT=400n)
+Rdiode  d1  21    11.94m TC=6m
+
+.MODEL   sw    NMOS(VTO=0  KP=10   LEVEL=1)
+Maux      g2   c    a    a   sw
+Maux2     b    d    g2    g2   sw
+Eaux      c    a    d2    g2   1
+Eaux2     d    g2   d2    g2   -1
+Cox       b    d2   0.91n
+.MODEL     DGD    D(M=0.88   CJO=0.91n   VJ=0.5)
+Rpar      b    d2   1Meg
+Dgd       a    d2   DGD
+Rpar2     d2   a    10Meg
+Cgs     g2    s2    0.44n
+
+.ENDS  IPD60R600C6_L0
+
+******
+
+.SUBCKT IPP60R600C6_L0  drain  gate  source
+
+Lg     gate  g1    4n
+Ld     drain d1    2.5n
+Ls     source s1   2.5n
+Rs      s1    s2   2m
+
+Rg     g1    g2     17.5
+M1      d2    g2    s2    s2    DMOS    L=1u   W=1u
+.MODEL DMOS NMOS ( KP= 5.065  VTO=3.85  THETA=0  VMAX=1.5e5  ETA=0  LEVEL=3)
+Rd     d2    d1a    0.426 TC=15m
+.MODEL MVDR NMOS (KP=15.24 VTO=-1   LAMBDA=0.2)
+Mr d1 d2a d1a d1a MVDR W=1u L=1u
+Rx d2a d1a 1m
+Cds1 s2 d2 13.3p
+Dbd     s2    d2    Dbt
+.MODEL     Dbt    D(BV=600   M=0.9  CJO=5.27n  VJ=0.5V)
+Dbody   s2   21    DBODY
+.MODEL DBODY  D(IS=1p  N=1.08  RS=33u  EG=1.12  TT=400n)
+Rdiode  d1  21    11.94m TC=6m
+
+.MODEL   sw    NMOS(VTO=0  KP=10   LEVEL=1)
+Maux      g2   c    a    a   sw
+Maux2     b    d    g2    g2   sw
+Eaux      c    a    d2    g2   1
+Eaux2     d    g2   d2    g2   -1
+Cox       b    d2   0.91n
+.MODEL     DGD    D(M=0.88   CJO=0.91n   VJ=0.5)
+Rpar      b    d2   1Meg
+Dgd       a    d2   DGD
+Rpar2     d2   a    10Meg
+Cgs     g2    s2    0.44n
+
+.ENDS  IPP60R600C6_L0
+
+******
+
+.SUBCKT IPA60R600C6_L0  drain  gate  source
+
+Lg     gate  g1    4n
+Ld     drain d1    2.5n
+Ls     source s1   2.5n
+Rs      s1    s2   2m
+
+Rg     g1    g2     17.5
+M1      d2    g2    s2    s2    DMOS    L=1u   W=1u
+.MODEL DMOS NMOS ( KP= 5.065  VTO=3.85  THETA=0  VMAX=1.5e5  ETA=0  LEVEL=3)
+Rd     d2    d1a    0.426 TC=15m
+.MODEL MVDR NMOS (KP=15.24 VTO=-1   LAMBDA=0.2)
+Mr d1 d2a d1a d1a MVDR W=1u L=1u
+Rx d2a d1a 1m
+Cds1 s2 d2 13.3p
+Dbd     s2    d2    Dbt
+.MODEL     Dbt    D(BV=600   M=0.9  CJO=5.27n  VJ=0.5V)
+Dbody   s2   21    DBODY
+.MODEL DBODY  D(IS=1p  N=1.08  RS=33u  EG=1.12  TT=400n)
+Rdiode  d1  21    11.94m TC=6m
+
+.MODEL   sw    NMOS(VTO=0  KP=10   LEVEL=1)
+Maux      g2   c    a    a   sw
+Maux2     b    d    g2    g2   sw
+Eaux      c    a    d2    g2   1
+Eaux2     d    g2   d2    g2   -1
+Cox       b    d2   0.91n
+.MODEL     DGD    D(M=0.88   CJO=0.91n   VJ=0.5)
+Rpar      b    d2   1Meg
+Dgd       a    d2   DGD
+Rpar2     d2   a    10Meg
+Cgs     g2    s2    0.44n
+
+.ENDS  IPA60R600C6_L0
+
+******
+
+.SUBCKT IPD60R750C6_L0  drain  gate  source
+
+Lg     gate  g1    3n
+Ld     drain d1    1n
+Ls     source s1   2n
+Rs      s1    s2   2m
+
+Rg     g1    g2     16
+M1      d2    g2    s2    s2    DMOS    L=1u   W=1u
+.MODEL DMOS NMOS ( KP= 4.258  VTO=3.85  THETA=0  VMAX=1.5e5  ETA=0  LEVEL=3)
+Rd     d2    d1a    0.506 TC=15m
+.MODEL MVDR NMOS (KP=12.81 VTO=-1   LAMBDA=0.2)
+Mr d1 d2a d1a d1a MVDR W=1u L=1u
+Rx d2a d1a 1m
+Cds1 s2 d2 11.2p
+Dbd     s2    d2    Dbt
+.MODEL     Dbt    D(BV=600   M=0.9  CJO=4.43n  VJ=0.5V)
+Dbody   s2   21    DBODY
+.MODEL DBODY  D(IS=0.9p  N=1.08  RS=39u  EG=1.12  TT=400n)
+Rdiode  d1  21    14.21m TC=6m
+
+.MODEL   sw    NMOS(VTO=0  KP=10   LEVEL=1)
+Maux      g2   c    a    a   sw
+Maux2     b    d    g2    g2   sw
+Eaux      c    a    d2    g2   1
+Eaux2     d    g2   d2    g2   -1
+Cox       b    d2   0.77n
+.MODEL     DGD    D(M=0.88   CJO=0.77n   VJ=0.5)
+Rpar      b    d2   1Meg
+Dgd       a    d2   DGD
+Rpar2     d2   a    10Meg
+Cgs     g2    s2    0.37n
+
+.ENDS  IPD60R750C6_L0
+
+******
+
+.SUBCKT IPP60R750C6_L0  drain  gate  source
+
+Lg     gate  g1    4n
+Ld     drain d1    2.5n
+Ls     source s1   2.5n
+Rs      s1    s2   2m
+
+Rg     g1    g2     16
+M1      d2    g2    s2    s2    DMOS    L=1u   W=1u
+.MODEL DMOS NMOS ( KP= 4.258  VTO=3.85  THETA=0  VMAX=1.5e5  ETA=0  LEVEL=3)
+Rd     d2    d1a    0.506 TC=15m
+.MODEL MVDR NMOS (KP=12.81 VTO=-1   LAMBDA=0.2)
+Mr d1 d2a d1a d1a MVDR W=1u L=1u
+Rx d2a d1a 1m
+Cds1 s2 d2 11.2p
+Dbd     s2    d2    Dbt
+.MODEL     Dbt    D(BV=600   M=0.9  CJO=4.43n  VJ=0.5V)
+Dbody   s2   21    DBODY
+.MODEL DBODY  D(IS=0.9p  N=1.08  RS=39u  EG=1.12  TT=400n)
+Rdiode  d1  21    14.21m TC=6m
+
+.MODEL   sw    NMOS(VTO=0  KP=10   LEVEL=1)
+Maux      g2   c    a    a   sw
+Maux2     b    d    g2    g2   sw
+Eaux      c    a    d2    g2   1
+Eaux2     d    g2   d2    g2   -1
+Cox       b    d2   0.77n
+.MODEL     DGD    D(M=0.88   CJO=0.77n   VJ=0.5)
+Rpar      b    d2   1Meg
+Dgd       a    d2   DGD
+Rpar2     d2   a    10Meg
+Cgs     g2    s2    0.37n
+
+.ENDS  IPP60R750C6_L0
+
+******
+
+.SUBCKT IPA60R750C6_L0  drain  gate  source
+
+Lg     gate  g1    4n
+Ld     drain d1    2.5n
+Ls     source s1   2.5n
+Rs      s1    s2   2m
+
+Rg     g1    g2     16
+M1      d2    g2    s2    s2    DMOS    L=1u   W=1u
+.MODEL DMOS NMOS ( KP= 4.258  VTO=3.85  THETA=0  VMAX=1.5e5  ETA=0  LEVEL=3)
+Rd     d2    d1a    0.506 TC=15m
+.MODEL MVDR NMOS (KP=12.81 VTO=-1   LAMBDA=0.2)
+Mr d1 d2a d1a d1a MVDR W=1u L=1u
+Rx d2a d1a 1m
+Cds1 s2 d2 11.2p
+Dbd     s2    d2    Dbt
+.MODEL     Dbt    D(BV=600   M=0.9  CJO=4.43n  VJ=0.5V)
+Dbody   s2   21    DBODY
+.MODEL DBODY  D(IS=0.9p  N=1.08  RS=39u  EG=1.12  TT=400n)
+Rdiode  d1  21    14.21m TC=6m
+
+.MODEL   sw    NMOS(VTO=0  KP=10   LEVEL=1)
+Maux      g2   c    a    a   sw
+Maux2     b    d    g2    g2   sw
+Eaux      c    a    d2    g2   1
+Eaux2     d    g2   d2    g2   -1
+Cox       b    d2   0.77n
+.MODEL     DGD    D(M=0.88   CJO=0.77n   VJ=0.5)
+Rpar      b    d2   1Meg
+Dgd       a    d2   DGD
+Rpar2     d2   a    10Meg
+Cgs     g2    s2    0.37n
+
+.ENDS  IPA60R750C6_L0
+
+******
+
+.SUBCKT IPD60R950C6_L0  drain  gate  source
+
+Lg     gate  g1    3n
+Ld     drain d1    1n
+Ls     source s1   2n
+Rs      s1    s2   2m
+
+Rg     g1    g2     16
+M1      d2    g2    s2    s2    DMOS    L=1u   W=1u
+.MODEL DMOS NMOS ( KP= 3.188  VTO=3.85  THETA=0  VMAX=1.5e5  ETA=0  LEVEL=3)
+Rd     d2    d1a    0.676 TC=15m
+.MODEL MVDR NMOS (KP=9.59 VTO=-1   LAMBDA=0.2)
+Mr d1 d2a d1a d1a MVDR W=1u L=1u
+Rx d2a d1a 1m
+Cds1 s2 d2 8.3p
+Dbd     s2    d2    Dbt
+.MODEL     Dbt    D(BV=600   M=0.9  CJO=3.31n  VJ=0.5V)
+Dbody   s2   21    DBODY
+.MODEL DBODY  D(IS=0.6p  N=1.08  RS=53u  EG=1.12  TT=400n)
+Rdiode  d1  21    18.97m TC=6m
+
+.MODEL   sw    NMOS(VTO=0  KP=10   LEVEL=1)
+Maux      g2   c    a    a   sw
+Maux2     b    d    g2    g2   sw
+Eaux      c    a    d2    g2   1
+Eaux2     d    g2   d2    g2   -1
+Cox       b    d2   0.57n
+.MODEL     DGD    D(M=0.88   CJO=0.57n   VJ=0.5)
+Rpar      b    d2   1Meg
+Dgd       a    d2   DGD
+Rpar2     d2   a    10Meg
+Cgs     g2    s2    0.28n
+
+.ENDS  IPD60R950C6_L0
+
+******
+
+.SUBCKT IPP60R950C6_L0  drain  gate  source
+
+Lg     gate  g1    4n
+Ld     drain d1    2.5n
+Ls     source s1   2.5n
+Rs      s1    s2   2m
+
+Rg     g1    g2     16
+M1      d2    g2    s2    s2    DMOS    L=1u   W=1u
+.MODEL DMOS NMOS ( KP= 3.188  VTO=3.85  THETA=0  VMAX=1.5e5  ETA=0  LEVEL=3)
+Rd     d2    d1a    0.676 TC=15m
+.MODEL MVDR NMOS (KP=9.59 VTO=-1   LAMBDA=0.2)
+Mr d1 d2a d1a d1a MVDR W=1u L=1u
+Rx d2a d1a 1m
+Cds1 s2 d2 8.3p
+Dbd     s2    d2    Dbt
+.MODEL     Dbt    D(BV=600   M=0.9  CJO=3.31n  VJ=0.5V)
+Dbody   s2   21    DBODY
+.MODEL DBODY  D(IS=0.6p  N=1.08  RS=53u  EG=1.12  TT=400n)
+Rdiode  d1  21    18.97m TC=6m
+
+.MODEL   sw    NMOS(VTO=0  KP=10   LEVEL=1)
+Maux      g2   c    a    a   sw
+Maux2     b    d    g2    g2   sw
+Eaux      c    a    d2    g2   1
+Eaux2     d    g2   d2    g2   -1
+Cox       b    d2   0.57n
+.MODEL     DGD    D(M=0.88   CJO=0.57n   VJ=0.5)
+Rpar      b    d2   1Meg
+Dgd       a    d2   DGD
+Rpar2     d2   a    10Meg
+Cgs     g2    s2    0.28n
+
+.ENDS  IPP60R950C6_L0
+
+******
+
+.SUBCKT IPA60R950C6_L0  drain  gate  source
+
+Lg     gate  g1    4n
+Ld     drain d1    2.5n
+Ls     source s1   2.5n
+Rs      s1    s2   2m
+
+Rg     g1    g2     16
+M1      d2    g2    s2    s2    DMOS    L=1u   W=1u
+.MODEL DMOS NMOS ( KP= 3.188  VTO=3.85  THETA=0  VMAX=1.5e5  ETA=0  LEVEL=3)
+Rd     d2    d1a    0.676 TC=15m
+.MODEL MVDR NMOS (KP=9.59 VTO=-1   LAMBDA=0.2)
+Mr d1 d2a d1a d1a MVDR W=1u L=1u
+Rx d2a d1a 1m
+Cds1 s2 d2 8.3p
+Dbd     s2    d2    Dbt
+.MODEL     Dbt    D(BV=600   M=0.9  CJO=3.31n  VJ=0.5V)
+Dbody   s2   21    DBODY
+.MODEL DBODY  D(IS=0.6p  N=1.08  RS=53u  EG=1.12  TT=400n)
+Rdiode  d1  21    18.97m TC=6m
+
+.MODEL   sw    NMOS(VTO=0  KP=10   LEVEL=1)
+Maux      g2   c    a    a   sw
+Maux2     b    d    g2    g2   sw
+Eaux      c    a    d2    g2   1
+Eaux2     d    g2   d2    g2   -1
+Cox       b    d2   0.57n
+.MODEL     DGD    D(M=0.88   CJO=0.57n   VJ=0.5)
+Rpar      b    d2   1Meg
+Dgd       a    d2   DGD
+Rpar2     d2   a    10Meg
+Cgs     g2    s2    0.28n
+
+.ENDS  IPA60R950C6_L0
+
+******
+
+.SUBCKT IPD60R1K4C6_L0  drain  gate  source
+
+Lg     gate  g1    3n
+Ld     drain d1    1n
+Ls     source s1   2n
+Rs      s1    s2   2m
+
+Rg     g1    g2     16
+M1      d2    g2    s2    s2    DMOS    L=1u   W=1u
+.MODEL DMOS NMOS ( KP= 2.281  VTO=3.85  THETA=0  VMAX=1.5e5  ETA=0  LEVEL=3)
+Rd     d2    d1a    0.945 TC=15m
+.MODEL MVDR NMOS (KP=6.86 VTO=-1   LAMBDA=0.2)
+Mr d1 d2a d1a d1a MVDR W=1u L=1u
+Rx d2a d1a 1m
+Cds1 s2 d2 6p
+Dbd     s2    d2    Dbt
+.MODEL     Dbt    D(BV=600   M=0.9  CJO=2.37n  VJ=0.5V)
+Dbody   s2   21    DBODY
+.MODEL DBODY  D(IS=0.5p  N=1.08  RS=73u  EG=1.12  TT=400n)
+Rdiode  d1  21    26.52m TC=6m
+
+.MODEL   sw    NMOS(VTO=0  KP=10   LEVEL=1)
+Maux      g2   c    a    a   sw
+Maux2     b    d    g2    g2   sw
+Eaux      c    a    d2    g2   1
+Eaux2     d    g2   d2    g2   -1
+Cox       b    d2   0.41n
+.MODEL     DGD    D(M=0.88   CJO=0.41n   VJ=0.5)
+Rpar      b    d2   1Meg
+Dgd       a    d2   DGD
+Rpar2     d2   a    10Meg
+Cgs     g2    s2    0.2n
+
+.ENDS  IPD60R1K4C6_L0
+
+******
+
+.SUBCKT IPP60R1K4C6_L0  drain  gate  source
+
+Lg     gate  g1    4n
+Ld     drain d1    2.5n
+Ls     source s1   2.5n
+Rs      s1    s2   2m
+
+Rg     g1    g2     16
+M1      d2    g2    s2    s2    DMOS    L=1u   W=1u
+.MODEL DMOS NMOS ( KP= 2.281  VTO=3.85  THETA=0  VMAX=1.5e5  ETA=0  LEVEL=3)
+Rd     d2    d1a    0.945 TC=15m
+.MODEL MVDR NMOS (KP=6.86 VTO=-1   LAMBDA=0.2)
+Mr d1 d2a d1a d1a MVDR W=1u L=1u
+Rx d2a d1a 1m
+Cds1 s2 d2 6p
+Dbd     s2    d2    Dbt
+.MODEL     Dbt    D(BV=600   M=0.9  CJO=2.37n  VJ=0.5V)
+Dbody   s2   21    DBODY
+.MODEL DBODY  D(IS=0.5p  N=1.08  RS=73u  EG=1.12  TT=400n)
+Rdiode  d1  21    26.52m TC=6m
+
+.MODEL   sw    NMOS(VTO=0  KP=10   LEVEL=1)
+Maux      g2   c    a    a   sw
+Maux2     b    d    g2    g2   sw
+Eaux      c    a    d2    g2   1
+Eaux2     d    g2   d2    g2   -1
+Cox       b    d2   0.41n
+.MODEL     DGD    D(M=0.88   CJO=0.41n   VJ=0.5)
+Rpar      b    d2   1Meg
+Dgd       a    d2   DGD
+Rpar2     d2   a    10Meg
+Cgs     g2    s2    0.2n
+
+.ENDS  IPP60R1K4C6_L0
+
+******
+
+.SUBCKT IPL60R1K5C6S_L0  drain  gate  source
+
+Lg     gate  g1    4n
+Ld     drain d1    1n
+Ls     source s1   2n
+Rs      s1    s2   2m
+
+Rg     g1    g2     16
+M1      d2    g2    s2    s2    DMOS    L=1u   W=1u
+.MODEL DMOS NMOS ( KP= 2.281  VTO=3.85  THETA=0  VMAX=1.5e5  ETA=0  LEVEL=3)
+Rd     d2    d1a    1.039 TC=15m
+.MODEL MVDR NMOS (KP=6.86 VTO=-1   LAMBDA=0.2)
+Mr d1 d2a d1a d1a MVDR W=1u L=1u
+Rx d2a d1a 1m
+Cds1 s2 d2 6p
+Dbd     s2    d2    Dbt
+.MODEL     Dbt    D(BV=600   M=0.9  CJO=2.37n  VJ=0.5V)
+Dbody   s2   21    DBODY
+.MODEL DBODY  D(IS=0.5p  N=1.08  RS=73u  EG=1.12  TT=750n)
+Rdiode  d1  21    26.52m TC=6m
+
+.MODEL   sw    NMOS(VTO=0  KP=10   LEVEL=1)
+Maux      g2   c    a    a   sw
+Maux2     b    d    g2    g2   sw
+Eaux      c    a    d2    g2   1
+Eaux2     d    g2   d2    g2   -1
+Cox       b    d2   0.41n
+.MODEL     DGD    D(M=0.88   CJO=0.41n   VJ=0.5)
+Rpar      b    d2   1Meg
+Dgd       a    d2   DGD
+Rpar2     d2   a    10Meg
+Cgs     g2    s2    0.2n
+
+.ENDS  IPL60R1K5C6S_L0
+
+******
+
+.SUBCKT IPL60R2K1C6S_L0  drain  gate  source
+
+Lg     gate  g1    4n
+Ld     drain d1    1n
+Ls     source s1   2n
+Rs      s1    s2   2m
+
+Rg     g1    g2     16
+M1      d2    g2    s2    s2    DMOS    L=1u   W=1u
+.MODEL DMOS NMOS ( KP= 1.588  VTO=3.85  THETA=0  VMAX=1.5e5  ETA=0  LEVEL=3)
+Rd     d2    d1a    1.492 TC=15m
+.MODEL MVDR NMOS (KP=4.78 VTO=-1   LAMBDA=0.2)
+Mr d1 d2a d1a d1a MVDR W=1u L=1u
+Rx d2a d1a 1m
+Cds1 s2 d2 4.2p
+Dbd     s2    d2    Dbt
+.MODEL     Dbt    D(BV=600   M=0.9  CJO=1.65n  VJ=0.5V)
+Dbody   s2   21    DBODY
+.MODEL DBODY  D(IS=0.3p  N=1.08  RS=106u  EG=1.12  TT=750n)
+Rdiode  d1  21    38.1m TC=6m
+
+.MODEL   sw    NMOS(VTO=0  KP=10   LEVEL=1)
+Maux      g2   c    a    a   sw
+Maux2     b    d    g2    g2   sw
+Eaux      c    a    d2    g2   1
+Eaux2     d    g2   d2    g2   -1
+Cox       b    d2   0.29n
+.MODEL     DGD    D(M=0.88   CJO=0.29n   VJ=0.5)
+Rpar      b    d2   1Meg
+Dgd       a    d2   DGD
+Rpar2     d2   a    10Meg
+Cgs     g2    s2    0.14n
+
+.ENDS  IPL60R2K1C6S_L0
+
+******
+
+.SUBCKT IPD60R2K0C6_L0  drain  gate  source
+
+Lg     gate  g1    3n
+Ld     drain d1    1n
+Ls     source s1   2n
+Rs      s1    s2   2m
+
+Rg     g1    g2     16
+M1      d2    g2    s2    s2    DMOS    L=1u   W=1u
+.MODEL DMOS NMOS ( KP= 1.588  VTO=3.85  THETA=0  VMAX=1.5e5  ETA=0  LEVEL=3)
+Rd     d2    d1a    1.357 TC=15m
+.MODEL MVDR NMOS (KP=4.78 VTO=-1   LAMBDA=0.2)
+Mr d1 d2a d1a d1a MVDR W=1u L=1u
+Rx d2a d1a 1m
+Cds1 s2 d2 4.2p
+Dbd     s2    d2    Dbt
+.MODEL     Dbt    D(BV=600   M=0.9  CJO=1.65n  VJ=0.5V)
+Dbody   s2   21    DBODY
+.MODEL DBODY  D(IS=0.3p  N=1.08  RS=106u  EG=1.12  TT=400n)
+Rdiode  d1  21    38.1m TC=6m
+
+.MODEL   sw    NMOS(VTO=0  KP=10   LEVEL=1)
+Maux      g2   c    a    a   sw
+Maux2     b    d    g2    g2   sw
+Eaux      c    a    d2    g2   1
+Eaux2     d    g2   d2    g2   -1
+Cox       b    d2   0.29n
+.MODEL     DGD    D(M=0.88   CJO=0.29n   VJ=0.5)
+Rpar      b    d2   1Meg
+Dgd       a    d2   DGD
+Rpar2     d2   a    10Meg
+Cgs     g2    s2    0.14n
+
+.ENDS  IPD60R2K0C6_L0
+
+******
+
+.SUBCKT IPP60R2K0C6_L0  drain  gate  source
+
+Lg     gate  g1    4n
+Ld     drain d1    2.5n
+Ls     source s1   2.5n
+Rs      s1    s2   2m
+
+Rg     g1    g2     16
+M1      d2    g2    s2    s2    DMOS    L=1u   W=1u
+.MODEL DMOS NMOS ( KP= 1.588  VTO=3.85  THETA=0  VMAX=1.5e5  ETA=0  LEVEL=3)
+Rd     d2    d1a    1.357 TC=15m
+.MODEL MVDR NMOS (KP=4.78 VTO=-1   LAMBDA=0.2)
+Mr d1 d2a d1a d1a MVDR W=1u L=1u
+Rx d2a d1a 1m
+Cds1 s2 d2 4.2p
+Dbd     s2    d2    Dbt
+.MODEL     Dbt    D(BV=600   M=0.9  CJO=1.65n  VJ=0.5V)
+Dbody   s2   21    DBODY
+.MODEL DBODY  D(IS=0.3p  N=1.08  RS=106u  EG=1.12  TT=400n)
+Rdiode  d1  21    38.1m TC=6m
+
+.MODEL   sw    NMOS(VTO=0  KP=10   LEVEL=1)
+Maux      g2   c    a    a   sw
+Maux2     b    d    g2    g2   sw
+Eaux      c    a    d2    g2   1
+Eaux2     d    g2   d2    g2   -1
+Cox       b    d2   0.29n
+.MODEL     DGD    D(M=0.88   CJO=0.29n   VJ=0.5)
+Rpar      b    d2   1Meg
+Dgd       a    d2   DGD
+Rpar2     d2   a    10Meg
+Cgs     g2    s2    0.14n
+
+.ENDS  IPP60R2K0C6_L0
+
+******
+
+.SUBCKT IPD60R3K3C6_L0  drain  gate  source
+
+Lg     gate  g1    3n
+Ld     drain d1    1n
+Ls     source s1   2n
+Rs      s1    s2   2m
+
+Rg     g1    g2     16
+M1      d2    g2    s2    s2    DMOS    L=1u   W=1u
+.MODEL DMOS NMOS ( KP= 1.058  VTO=3.85  THETA=0  VMAX=1.5e5  ETA=0  LEVEL=3)
+Rd     d2    d1a    2.036 TC=15m
+.MODEL MVDR NMOS (KP=3.18 VTO=-1   LAMBDA=0.2)
+Mr d1 d2a d1a d1a MVDR W=1u L=1u
+Rx d2a d1a 1m
+Cds1 s2 d2 2.8p
+Dbd     s2    d2    Dbt
+.MODEL     Dbt    D(BV=600   M=0.9  CJO=1.1n  VJ=0.5V)
+Dbody   s2   21    DBODY
+.MODEL DBODY  D(IS=0.2p  N=1.08  RS=158u  EG=1.12  TT=400n)
+Rdiode  d1  21    57.14m TC=6m
+
+.MODEL   sw    NMOS(VTO=0  KP=10   LEVEL=1)
+Maux      g2   c    a    a   sw
+Maux2     b    d    g2    g2   sw
+Eaux      c    a    d2    g2   1
+Eaux2     d    g2   d2    g2   -1
+Cox       b    d2   0.19n
+.MODEL     DGD    D(M=0.88   CJO=0.19n   VJ=0.5)
+Rpar      b    d2   1Meg
+Dgd       a    d2   DGD
+Rpar2     d2   a    10Meg
+Cgs     g2    s2    0.09n
+
+.ENDS  IPD60R3K3C6_L0
+
+******
+
+.SUBCKT IPP60R3K3C6_L0  drain  gate  source
+
+Lg     gate  g1    4n
+Ld     drain d1    2.5n
+Ls     source s1   2.5n
+Rs      s1    s2   2m
+
+Rg     g1    g2     16
+M1      d2    g2    s2    s2    DMOS    L=1u   W=1u
+.MODEL DMOS NMOS ( KP= 1.058  VTO=3.85  THETA=0  VMAX=1.5e5  ETA=0  LEVEL=3)
+Rd     d2    d1a    2.036 TC=15m
+.MODEL MVDR NMOS (KP=3.18 VTO=-1   LAMBDA=0.2)
+Mr d1 d2a d1a d1a MVDR W=1u L=1u
+Rx d2a d1a 1m
+Cds1 s2 d2 2.8p
+Dbd     s2    d2    Dbt
+.MODEL     Dbt    D(BV=600   M=0.9  CJO=1.1n  VJ=0.5V)
+Dbody   s2   21    DBODY
+.MODEL DBODY  D(IS=0.2p  N=1.08  RS=158u  EG=1.12  TT=400n)
+Rdiode  d1  21    57.14m TC=6m
+
+.MODEL   sw    NMOS(VTO=0  KP=10   LEVEL=1)
+Maux      g2   c    a    a   sw
+Maux2     b    d    g2    g2   sw
+Eaux      c    a    d2    g2   1
+Eaux2     d    g2   d2    g2   -1
+Cox       b    d2   0.19n
+.MODEL     DGD    D(M=0.88   CJO=0.19n   VJ=0.5)
+Rpar      b    d2   1Meg
+Dgd       a    d2   DGD
+Rpar2     d2   a    10Meg
+Cgs     g2    s2    0.09n
+
+.ENDS  IPP60R3K3C6_L0
+
+******
+
+.SUBCKT IPW60R041C6_L1 drain gate source PARAMS: dVth=0 dRdson=0
+
+.PARAM Rs=2m        Rg=0.7       Ls=5n        Ld=3n        Lg=5n
+.PARAM act=59.22    Inn=44.4     Unn=10       Rmax=41m
+
+X1  dd g s Tj Tj cool_600_i_var PARAMS: act={act} dVth={dVth} dR={dRdson} Inn={Inn} Unn={Unn} 
+                                        +Rmax={Rmax} Rs={Rs} heat=0
+L_Ld         drain  dd    {Ld}
+R_Ld         drain  dd    10
+
+L_Ls         source lsrs  {Ls}
+R_Ls         source lsrs  10
+R_Rs         s      lsrs  {Rs}
+
+L_Lg         gate   lgrg  {Lg}
+R_Lg         gate   lgrg  10
+R_Rg         lgrg   g     {Rg}
+
+E1    Tj     w      VALUE={TEMP}
+R1    w      0      1u
+
+.ENDS
+
+**********
+
+.SUBCKT IPW60R070C6_L1 drain gate source PARAMS: dVth=0 dRdson=0
+
+.PARAM Rs=2m        Rg=0.85      Ls=5n        Ld=3n        Lg=5n
+.PARAM act=34.42    Inn=25.8     Unn=10       Rmax=70m
+
+X1  dd g s Tj Tj cool_600_i_var PARAMS: act={act} dVth={dVth} dR={dRdson} Inn={Inn} Unn={Unn} 
+                                        +Rmax={Rmax} Rs={Rs} heat=0
+L_Ld         drain  dd    {Ld}
+R_Ld         drain  dd    10
+
+L_Ls         source lsrs  {Ls}
+R_Ls         source lsrs  10
+R_Rs         s      lsrs  {Rs}
+
+L_Lg         gate   lgrg  {Lg}
+R_Lg         gate   lgrg  10
+R_Rg         lgrg   g     {Rg}
+
+E1    Tj     w      VALUE={TEMP}
+R1    w      0      1u
+
+.ENDS
+
+**********
+
+.SUBCKT IPP60R074C6_L1 drain gate source PARAMS: dVth=0 dRdson=0
+
+.PARAM Rs=2m        Rg=0.6       Ls=2.5n      Ld=2.5n      Lg=4n
+.PARAM act=27.98    Inn=20.985   Unn=10       Rmax=74m
+
+X1  dd g s Tj Tj cool_600_i240_var PARAMS: act={act} dVth={dVth} dR={dRdson} Inn={Inn} Unn={Unn} 
+                                        +Rmax={Rmax} Rs={Rs} heat=0
+L_Ld         drain  dd    {Ld}
+R_Ld         drain  dd    10
+
+L_Ls         source lsrs  {Ls}
+R_Ls         source lsrs  10
+R_Rs         s      lsrs  {Rs}
+
+L_Lg         gate   lgrg  {Lg}
+R_Lg         gate   lgrg  10
+R_Rg         lgrg   g     {Rg}
+
+E1    Tj     w      VALUE={TEMP}
+R1    w      0      1u
+
+.ENDS
+
+**********
+
+.SUBCKT IPW60R099C6_L1 drain gate source PARAMS: dVth=0 dRdson=0
+
+.PARAM Rs=2m        Rg=1.6       Ls=5n        Ld=3n        Lg=5n
+.PARAM act=24.12    Inn=18.1     Unn=10       Rmax=99m
+
+X1  dd g s Tj Tj cool_600_i_var PARAMS: act={act} dVth={dVth} dR={dRdson} Inn={Inn} Unn={Unn} 
+                                        +Rmax={Rmax} Rs={Rs} heat=0
+L_Ld         drain  dd    {Ld}
+R_Ld         drain  dd    10
+
+L_Ls         source lsrs  {Ls}
+R_Ls         source lsrs  10
+R_Rs         s      lsrs  {Rs}
+
+L_Lg         gate   lgrg  {Lg}
+R_Lg         gate   lgrg  10
+R_Rg         lgrg   g     {Rg}
+
+E1    Tj     w      VALUE={TEMP}
+R1    w      0      1u
+
+.ENDS
+
+**********
+
+.SUBCKT IPP60R099C6_L1 drain gate source PARAMS: dVth=0 dRdson=0
+
+.PARAM Rs=2m        Rg=1.6       Ls=2.5n      Ld=2.5n      Lg=4n
+.PARAM act=24.12    Inn=18.1     Unn=10       Rmax=99m
+
+X1  dd g s Tj Tj cool_600_i_var PARAMS: act={act} dVth={dVth} dR={dRdson} Inn={Inn} Unn={Unn} 
+                                        +Rmax={Rmax} Rs={Rs} heat=0
+L_Ld         drain  dd    {Ld}
+R_Ld         drain  dd    10
+
+L_Ls         source lsrs  {Ls}
+R_Ls         source lsrs  10
+R_Rs         s      lsrs  {Rs}
+
+L_Lg         gate   lgrg  {Lg}
+R_Lg         gate   lgrg  10
+R_Rg         lgrg   g     {Rg}
+
+E1    Tj     w      VALUE={TEMP}
+R1    w      0      1u
+
+.ENDS
+
+**********
+
+.SUBCKT IPA60R099C6_L1 drain gate source PARAMS: dVth=0 dRdson=0
+
+.PARAM Rs=2m        Rg=1.6       Ls=2.5n      Ld=2.5n      Lg=4n
+.PARAM act=24.12    Inn=18.1     Unn=10       Rmax=99m
+
+X1  dd g s Tj Tj cool_600_i_var PARAMS: act={act} dVth={dVth} dR={dRdson} Inn={Inn} Unn={Unn} 
+                                        +Rmax={Rmax} Rs={Rs} heat=0
+L_Ld         drain  dd    {Ld}
+R_Ld         drain  dd    10
+
+L_Ls         source lsrs  {Ls}
+R_Ls         source lsrs  10
+R_Rs         s      lsrs  {Rs}
+
+L_Lg         gate   lgrg  {Lg}
+R_Lg         gate   lgrg  10
+R_Rg         lgrg   g     {Rg}
+
+E1    Tj     w      VALUE={TEMP}
+R1    w      0      1u
+
+.ENDS
+
+**********
+
+.SUBCKT IPW60R125C6_L1 drain gate source PARAMS: dVth=0 dRdson=0
+
+.PARAM Rs=2m        Rg=3.7       Ls=5n        Ld=3n        Lg=5n
+.PARAM act=19.28    Inn=14.5     Unn=10       Rmax=125m
+
+X1  dd g s Tj Tj cool_600_i_var PARAMS: act={act} dVth={dVth} dR={dRdson} Inn={Inn} Unn={Unn} 
+                                        +Rmax={Rmax} Rs={Rs} heat=0
+L_Ld         drain  dd    {Ld}
+R_Ld         drain  dd    10
+
+L_Ls         source lsrs  {Ls}
+R_Ls         source lsrs  10
+R_Rs         s      lsrs  {Rs}
+
+L_Lg         gate   lgrg  {Lg}
+R_Lg         gate   lgrg  10
+R_Rg         lgrg   g     {Rg}
+
+E1    Tj     w      VALUE={TEMP}
+R1    w      0      1u
+
+.ENDS
+
+**********
+
+.SUBCKT IPP60R125C6_L1 drain gate source PARAMS: dVth=0 dRdson=0
+
+.PARAM Rs=2m        Rg=3.7       Ls=2.5n      Ld=2.5n      Lg=4n
+.PARAM act=19.28    Inn=14.5     Unn=10       Rmax=125m
+
+X1  dd g s Tj Tj cool_600_i_var PARAMS: act={act} dVth={dVth} dR={dRdson} Inn={Inn} Unn={Unn} 
+                                        +Rmax={Rmax} Rs={Rs} heat=0
+L_Ld         drain  dd    {Ld}
+R_Ld         drain  dd    10
+
+L_Ls         source lsrs  {Ls}
+R_Ls         source lsrs  10
+R_Rs         s      lsrs  {Rs}
+
+L_Lg         gate   lgrg  {Lg}
+R_Lg         gate   lgrg  10
+R_Rg         lgrg   g     {Rg}
+
+E1    Tj     w      VALUE={TEMP}
+R1    w      0      1u
+
+.ENDS
+
+**********
+
+.SUBCKT IPA60R125C6_L1 drain gate source PARAMS: dVth=0 dRdson=0
+
+.PARAM Rs=2m        Rg=3.7       Ls=2.5n      Ld=2.5n      Lg=4n
+.PARAM act=19.28    Inn=14.5     Unn=10       Rmax=125m
+
+X1  dd g s Tj Tj cool_600_i_var PARAMS: act={act} dVth={dVth} dR={dRdson} Inn={Inn} Unn={Unn} 
+                                        +Rmax={Rmax} Rs={Rs} heat=0
+L_Ld         drain  dd    {Ld}
+R_Ld         drain  dd    10
+
+L_Ls         source lsrs  {Ls}
+R_Ls         source lsrs  10
+R_Rs         s      lsrs  {Rs}
+
+L_Lg         gate   lgrg  {Lg}
+R_Lg         gate   lgrg  10
+R_Rg         lgrg   g     {Rg}
+
+E1    Tj     w      VALUE={TEMP}
+R1    w      0      1u
+
+.ENDS
+
+**********
+
+.SUBCKT IPW60R160C6_L1 drain gate source PARAMS: dVth=0 dRdson=0
+
+.PARAM Rs=2m        Rg=6.4       Ls=5n        Ld=3n        Lg=5n
+.PARAM act=15.07    Inn=11.3     Unn=10       Rmax=160m
+
+X1  dd g s Tj Tj cool_600_i_var PARAMS: act={act} dVth={dVth} dR={dRdson} Inn={Inn} Unn={Unn} 
+                                        +Rmax={Rmax} Rs={Rs} heat=0
+L_Ld         drain  dd    {Ld}
+R_Ld         drain  dd    10
+
+L_Ls         source lsrs  {Ls}
+R_Ls         source lsrs  10
+R_Rs         s      lsrs  {Rs}
+
+L_Lg         gate   lgrg  {Lg}
+R_Lg         gate   lgrg  10
+R_Rg         lgrg   g     {Rg}
+
+E1    Tj     w      VALUE={TEMP}
+R1    w      0      1u
+
+.ENDS
+
+**********
+
+.SUBCKT IPP60R160C6_L1 drain gate source PARAMS: dVth=0 dRdson=0
+
+.PARAM Rs=2m        Rg=6.4       Ls=2.5n      Ld=2.5n      Lg=4n
+.PARAM act=15.07    Inn=11.3     Unn=10       Rmax=160m
+
+X1  dd g s Tj Tj cool_600_i_var PARAMS: act={act} dVth={dVth} dR={dRdson} Inn={Inn} Unn={Unn} 
+                                        +Rmax={Rmax} Rs={Rs} heat=0
+L_Ld         drain  dd    {Ld}
+R_Ld         drain  dd    10
+
+L_Ls         source lsrs  {Ls}
+R_Ls         source lsrs  10
+R_Rs         s      lsrs  {Rs}
+
+L_Lg         gate   lgrg  {Lg}
+R_Lg         gate   lgrg  10
+R_Rg         lgrg   g     {Rg}
+
+E1    Tj     w      VALUE={TEMP}
+R1    w      0      1u
+
+.ENDS
+
+**********
+
+.SUBCKT IPA60R160C6_L1 drain gate source PARAMS: dVth=0 dRdson=0
+
+.PARAM Rs=2m        Rg=6.4       Ls=2.5n      Ld=2.5n      Lg=4n
+.PARAM act=15.07    Inn=11.3     Unn=10       Rmax=160m
+
+X1  dd g s Tj Tj cool_600_i_var PARAMS: act={act} dVth={dVth} dR={dRdson} Inn={Inn} Unn={Unn} 
+                                        +Rmax={Rmax} Rs={Rs} heat=0
+L_Ld         drain  dd    {Ld}
+R_Ld         drain  dd    10
+
+L_Ls         source lsrs  {Ls}
+R_Ls         source lsrs  10
+R_Rs         s      lsrs  {Rs}
+
+L_Lg         gate   lgrg  {Lg}
+R_Lg         gate   lgrg  10
+R_Rg         lgrg   g     {Rg}
+
+E1    Tj     w      VALUE={TEMP}
+R1    w      0      1u
+
+.ENDS
+
+**********
+
+.SUBCKT IPW60R190C6_L1 drain gate source PARAMS: dVth=0 dRdson=0
+
+.PARAM Rs=2m        Rg=8.5       Ls=5n        Ld=3n        Lg=5n
+.PARAM act=12.69    Inn=9.5      Unn=10       Rmax=190m
+
+X1  dd g s Tj Tj cool_600_i_var PARAMS: act={act} dVth={dVth} dR={dRdson} Inn={Inn} Unn={Unn} 
+                                        +Rmax={Rmax} Rs={Rs} heat=0
+L_Ld         drain  dd    {Ld}
+R_Ld         drain  dd    10
+
+L_Ls         source lsrs  {Ls}
+R_Ls         source lsrs  10
+R_Rs         s      lsrs  {Rs}
+
+L_Lg         gate   lgrg  {Lg}
+R_Lg         gate   lgrg  10
+R_Rg         lgrg   g     {Rg}
+
+E1    Tj     w      VALUE={TEMP}
+R1    w      0      1u
+
+.ENDS
+
+**********
+
+.SUBCKT IPP60R190C6_L1 drain gate source PARAMS: dVth=0 dRdson=0
+
+.PARAM Rs=2m        Rg=8.5       Ls=2.5n      Ld=2.5n      Lg=4n
+.PARAM act=12.69    Inn=9.5      Unn=10       Rmax=190m
+
+X1  dd g s Tj Tj cool_600_i_var PARAMS: act={act} dVth={dVth} dR={dRdson} Inn={Inn} Unn={Unn} 
+                                        +Rmax={Rmax} Rs={Rs} heat=0
+L_Ld         drain  dd    {Ld}
+R_Ld         drain  dd    10
+
+L_Ls         source lsrs  {Ls}
+R_Ls         source lsrs  10
+R_Rs         s      lsrs  {Rs}
+
+L_Lg         gate   lgrg  {Lg}
+R_Lg         gate   lgrg  10
+R_Rg         lgrg   g     {Rg}
+
+E1    Tj     w      VALUE={TEMP}
+R1    w      0      1u
+
+.ENDS
+
+**********
+
+.SUBCKT IPA60R190C6_L1 drain gate source PARAMS: dVth=0 dRdson=0
+
+.PARAM Rs=2m        Rg=8.5       Ls=2.5n      Ld=2.5n      Lg=4n
+.PARAM act=12.69    Inn=9.5      Unn=10       Rmax=190m
+
+X1  dd g s Tj Tj cool_600_i_var PARAMS: act={act} dVth={dVth} dR={dRdson} Inn={Inn} Unn={Unn} 
+                                        +Rmax={Rmax} Rs={Rs} heat=0
+L_Ld         drain  dd    {Ld}
+R_Ld         drain  dd    10
+
+L_Ls         source lsrs  {Ls}
+R_Ls         source lsrs  10
+R_Rs         s      lsrs  {Rs}
+
+L_Lg         gate   lgrg  {Lg}
+R_Lg         gate   lgrg  10
+R_Rg         lgrg   g     {Rg}
+
+E1    Tj     w      VALUE={TEMP}
+R1    w      0      1u
+
+.ENDS
+
+**********
+
+.SUBCKT IPW60R280C6_L1 drain gate source PARAMS: dVth=0 dRdson=0
+
+.PARAM Rs=2m        Rg=11.5      Ls=5n        Ld=3n        Lg=5n
+.PARAM act=8.62     Inn=6.5      Unn=10       Rmax=280m
+
+X1  dd g s Tj Tj cool_600_i_var PARAMS: act={act} dVth={dVth} dR={dRdson} Inn={Inn} Unn={Unn} 
+                                        +Rmax={Rmax} Rs={Rs} heat=0
+L_Ld         drain  dd    {Ld}
+R_Ld         drain  dd    10
+
+L_Ls         source lsrs  {Ls}
+R_Ls         source lsrs  10
+R_Rs         s      lsrs  {Rs}
+
+L_Lg         gate   lgrg  {Lg}
+R_Lg         gate   lgrg  10
+R_Rg         lgrg   g     {Rg}
+
+E1    Tj     w      VALUE={TEMP}
+R1    w      0      1u
+
+.ENDS
+
+**********
+
+.SUBCKT IPP60R280C6_L1 drain gate source PARAMS: dVth=0 dRdson=0
+
+.PARAM Rs=2m        Rg=11.5      Ls=2.5n      Ld=2.5n      Lg=4n
+.PARAM act=8.62     Inn=6.5      Unn=10       Rmax=280m
+
+X1  dd g s Tj Tj cool_600_i_var PARAMS: act={act} dVth={dVth} dR={dRdson} Inn={Inn} Unn={Unn} 
+                                        +Rmax={Rmax} Rs={Rs} heat=0
+L_Ld         drain  dd    {Ld}
+R_Ld         drain  dd    10
+
+L_Ls         source lsrs  {Ls}
+R_Ls         source lsrs  10
+R_Rs         s      lsrs  {Rs}
+
+L_Lg         gate   lgrg  {Lg}
+R_Lg         gate   lgrg  10
+R_Rg         lgrg   g     {Rg}
+
+E1    Tj     w      VALUE={TEMP}
+R1    w      0      1u
+
+.ENDS
+
+**********
+
+.SUBCKT IPA60R280C6_L1 drain gate source PARAMS: dVth=0 dRdson=0
+
+.PARAM Rs=2m        Rg=11.5      Ls=2.5n      Ld=2.5n      Lg=4n
+.PARAM act=8.62     Inn=6.5      Unn=10       Rmax=280m
+
+X1  dd g s Tj Tj cool_600_i_var PARAMS: act={act} dVth={dVth} dR={dRdson} Inn={Inn} Unn={Unn} 
+                                        +Rmax={Rmax} Rs={Rs} heat=0
+L_Ld         drain  dd    {Ld}
+R_Ld         drain  dd    10
+
+L_Ls         source lsrs  {Ls}
+R_Ls         source lsrs  10
+R_Rs         s      lsrs  {Rs}
+
+L_Lg         gate   lgrg  {Lg}
+R_Lg         gate   lgrg  10
+R_Rg         lgrg   g     {Rg}
+
+E1    Tj     w      VALUE={TEMP}
+R1    w      0      1u
+
+.ENDS
+
+**********
+
+.SUBCKT IPD60R380C6_L1 drain gate source PARAMS: dVth=0 dRdson=0
+
+.PARAM Rs=2m        Rg=17.5      Ls=2n        Ld=1n        Lg=3n
+.PARAM act=6.34     Inn=4.8      Unn=10       Rmax=380m
+
+X1  dd g s Tj Tj cool_600_i_var PARAMS: act={act} dVth={dVth} dR={dRdson} Inn={Inn} Unn={Unn} 
+                                        +Rmax={Rmax} Rs={Rs} heat=0
+L_Ld         drain  dd    {Ld}
+R_Ld         drain  dd    10
+
+L_Ls         source lsrs  {Ls}
+R_Ls         source lsrs  10
+R_Rs         s      lsrs  {Rs}
+
+L_Lg         gate   lgrg  {Lg}
+R_Lg         gate   lgrg  10
+R_Rg         lgrg   g     {Rg}
+
+E1    Tj     w      VALUE={TEMP}
+R1    w      0      1u
+
+.ENDS
+
+**********
+
+.SUBCKT IPP60R380C6_L1 drain gate source PARAMS: dVth=0 dRdson=0
+
+.PARAM Rs=2m        Rg=17.5      Ls=2.5n      Ld=2.5n      Lg=4n
+.PARAM act=6.34     Inn=4.8      Unn=10       Rmax=380m
+
+X1  dd g s Tj Tj cool_600_i_var PARAMS: act={act} dVth={dVth} dR={dRdson} Inn={Inn} Unn={Unn} 
+                                        +Rmax={Rmax} Rs={Rs} heat=0
+L_Ld         drain  dd    {Ld}
+R_Ld         drain  dd    10
+
+L_Ls         source lsrs  {Ls}
+R_Ls         source lsrs  10
+R_Rs         s      lsrs  {Rs}
+
+L_Lg         gate   lgrg  {Lg}
+R_Lg         gate   lgrg  10
+R_Rg         lgrg   g     {Rg}
+
+E1    Tj     w      VALUE={TEMP}
+R1    w      0      1u
+
+.ENDS
+
+**********
+
+.SUBCKT IPA60R380C6_L1 drain gate source PARAMS: dVth=0 dRdson=0
+
+.PARAM Rs=2m        Rg=17.5      Ls=2.5n      Ld=2.5n      Lg=4n
+.PARAM act=6.34     Inn=4.8      Unn=10       Rmax=380m
+
+X1  dd g s Tj Tj cool_600_i_var PARAMS: act={act} dVth={dVth} dR={dRdson} Inn={Inn} Unn={Unn} 
+                                        +Rmax={Rmax} Rs={Rs} heat=0
+L_Ld         drain  dd    {Ld}
+R_Ld         drain  dd    10
+
+L_Ls         source lsrs  {Ls}
+R_Ls         source lsrs  10
+R_Rs         s      lsrs  {Rs}
+
+L_Lg         gate   lgrg  {Lg}
+R_Lg         gate   lgrg  10
+R_Rg         lgrg   g     {Rg}
+
+E1    Tj     w      VALUE={TEMP}
+R1    w      0      1u
+
+.ENDS
+
+**********
+
+.SUBCKT IPD60R450C6_L1 drain gate source PARAMS: dVth=0 dRdson=0
+
+.PARAM Rs=2m        Rg=16        Ls=2n        Ld=1n        Lg=3n
+.PARAM act=5.6135   Inn=4.2      Unn=10       Rmax=450m
+
+X1  dd g s Tj Tj cool_600_i_var PARAMS: act={act} dVth={dVth} dR={dRdson} Inn={Inn} Unn={Unn} 
+                                        +Rmax={Rmax} Rs={Rs} heat=0
+L_Ld         drain  dd    {Ld}
+R_Ld         drain  dd    10
+
+L_Ls         source lsrs  {Ls}
+R_Ls         source lsrs  10
+R_Rs         s      lsrs  {Rs}
+
+L_Lg         gate   lgrg  {Lg}
+R_Lg         gate   lgrg  10
+R_Rg         lgrg   g     {Rg}
+
+E1    Tj     w      VALUE={TEMP}
+R1    w      0      1u
+
+.ENDS
+
+**********
+
+.SUBCKT IPP60R450C6_L1 drain gate source PARAMS: dVth=0 dRdson=0
+
+.PARAM Rs=2m        Rg=16        Ls=2.5n      Ld=2.5n      Lg=4n
+.PARAM act=5.6135   Inn=4.2      Unn=10       Rmax=450m
+
+X1  dd g s Tj Tj cool_600_i_var PARAMS: act={act} dVth={dVth} dR={dRdson} Inn={Inn} Unn={Unn} 
+                                        +Rmax={Rmax} Rs={Rs} heat=0
+L_Ld         drain  dd    {Ld}
+R_Ld         drain  dd    10
+
+L_Ls         source lsrs  {Ls}
+R_Ls         source lsrs  10
+R_Rs         s      lsrs  {Rs}
+
+L_Lg         gate   lgrg  {Lg}
+R_Lg         gate   lgrg  10
+R_Rg         lgrg   g     {Rg}
+
+E1    Tj     w      VALUE={TEMP}
+R1    w      0      1u
+
+.ENDS
+
+**********
+
+.SUBCKT IPA60R450C6_L1 drain gate source PARAMS: dVth=0 dRdson=0
+
+.PARAM Rs=2m        Rg=16        Ls=2.5n      Ld=2.5n      Lg=4n
+.PARAM act=5.6135   Inn=4.2      Unn=10       Rmax=450m
+
+X1  dd g s Tj Tj cool_600_i_var PARAMS: act={act} dVth={dVth} dR={dRdson} Inn={Inn} Unn={Unn} 
+                                        +Rmax={Rmax} Rs={Rs} heat=0
+L_Ld         drain  dd    {Ld}
+R_Ld         drain  dd    10
+
+L_Ls         source lsrs  {Ls}
+R_Ls         source lsrs  10
+R_Rs         s      lsrs  {Rs}
+
+L_Lg         gate   lgrg  {Lg}
+R_Lg         gate   lgrg  10
+R_Rg         lgrg   g     {Rg}
+
+E1    Tj     w      VALUE={TEMP}
+R1    w      0      1u
+
+.ENDS
+
+**********
+
+.SUBCKT IPD60R520C6_L1 drain gate source PARAMS: dVth=0 dRdson=0
+
+.PARAM Rs=2m        Rg=16.5      Ls=2n        Ld=1n        Lg=3n
+.PARAM act=4.64     Inn=3.5      Unn=10       Rmax=520m
+
+X1  dd g s Tj Tj cool_600_i_var PARAMS: act={act} dVth={dVth} dR={dRdson} Inn={Inn} Unn={Unn} 
+                                        +Rmax={Rmax} Rs={Rs} heat=0
+L_Ld         drain  dd    {Ld}
+R_Ld         drain  dd    10
+
+L_Ls         source lsrs  {Ls}
+R_Ls         source lsrs  10
+R_Rs         s      lsrs  {Rs}
+
+L_Lg         gate   lgrg  {Lg}
+R_Lg         gate   lgrg  10
+R_Rg         lgrg   g     {Rg}
+
+E1    Tj     w      VALUE={TEMP}
+R1    w      0      1u
+
+.ENDS
+
+**********
+
+.SUBCKT IPP60R520C6_L1 drain gate source PARAMS: dVth=0 dRdson=0
+
+.PARAM Rs=2m        Rg=16.5      Ls=2.5n      Ld=2.5n      Lg=4n
+.PARAM act=4.64     Inn=3.5      Unn=10       Rmax=520m
+
+X1  dd g s Tj Tj cool_600_i_var PARAMS: act={act} dVth={dVth} dR={dRdson} Inn={Inn} Unn={Unn} 
+                                        +Rmax={Rmax} Rs={Rs} heat=0
+L_Ld         drain  dd    {Ld}
+R_Ld         drain  dd    10
+
+L_Ls         source lsrs  {Ls}
+R_Ls         source lsrs  10
+R_Rs         s      lsrs  {Rs}
+
+L_Lg         gate   lgrg  {Lg}
+R_Lg         gate   lgrg  10
+R_Rg         lgrg   g     {Rg}
+
+E1    Tj     w      VALUE={TEMP}
+R1    w      0      1u
+
+.ENDS
+
+**********
+
+.SUBCKT IPA60R520C6_L1 drain gate source PARAMS: dVth=0 dRdson=0
+
+.PARAM Rs=2m        Rg=16.5      Ls=2.5n      Ld=2.5n      Lg=4n
+.PARAM act=4.64     Inn=3.5      Unn=10       Rmax=520m
+
+X1  dd g s Tj Tj cool_600_i_var PARAMS: act={act} dVth={dVth} dR={dRdson} Inn={Inn} Unn={Unn} 
+                                        +Rmax={Rmax} Rs={Rs} heat=0
+L_Ld         drain  dd    {Ld}
+R_Ld         drain  dd    10
+
+L_Ls         source lsrs  {Ls}
+R_Ls         source lsrs  10
+R_Rs         s      lsrs  {Rs}
+
+L_Lg         gate   lgrg  {Lg}
+R_Lg         gate   lgrg  10
+R_Rg         lgrg   g     {Rg}
+
+E1    Tj     w      VALUE={TEMP}
+R1    w      0      1u
+
+.ENDS
+
+**********
+
+.SUBCKT IPD60R600C6_L1 drain gate source PARAMS: dVth=0 dRdson=0
+
+.PARAM Rs=2m        Rg=17.5      Ls=2n        Ld=1n        Lg=3n
+.PARAM act=4.02     Inn=3.0      Unn=10       Rmax=600m
+
+X1  dd g s Tj Tj cool_600_i_var PARAMS: act={act} dVth={dVth} dR={dRdson} Inn={Inn} Unn={Unn} 
+                                        +Rmax={Rmax} Rs={Rs} heat=0
+L_Ld         drain  dd    {Ld}
+R_Ld         drain  dd    10
+
+L_Ls         source lsrs  {Ls}
+R_Ls         source lsrs  10
+R_Rs         s      lsrs  {Rs}
+
+L_Lg         gate   lgrg  {Lg}
+R_Lg         gate   lgrg  10
+R_Rg         lgrg   g     {Rg}
+
+E1    Tj     w      VALUE={TEMP}
+R1    w      0      1u
+
+.ENDS
+
+**********
+
+.SUBCKT IPP60R600C6_L1 drain gate source PARAMS: dVth=0 dRdson=0
+
+.PARAM Rs=2m        Rg=17.5      Ls=2.5n      Ld=2.5n      Lg=4n
+.PARAM act=4.02     Inn=3.0      Unn=10       Rmax=600m
+
+X1  dd g s Tj Tj cool_600_i_var PARAMS: act={act} dVth={dVth} dR={dRdson} Inn={Inn} Unn={Unn} 
+                                        +Rmax={Rmax} Rs={Rs} heat=0
+L_Ld         drain  dd    {Ld}
+R_Ld         drain  dd    10
+
+L_Ls         source lsrs  {Ls}
+R_Ls         source lsrs  10
+R_Rs         s      lsrs  {Rs}
+
+L_Lg         gate   lgrg  {Lg}
+R_Lg         gate   lgrg  10
+R_Rg         lgrg   g     {Rg}
+
+E1    Tj     w      VALUE={TEMP}
+R1    w      0      1u
+
+.ENDS
+
+**********
+
+.SUBCKT IPA60R600C6_L1 drain gate source PARAMS: dVth=0 dRdson=0
+
+.PARAM Rs=2m        Rg=17.5      Ls=2.5n      Ld=2.5n      Lg=4n
+.PARAM act=4.02     Inn=3.0      Unn=10       Rmax=600m
+
+X1  dd g s Tj Tj cool_600_i_var PARAMS: act={act} dVth={dVth} dR={dRdson} Inn={Inn} Unn={Unn} 
+                                        +Rmax={Rmax} Rs={Rs} heat=0
+L_Ld         drain  dd    {Ld}
+R_Ld         drain  dd    10
+
+L_Ls         source lsrs  {Ls}
+R_Ls         source lsrs  10
+R_Rs         s      lsrs  {Rs}
+
+L_Lg         gate   lgrg  {Lg}
+R_Lg         gate   lgrg  10
+R_Rg         lgrg   g     {Rg}
+
+E1    Tj     w      VALUE={TEMP}
+R1    w      0      1u
+
+.ENDS
+
+**********
+
+.SUBCKT IPD60R750C6_L1 drain gate source PARAMS: dVth=0 dRdson=0
+
+.PARAM Rs=2m        Rg=16        Ls=2n        Ld=1n        Lg=3n
+.PARAM act=3.379    Inn=2.5      Unn=10       Rmax=750m
+
+X1  dd g s Tj Tj cool_600_i_var PARAMS: act={act} dVth={dVth} dR={dRdson} Inn={Inn} Unn={Unn} 
+                                        +Rmax={Rmax} Rs={Rs} heat=0
+L_Ld         drain  dd    {Ld}
+R_Ld         drain  dd    10
+
+L_Ls         source lsrs  {Ls}
+R_Ls         source lsrs  10
+R_Rs         s      lsrs  {Rs}
+
+L_Lg         gate   lgrg  {Lg}
+R_Lg         gate   lgrg  10
+R_Rg         lgrg   g     {Rg}
+
+E1    Tj     w      VALUE={TEMP}
+R1    w      0      1u
+
+.ENDS
+
+**********
+
+.SUBCKT IPP60R750C6_L1 drain gate source PARAMS: dVth=0 dRdson=0
+
+.PARAM Rs=2m        Rg=16        Ls=2.5n      Ld=2.5n      Lg=4n
+.PARAM act=3.379    Inn=2.5      Unn=10       Rmax=750m
+
+X1  dd g s Tj Tj cool_600_i_var PARAMS: act={act} dVth={dVth} dR={dRdson} Inn={Inn} Unn={Unn} 
+                                        +Rmax={Rmax} Rs={Rs} heat=0
+L_Ld         drain  dd    {Ld}
+R_Ld         drain  dd    10
+
+L_Ls         source lsrs  {Ls}
+R_Ls         source lsrs  10
+R_Rs         s      lsrs  {Rs}
+
+L_Lg         gate   lgrg  {Lg}
+R_Lg         gate   lgrg  10
+R_Rg         lgrg   g     {Rg}
+
+E1    Tj     w      VALUE={TEMP}
+R1    w      0      1u
+
+.ENDS
+
+**********
+
+.SUBCKT IPA60R750C6_L1 drain gate source PARAMS: dVth=0 dRdson=0
+
+.PARAM Rs=2m        Rg=16        Ls=2.5n      Ld=2.5n      Lg=4n
+.PARAM act=3.379    Inn=2.5      Unn=10       Rmax=750m
+
+X1  dd g s Tj Tj cool_600_i_var PARAMS: act={act} dVth={dVth} dR={dRdson} Inn={Inn} Unn={Unn} 
+                                        +Rmax={Rmax} Rs={Rs} heat=0
+L_Ld         drain  dd    {Ld}
+R_Ld         drain  dd    10
+
+L_Ls         source lsrs  {Ls}
+R_Ls         source lsrs  10
+R_Rs         s      lsrs  {Rs}
+
+L_Lg         gate   lgrg  {Lg}
+R_Lg         gate   lgrg  10
+R_Rg         lgrg   g     {Rg}
+
+E1    Tj     w      VALUE={TEMP}
+R1    w      0      1u
+
+.ENDS
+
+**********
+
+.SUBCKT IPD60R950C6_L1 drain gate source PARAMS: dVth=0 dRdson=0
+
+.PARAM Rs=2m        Rg=16        Ls=2n        Ld=1n        Lg=3n
+.PARAM act=2.53     Inn=1.9      Unn=10       Rmax=950m
+
+X1  dd g s Tj Tj cool_600_i_var PARAMS: act={act} dVth={dVth} dR={dRdson} Inn={Inn} Unn={Unn} 
+                                        +Rmax={Rmax} Rs={Rs} heat=0
+L_Ld         drain  dd    {Ld}
+R_Ld         drain  dd    10
+
+L_Ls         source lsrs  {Ls}
+R_Ls         source lsrs  10
+R_Rs         s      lsrs  {Rs}
+
+L_Lg         gate   lgrg  {Lg}
+R_Lg         gate   lgrg  10
+R_Rg         lgrg   g     {Rg}
+
+E1    Tj     w      VALUE={TEMP}
+R1    w      0      1u
+
+.ENDS
+
+**********
+
+.SUBCKT IPP60R950C6_L1 drain gate source PARAMS: dVth=0 dRdson=0
+
+.PARAM Rs=2m        Rg=16        Ls=2.5n      Ld=2.5n      Lg=4n
+.PARAM act=2.53     Inn=1.9      Unn=10       Rmax=950m
+
+X1  dd g s Tj Tj cool_600_i_var PARAMS: act={act} dVth={dVth} dR={dRdson} Inn={Inn} Unn={Unn} 
+                                        +Rmax={Rmax} Rs={Rs} heat=0
+L_Ld         drain  dd    {Ld}
+R_Ld         drain  dd    10
+
+L_Ls         source lsrs  {Ls}
+R_Ls         source lsrs  10
+R_Rs         s      lsrs  {Rs}
+
+L_Lg         gate   lgrg  {Lg}
+R_Lg         gate   lgrg  10
+R_Rg         lgrg   g     {Rg}
+
+E1    Tj     w      VALUE={TEMP}
+R1    w      0      1u
+
+.ENDS
+
+**********
+
+.SUBCKT IPA60R950C6_L1 drain gate source PARAMS: dVth=0 dRdson=0
+
+.PARAM Rs=2m        Rg=16        Ls=2.5n      Ld=2.5n      Lg=4n
+.PARAM act=2.53     Inn=1.9      Unn=10       Rmax=950m
+
+X1  dd g s Tj Tj cool_600_i_var PARAMS: act={act} dVth={dVth} dR={dRdson} Inn={Inn} Unn={Unn} 
+                                        +Rmax={Rmax} Rs={Rs} heat=0
+L_Ld         drain  dd    {Ld}
+R_Ld         drain  dd    10
+
+L_Ls         source lsrs  {Ls}
+R_Ls         source lsrs  10
+R_Rs         s      lsrs  {Rs}
+
+L_Lg         gate   lgrg  {Lg}
+R_Lg         gate   lgrg  10
+R_Rg         lgrg   g     {Rg}
+
+E1    Tj     w      VALUE={TEMP}
+R1    w      0      1u
+
+.ENDS
+
+**********
+
+.SUBCKT IPD60R1K4C6_L1 drain gate source PARAMS: dVth=0 dRdson=0
+
+.PARAM Rs=2m        Rg=16        Ls=2n        Ld=1n        Lg=3n
+.PARAM act=1.81     Inn=1.4      Unn=10       Rmax=1.4K
+
+X1  dd g s Tj Tj cool_600_i_var PARAMS: act={act} dVth={dVth} dR={dRdson} Inn={Inn} Unn={Unn} 
+                                        +Rmax={Rmax} Rs={Rs} heat=0
+L_Ld         drain  dd    {Ld}
+R_Ld         drain  dd    10
+
+L_Ls         source lsrs  {Ls}
+R_Ls         source lsrs  10
+R_Rs         s      lsrs  {Rs}
+
+L_Lg         gate   lgrg  {Lg}
+R_Lg         gate   lgrg  10
+R_Rg         lgrg   g     {Rg}
+
+E1    Tj     w      VALUE={TEMP}
+R1    w      0      1u
+
+.ENDS
+
+**********
+
+.SUBCKT IPP60R1K4C6_L1 drain gate source PARAMS: dVth=0 dRdson=0
+
+.PARAM Rs=2m        Rg=16        Ls=2.5n      Ld=2.5n      Lg=4n
+.PARAM act=1.81     Inn=1.4      Unn=10       Rmax=1.4K
+
+X1  dd g s Tj Tj cool_600_i_var PARAMS: act={act} dVth={dVth} dR={dRdson} Inn={Inn} Unn={Unn} 
+                                        +Rmax={Rmax} Rs={Rs} heat=0
+L_Ld         drain  dd    {Ld}
+R_Ld         drain  dd    10
+
+L_Ls         source lsrs  {Ls}
+R_Ls         source lsrs  10
+R_Rs         s      lsrs  {Rs}
+
+L_Lg         gate   lgrg  {Lg}
+R_Lg         gate   lgrg  10
+R_Rg         lgrg   g     {Rg}
+
+E1    Tj     w      VALUE={TEMP}
+R1    w      0      1u
+
+.ENDS
+
+**********
+
+.SUBCKT IPL60R1K5C6S_L1 drain gate source PARAMS: dVth=0 dRdson=0
+
+.PARAM Rs=2m        Rg=16        Ls=2n        Ld=1n        Lg=4n
+.PARAM act=1.81     Inn=1.4      Unn=10       Rmax=1.5K
+
+X1  dd g s Tj Tj cool_600_is_var PARAMS: act={act} dVth={dVth} dR={dRdson} Inn={Inn} Unn={Unn} 
+                                        +Rmax={Rmax} Rs={Rs} heat=0
+L_Ld         drain  dd    {Ld}
+R_Ld         drain  dd    10
+
+L_Ls         source lsrs  {Ls}
+R_Ls         source lsrs  10
+R_Rs         s      lsrs  {Rs}
+
+L_Lg         gate   lgrg  {Lg}
+R_Lg         gate   lgrg  10
+R_Rg         lgrg   g     {Rg}
+
+E1    Tj     w      VALUE={TEMP}
+R1    w      0      1u
+
+.ENDS
+
+**********
+
+.SUBCKT IPL60R2K1C6S_L1 drain gate source PARAMS: dVth=0 dRdson=0
+
+.PARAM Rs=2m        Rg=16        Ls=2n        Ld=1n        Lg=4n
+.PARAM act=1.26     Inn=0.9      Unn=10       Rmax=2.1K
+
+X1  dd g s Tj Tj cool_600_is_var PARAMS: act={act} dVth={dVth} dR={dRdson} Inn={Inn} Unn={Unn} 
+                                        +Rmax={Rmax} Rs={Rs} heat=0
+L_Ld         drain  dd    {Ld}
+R_Ld         drain  dd    10
+
+L_Ls         source lsrs  {Ls}
+R_Ls         source lsrs  10
+R_Rs         s      lsrs  {Rs}
+
+L_Lg         gate   lgrg  {Lg}
+R_Lg         gate   lgrg  10
+R_Rg         lgrg   g     {Rg}
+
+E1    Tj     w      VALUE={TEMP}
+R1    w      0      1u
+
+.ENDS
+
+**********
+
+.SUBCKT IPD60R2K0C6_L1 drain gate source PARAMS: dVth=0 dRdson=0
+
+.PARAM Rs=2m        Rg=16        Ls=2n        Ld=1n        Lg=3n
+.PARAM act=1.26     Inn=0.9      Unn=10       Rmax=2.0K
+
+X1  dd g s Tj Tj cool_600_i_var PARAMS: act={act} dVth={dVth} dR={dRdson} Inn={Inn} Unn={Unn} 
+                                        +Rmax={Rmax} Rs={Rs} heat=0
+L_Ld         drain  dd    {Ld}
+R_Ld         drain  dd    10
+
+L_Ls         source lsrs  {Ls}
+R_Ls         source lsrs  10
+R_Rs         s      lsrs  {Rs}
+
+L_Lg         gate   lgrg  {Lg}
+R_Lg         gate   lgrg  10
+R_Rg         lgrg   g     {Rg}
+
+E1    Tj     w      VALUE={TEMP}
+R1    w      0      1u
+
+.ENDS
+
+**********
+
+.SUBCKT IPP60R2K0C6_L1 drain gate source PARAMS: dVth=0 dRdson=0
+
+.PARAM Rs=2m        Rg=16        Ls=2.5n      Ld=2.5n      Lg=4n
+.PARAM act=1.26     Inn=0.9      Unn=10       Rmax=2.0K
+
+X1  dd g s Tj Tj cool_600_i_var PARAMS: act={act} dVth={dVth} dR={dRdson} Inn={Inn} Unn={Unn} 
+                                        +Rmax={Rmax} Rs={Rs} heat=0
+L_Ld         drain  dd    {Ld}
+R_Ld         drain  dd    10
+
+L_Ls         source lsrs  {Ls}
+R_Ls         source lsrs  10
+R_Rs         s      lsrs  {Rs}
+
+L_Lg         gate   lgrg  {Lg}
+R_Lg         gate   lgrg  10
+R_Rg         lgrg   g     {Rg}
+
+E1    Tj     w      VALUE={TEMP}
+R1    w      0      1u
+
+.ENDS
+
+**********
+
+.SUBCKT IPD60R3K3C6_L1 drain gate source PARAMS: dVth=0 dRdson=0
+
+.PARAM Rs=2m        Rg=16        Ls=2n        Ld=1n        Lg=3n
+.PARAM act=0.84     Inn=0.6      Unn=10       Rmax=3.0K
+
+X1  dd g s Tj Tj cool_600_i_var PARAMS: act={act} dVth={dVth} dR={dRdson} Inn={Inn} Unn={Unn} 
+                                        +Rmax={Rmax} Rs={Rs} heat=0
+L_Ld         drain  dd    {Ld}
+R_Ld         drain  dd    10
+
+L_Ls         source lsrs  {Ls}
+R_Ls         source lsrs  10
+R_Rs         s      lsrs  {Rs}
+
+L_Lg         gate   lgrg  {Lg}
+R_Lg         gate   lgrg  10
+R_Rg         lgrg   g     {Rg}
+
+E1    Tj     w      VALUE={TEMP}
+R1    w      0      1u
+
+.ENDS
+
+**********
+
+.SUBCKT IPP60R3K3C6_L1 drain gate source PARAMS: dVth=0 dRdson=0
+
+.PARAM Rs=2m        Rg=16        Ls=2.5n      Ld=2.5n      Lg=4n
+.PARAM act=0.84     Inn=0.6      Unn=10       Rmax=3.0K
+
+X1  dd g s Tj Tj cool_600_i_var PARAMS: act={act} dVth={dVth} dR={dRdson} Inn={Inn} Unn={Unn} 
+                                        +Rmax={Rmax} Rs={Rs} heat=0
+L_Ld         drain  dd    {Ld}
+R_Ld         drain  dd    10
+
+L_Ls         source lsrs  {Ls}
+R_Ls         source lsrs  10
+R_Rs         s      lsrs  {Rs}
+
+L_Lg         gate   lgrg  {Lg}
+R_Lg         gate   lgrg  10
+R_Rg         lgrg   g     {Rg}
+
+E1    Tj     w      VALUE={TEMP}
+R1    w      0      1u
+
+.ENDS
+
+**********
+
+.SUBCKT IPW60R041C6_L3 drain gate source Tj Tcase PARAMS: dVth=0 dRdson=0 Zthtype=0
+
+.PARAM Rs=2m        Rg=0.7       Ls=5n        Ld=3n        Lg=5n
+.PARAM act=59.22    Inn=44.4     Unn=10       Rmax=41m
+.PARAM lzth={limit(Zthtype,0,1)}
+
+X1  dd g s Tj 1 cool_600_i_var PARAMS: act={act} dVth={dVth} dR={dRdson} Inn={Inn} Unn={Unn} 
+                                        +Rmax={Rmax} Rs={Rs} heat=1
+L_Ld         drain  dd    {Ld}
+R_Ld         drain  dd    10
+
+L_Ls         source lsrs  {Ls}
+R_Ls         source lsrs  10
+R_Rs         s      lsrs  {Rs}
+
+L_Lg         gate   lgrg  {Lg}
+R_Lg         gate   lgrg  10
+R_Rg         lgrg   g     {Rg}
+
+C_CZth1      Tj     0     569.693u
+C_CZth2      0      1     3.435m
+C_CZth3      0      2     4.85m
+C_CZth4      0      3     27.57m
+C_CZth5      0      4     150.724m
+C_CZth6      0      Tcase 500m
+C_CZth7      0      6     1.9
+C_CZth8      0      7     2
+R_Rth1       Tj     1     {2.86m+lzth*742.46u}
+R_Rth2       1      2     {3.95m+lzth*1.02m}
+R_Rth3       2      3     {22.17m+lzth*5.75m}
+R_Rth4       3      4     {41.71m+lzth*90.76m}
+R_Rth5       4      Tcase {61.34m+lzth*89.69m}
+R_Rth6       Tcase  6     200m
+R_Rth7       6      7     6.3
+
+.ENDS
+
+**********
+
+.SUBCKT IPW60R070C6_L3 drain gate source Tj Tcase PARAMS: dVth=0 dRdson=0 Zthtype=0
+
+.PARAM Rs=2m        Rg=0.85      Ls=5n        Ld=3n        Lg=5n
+.PARAM act=34.42    Inn=25.8     Unn=10       Rmax=70m
+.PARAM lzth={limit(Zthtype,0,1)}
+
+X1  dd g s Tj 1 cool_600_i_var PARAMS: act={act} dVth={dVth} dR={dRdson} Inn={Inn} Unn={Unn} 
+                                        +Rmax={Rmax} Rs={Rs} heat=1
+L_Ld         drain  dd    {Ld}
+R_Ld         drain  dd    10
+
+L_Ls         source lsrs  {Ls}
+R_Ls         source lsrs  10
+R_Rs         s      lsrs  {Rs}
+
+L_Lg         gate   lgrg  {Lg}
+R_Lg         gate   lgrg  10
+R_Rg         lgrg   g     {Rg}
+
+C_CZth1      Tj     0     331.119u
+C_CZth2      0      1     1.997m
+C_CZth3      0      2     2.819m
+C_CZth4      0      3     16.025m
+C_CZth5      0      4     87.604m
+C_CZth6      0      Tcase 500m
+C_CZth7      0      6     1.9
+C_CZth8      0      7     2
+R_Rth1       Tj     1     {4.93m+lzth*1.28m}
+R_Rth2       1      2     {6.8m+lzth*1.76m}
+R_Rth3       2      3     {38.14m+lzth*9.89m}
+R_Rth4       3      4     {66.33m+lzth*47.66m}
+R_Rth5       4      Tcase {97.39m+lzth*45.83m}
+R_Rth6       Tcase  6     200m
+R_Rth7       6      7     6.3
+
+.ENDS
+
+**********
+
+.SUBCKT IPP60R074C6_L3 drain gate source Tj Tcase PARAMS: dVth=0 dRdson=0 Zthtype=0
+
+.PARAM Rs=2m        Rg=0.6       Ls=2.5n      Ld=2.5n      Lg=4n
+.PARAM act=27.98    Inn=20.985   Unn=10       Rmax=74m
+.PARAM lzth={limit(Zthtype,0,1)}
+
+X1  dd g s Tj 1 cool_600_i240_var PARAMS: act={act} dVth={dVth} dR={dRdson} Inn={Inn} Unn={Unn} 
+                                        +Rmax={Rmax} Rs={Rs} heat=1
+L_Ld         drain  dd    {Ld}
+R_Ld         drain  dd    10
+
+L_Ls         source lsrs  {Ls}
+R_Ls         source lsrs  10
+R_Rs         s      lsrs  {Rs}
+
+L_Lg         gate   lgrg  {Lg}
+R_Lg         gate   lgrg  10
+R_Rg         lgrg   g     {Rg}
+
+C_CZth1      Tj     0     269.166u
+C_CZth2      0      1     1.623m
+C_CZth3      0      2     2.291m
+C_CZth4      0      3     13.026m
+C_CZth5      0      4     34.228m
+C_CZth6      0      Tcase 140m
+C_CZth7      0      6     500m
+C_CZth8      0      7     450m
+R_Rth1       Tj     1     {6.06m+lzth*1.57m}
+R_Rth2       1      2     {8.36m+lzth*2.17m}
+R_Rth3       2      3     {46.92m+lzth*12.16m}
+R_Rth4       3      4     {79.42m+lzth*13.95m}
+R_Rth5       4      Tcase {77.7m+lzth*11.69m}
+R_Rth6       Tcase  6     400m
+R_Rth7       6      7     15.8
+
+.ENDS
+
+**********
+
+.SUBCKT IPW60R099C6_L3 drain gate source Tj Tcase PARAMS: dVth=0 dRdson=0 Zthtype=0
+
+.PARAM Rs=2m        Rg=1.6       Ls=5n        Ld=3n        Lg=5n
+.PARAM act=24.12    Inn=18.1     Unn=10       Rmax=99m
+.PARAM lzth={limit(Zthtype,0,1)}
+
+X1  dd g s Tj 1 cool_600_i_var PARAMS: act={act} dVth={dVth} dR={dRdson} Inn={Inn} Unn={Unn} 
+                                        +Rmax={Rmax} Rs={Rs} heat=1
+L_Ld         drain  dd    {Ld}
+R_Ld         drain  dd    10
+
+L_Ls         source lsrs  {Ls}
+R_Ls         source lsrs  10
+R_Rs         s      lsrs  {Rs}
+
+L_Lg         gate   lgrg  {Lg}
+R_Lg         gate   lgrg  10
+R_Rg         lgrg   g     {Rg}
+
+C_CZth1      Tj     0     232.033u
+C_CZth2      0      1     1.399m
+C_CZth3      0      2     1.975m
+C_CZth4      0      3     11.229m
+C_CZth5      0      4     61.389m
+C_CZth6      0      Tcase 500m
+C_CZth7      0      6     1.9
+C_CZth8      0      7     2
+R_Rth1       Tj     1     {7.03m+lzth*1.82m}
+R_Rth2       1      2     {9.7m+lzth*2.51m}
+R_Rth3       2      3     {54.43m+lzth*14.11m}
+R_Rth4       3      4     {90.36m+lzth*70.06m}
+R_Rth5       4      Tcase {132.53m+lzth*67.44m}
+R_Rth6       Tcase  6     200m
+R_Rth7       6      7     6.3
+
+.ENDS
+
+**********
+
+.SUBCKT IPP60R099C6_L3 drain gate source Tj Tcase PARAMS: dVth=0 dRdson=0 Zthtype=0
+
+.PARAM Rs=2m        Rg=1.6       Ls=2.5n      Ld=2.5n      Lg=4n
+.PARAM act=24.12    Inn=18.1     Unn=10       Rmax=99m
+.PARAM lzth={limit(Zthtype,0,1)}
+
+X1  dd g s Tj 1 cool_600_i_var PARAMS: act={act} dVth={dVth} dR={dRdson} Inn={Inn} Unn={Unn} 
+                                        +Rmax={Rmax} Rs={Rs} heat=1
+L_Ld         drain  dd    {Ld}
+R_Ld         drain  dd    10
+
+L_Ls         source lsrs  {Ls}
+R_Ls         source lsrs  10
+R_Rs         s      lsrs  {Rs}
+
+L_Lg         gate   lgrg  {Lg}
+R_Lg         gate   lgrg  10
+R_Rg         lgrg   g     {Rg}
+
+C_CZth1      Tj     0     232.033u
+C_CZth2      0      1     1.399m
+C_CZth3      0      2     1.975m
+C_CZth4      0      3     11.229m
+C_CZth5      0      4     29.315m
+C_CZth6      0      Tcase 140m
+C_CZth7      0      6     500m
+C_CZth8      0      7     450m
+R_Rth1       Tj     1     {7.03m+lzth*1.82m}
+R_Rth2       1      2     {9.7m+lzth*2.51m}
+R_Rth3       2      3     {54.43m+lzth*14.11m}
+R_Rth4       3      4     {90.36m+lzth*92.15m}
+R_Rth5       4      Tcase {88.36m+lzth*89.53m}
+R_Rth6       Tcase  6     400m
+R_Rth7       6      7     15.8
+
+.ENDS
+
+**********
+
+.SUBCKT IPA60R099C6_L3 drain gate source Tj Tcase PARAMS: dVth=0 dRdson=0 Zthtype=0
+
+.PARAM Rs=2m        Rg=1.6       Ls=2.5n      Ld=2.5n      Lg=4n
+.PARAM act=24.12    Inn=18.1     Unn=10       Rmax=99m
+.PARAM lzth={limit(Zthtype,0,1)}
+
+X1  dd g s Tj 1 cool_600_i_var PARAMS: act={act} dVth={dVth} dR={dRdson} Inn={Inn} Unn={Unn} 
+                                        +Rmax={Rmax} Rs={Rs} heat=1
+L_Ld         drain  dd    {Ld}
+R_Ld         drain  dd    10
+
+L_Ls         source lsrs  {Ls}
+R_Ls         source lsrs  10
+R_Rs         s      lsrs  {Rs}
+
+L_Lg         gate   lgrg  {Lg}
+R_Lg         gate   lgrg  10
+R_Rg         lgrg   g     {Rg}
+
+C_CZth1      Tj     0     232.033u
+C_CZth2      0      1     1.399m
+C_CZth3      0      2     1.975m
+C_CZth4      0      3     11.229m
+C_CZth5      0      4     35.178m
+C_CZth6      0      5     18m
+C_CZth7      0      6     500m
+C_CZth8      0      7     600m
+R_Rth1       Tj     1     {7.03m+lzth*1.82m}
+R_Rth2       1      2     {9.7m+lzth*2.51m}
+R_Rth3       2      3     {54.43m+lzth*14.11m}
+R_Rth4       3      4     {90.36m+lzth*51.31m}
+R_Rth5       4      5     {88.36m+lzth*48.69m}
+R_Rth6       5      6     400m
+R_Rth7       6      7     5
+R_Rth8       5      Tcase {2.1+lzth*1.13}
+.ENDS
+
+**********
+
+.SUBCKT IPW60R125C6_L3 drain gate source Tj Tcase PARAMS: dVth=0 dRdson=0 Zthtype=0
+
+.PARAM Rs=2m        Rg=3.7       Ls=5n        Ld=3n        Lg=5n
+.PARAM act=19.28    Inn=14.5     Unn=10       Rmax=125m
+.PARAM lzth={limit(Zthtype,0,1)}
+
+X1  dd g s Tj 1 cool_600_i_var PARAMS: act={act} dVth={dVth} dR={dRdson} Inn={Inn} Unn={Unn} 
+                                        +Rmax={Rmax} Rs={Rs} heat=1
+L_Ld         drain  dd    {Ld}
+R_Ld         drain  dd    10
+
+L_Ls         source lsrs  {Ls}
+R_Ls         source lsrs  10
+R_Rs         s      lsrs  {Rs}
+
+L_Lg         gate   lgrg  {Lg}
+R_Lg         gate   lgrg  10
+R_Rg         lgrg   g     {Rg}
+
+C_CZth1      Tj     0     185.473u
+C_CZth2      0      1     1.118m
+C_CZth3      0      2     1.579m
+C_CZth4      0      3     8.976m
+C_CZth5      0      4     49.07m
+C_CZth6      0      Tcase 500m
+C_CZth7      0      6     1.9
+C_CZth8      0      7     2
+R_Rth1       Tj     1     {8.8m+lzth*2.28m}
+R_Rth2       1      2     {12.13m+lzth*3.15m}
+R_Rth3       2      3     {68.09m+lzth*17.65m}
+R_Rth4       3      4     {109.66m+lzth*95.4m}
+R_Rth5       4      Tcase {160.72m+lzth*92.12m}
+R_Rth6       Tcase  6     200m
+R_Rth7       6      7     6.3
+
+.ENDS
+
+**********
+
+.SUBCKT IPP60R125C6_L3 drain gate source Tj Tcase PARAMS: dVth=0 dRdson=0 Zthtype=0
+
+.PARAM Rs=2m        Rg=3.7       Ls=2.5n      Ld=2.5n      Lg=4n
+.PARAM act=19.28    Inn=14.5     Unn=10       Rmax=125m
+.PARAM lzth={limit(Zthtype,0,1)}
+
+X1  dd g s Tj 1 cool_600_i_var PARAMS: act={act} dVth={dVth} dR={dRdson} Inn={Inn} Unn={Unn} 
+                                        +Rmax={Rmax} Rs={Rs} heat=1
+L_Ld         drain  dd    {Ld}
+R_Ld         drain  dd    10
+
+L_Ls         source lsrs  {Ls}
+R_Ls         source lsrs  10
+R_Rs         s      lsrs  {Rs}
+
+L_Lg         gate   lgrg  {Lg}
+R_Lg         gate   lgrg  10
+R_Rg         lgrg   g     {Rg}
+
+C_CZth1      Tj     0     185.473u
+C_CZth2      0      1     1.118m
+C_CZth3      0      2     1.579m
+C_CZth4      0      3     8.976m
+C_CZth5      0      4     23.155m
+C_CZth6      0      Tcase 140m
+C_CZth7      0      6     500m
+C_CZth8      0      7     450m
+R_Rth1       Tj     1     {8.8m+lzth*2.28m}
+R_Rth2       1      2     {12.13m+lzth*3.15m}
+R_Rth3       2      3     {68.09m+lzth*17.65m}
+R_Rth4       3      4     {109.66m+lzth*122.19m}
+R_Rth5       4      Tcase {107.15m+lzth*118.91m}
+R_Rth6       Tcase  6     400m
+R_Rth7       6      7     15.8
+
+.ENDS
+
+**********
+
+.SUBCKT IPA60R125C6_L3 drain gate source Tj Tcase PARAMS: dVth=0 dRdson=0 Zthtype=0
+
+.PARAM Rs=2m        Rg=3.7       Ls=2.5n      Ld=2.5n      Lg=4n
+.PARAM act=19.28    Inn=14.5     Unn=10       Rmax=125m
+.PARAM lzth={limit(Zthtype,0,1)}
+
+X1  dd g s Tj 1 cool_600_i_var PARAMS: act={act} dVth={dVth} dR={dRdson} Inn={Inn} Unn={Unn} 
+                                        +Rmax={Rmax} Rs={Rs} heat=1
+L_Ld         drain  dd    {Ld}
+R_Ld         drain  dd    10
+
+L_Ls         source lsrs  {Ls}
+R_Ls         source lsrs  10
+R_Rs         s      lsrs  {Rs}
+
+L_Lg         gate   lgrg  {Lg}
+R_Lg         gate   lgrg  10
+R_Rg         lgrg   g     {Rg}
+
+C_CZth1      Tj     0     185.473u
+C_CZth2      0      1     1.118m
+C_CZth3      0      2     1.579m
+C_CZth4      0      3     8.976m
+C_CZth5      0      4     27.786m
+C_CZth6      0      5     18m
+C_CZth7      0      6     500m
+C_CZth8      0      7     600m
+R_Rth1       Tj     1     {8.8m+lzth*2.28m}
+R_Rth2       1      2     {12.13m+lzth*3.15m}
+R_Rth3       2      3     {68.09m+lzth*17.65m}
+R_Rth4       3      4     {109.66m+lzth*60.86m}
+R_Rth5       4      5     {107.15m+lzth*57.58m}
+R_Rth6       5      6     400m
+R_Rth7       6      7     5
+R_Rth8       5      Tcase {2.1+lzth*1.1}
+.ENDS
+
+**********
+
+.SUBCKT IPW60R160C6_L3 drain gate source Tj Tcase PARAMS: dVth=0 dRdson=0 Zthtype=0
+
+.PARAM Rs=2m        Rg=6.4       Ls=5n        Ld=3n        Lg=5n
+.PARAM act=15.07    Inn=11.3     Unn=10       Rmax=160m
+.PARAM lzth={limit(Zthtype,0,1)}
+
+X1  dd g s Tj 1 cool_600_i_var PARAMS: act={act} dVth={dVth} dR={dRdson} Inn={Inn} Unn={Unn} 
+                                        +Rmax={Rmax} Rs={Rs} heat=1
+L_Ld         drain  dd    {Ld}
+R_Ld         drain  dd    10
+
+L_Ls         source lsrs  {Ls}
+R_Ls         source lsrs  10
+R_Rs         s      lsrs  {Rs}
+
+L_Lg         gate   lgrg  {Lg}
+R_Lg         gate   lgrg  10
+R_Rg         lgrg   g     {Rg}
+
+C_CZth1      Tj     0     144.973u
+C_CZth2      0      1     874.22u
+C_CZth3      0      2     1.234m
+C_CZth4      0      3     7.016m
+C_CZth5      0      4     38.355m
+C_CZth6      0      Tcase 500m
+C_CZth7      0      6     1.9
+C_CZth8      0      7     2
+R_Rth1       Tj     1     {11.25m+lzth*2.92m}
+R_Rth2       1      2     {15.52m+lzth*4.02m}
+R_Rth3       2      3     {87.11m+lzth*22.58m}
+R_Rth4       3      4     {135.28m+lzth*118.7m}
+R_Rth5       4      Tcase {198.1m+lzth*114.51m}
+R_Rth6       Tcase  6     200m
+R_Rth7       6      7     6.3
+
+.ENDS
+
+**********
+
+.SUBCKT IPP60R160C6_L3 drain gate source Tj Tcase PARAMS: dVth=0 dRdson=0 Zthtype=0
+
+.PARAM Rs=2m        Rg=6.4       Ls=2.5n      Ld=2.5n      Lg=4n
+.PARAM act=15.07    Inn=11.3     Unn=10       Rmax=160m
+.PARAM lzth={limit(Zthtype,0,1)}
+
+X1  dd g s Tj 1 cool_600_i_var PARAMS: act={act} dVth={dVth} dR={dRdson} Inn={Inn} Unn={Unn} 
+                                        +Rmax={Rmax} Rs={Rs} heat=1
+L_Ld         drain  dd    {Ld}
+R_Ld         drain  dd    10
+
+L_Ls         source lsrs  {Ls}
+R_Ls         source lsrs  10
+R_Rs         s      lsrs  {Rs}
+
+L_Lg         gate   lgrg  {Lg}
+R_Lg         gate   lgrg  10
+R_Rg         lgrg   g     {Rg}
+
+C_CZth1      Tj     0     144.973u
+C_CZth2      0      1     874.22u
+C_CZth3      0      2     1.234m
+C_CZth4      0      3     7.016m
+C_CZth5      0      4     17.796m
+C_CZth6      0      Tcase 140m
+C_CZth7      0      6     500m
+C_CZth8      0      7     450m
+R_Rth1       Tj     1     {11.25m+lzth*2.92m}
+R_Rth2       1      2     {15.52m+lzth*4.02m}
+R_Rth3       2      3     {87.11m+lzth*22.58m}
+R_Rth4       3      4     {135.28m+lzth*151.72m}
+R_Rth5       4      Tcase {132.07m+lzth*147.52m}
+R_Rth6       Tcase  6     400m
+R_Rth7       6      7     15.8
+
+.ENDS
+
+**********
+
+.SUBCKT IPA60R160C6_L3 drain gate source Tj Tcase PARAMS: dVth=0 dRdson=0 Zthtype=0
+
+.PARAM Rs=2m        Rg=6.4       Ls=2.5n      Ld=2.5n      Lg=4n
+.PARAM act=15.07    Inn=11.3     Unn=10       Rmax=160m
+.PARAM lzth={limit(Zthtype,0,1)}
+
+X1  dd g s Tj 1 cool_600_i_var PARAMS: act={act} dVth={dVth} dR={dRdson} Inn={Inn} Unn={Unn} 
+                                        +Rmax={Rmax} Rs={Rs} heat=1
+L_Ld         drain  dd    {Ld}
+R_Ld         drain  dd    10
+
+L_Ls         source lsrs  {Ls}
+R_Ls         source lsrs  10
+R_Rs         s      lsrs  {Rs}
+
+L_Lg         gate   lgrg  {Lg}
+R_Lg         gate   lgrg  10
+R_Rg         lgrg   g     {Rg}
+
+C_CZth1      Tj     0     144.973u
+C_CZth2      0      1     874.22u
+C_CZth3      0      2     1.234m
+C_CZth4      0      3     7.016m
+C_CZth5      0      4     21.355m
+C_CZth6      0      5     18m
+C_CZth7      0      6     500m
+C_CZth8      0      7     600m
+R_Rth1       Tj     1     {11.25m+lzth*2.92m}
+R_Rth2       1      2     {15.52m+lzth*4.02m}
+R_Rth3       2      3     {87.11m+lzth*22.58m}
+R_Rth4       3      4     {135.28m+lzth*70.11m}
+R_Rth5       4      5     {132.07m+lzth*65.91m}
+R_Rth6       5      6     400m
+R_Rth7       6      7     5
+R_Rth8       5      Tcase {2.1+lzth*1.02}
+.ENDS
+
+**********
+
+.SUBCKT IPW60R190C6_L3 drain gate source Tj Tcase PARAMS: dVth=0 dRdson=0 Zthtype=0
+
+.PARAM Rs=2m        Rg=8.5       Ls=5n        Ld=3n        Lg=5n
+.PARAM act=12.69    Inn=9.5      Unn=10       Rmax=190m
+.PARAM lzth={limit(Zthtype,0,1)}
+
+X1  dd g s Tj 1 cool_600_i_var PARAMS: act={act} dVth={dVth} dR={dRdson} Inn={Inn} Unn={Unn} 
+                                        +Rmax={Rmax} Rs={Rs} heat=1
+L_Ld         drain  dd    {Ld}
+R_Ld         drain  dd    10
+
+L_Ls         source lsrs  {Ls}
+R_Ls         source lsrs  10
+R_Rs         s      lsrs  {Rs}
+
+L_Lg         gate   lgrg  {Lg}
+R_Lg         gate   lgrg  10
+R_Rg         lgrg   g     {Rg}
+
+C_CZth1      Tj     0     122.077u
+C_CZth2      0      1     736.155u
+C_CZth3      0      2     1.039m
+C_CZth4      0      3     5.908m
+C_CZth5      0      4     32.298m
+C_CZth6      0      Tcase 500m
+C_CZth7      0      6     1.9
+C_CZth8      0      7     2
+R_Rth1       Tj     1     {13.37m+lzth*3.46m}
+R_Rth2       1      2     {18.43m+lzth*4.78m}
+R_Rth3       2      3     {103.45m+lzth*26.82m}
+R_Rth4       3      4     {156.2m+lzth*139.94m}
+R_Rth5       4      Tcase {228.58m+lzth*134.96m}
+R_Rth6       Tcase  6     200m
+R_Rth7       6      7     6.3
+
+.ENDS
+
+**********
+
+.SUBCKT IPP60R190C6_L3 drain gate source Tj Tcase PARAMS: dVth=0 dRdson=0 Zthtype=0
+
+.PARAM Rs=2m        Rg=8.5       Ls=2.5n      Ld=2.5n      Lg=4n
+.PARAM act=12.69    Inn=9.5      Unn=10       Rmax=190m
+.PARAM lzth={limit(Zthtype,0,1)}
+
+X1  dd g s Tj 1 cool_600_i_var PARAMS: act={act} dVth={dVth} dR={dRdson} Inn={Inn} Unn={Unn} 
+                                        +Rmax={Rmax} Rs={Rs} heat=1
+L_Ld         drain  dd    {Ld}
+R_Ld         drain  dd    10
+
+L_Ls         source lsrs  {Ls}
+R_Ls         source lsrs  10
+R_Rs         s      lsrs  {Rs}
+
+L_Lg         gate   lgrg  {Lg}
+R_Lg         gate   lgrg  10
+R_Rg         lgrg   g     {Rg}
+
+C_CZth1      Tj     0     122.077u
+C_CZth2      0      1     736.155u
+C_CZth3      0      2     1.039m
+C_CZth4      0      3     5.908m
+C_CZth5      0      4     14.767m
+C_CZth6      0      Tcase 140m
+C_CZth7      0      6     500m
+C_CZth8      0      7     450m
+R_Rth1       Tj     1     {13.37m+lzth*3.46m}
+R_Rth2       1      2     {18.43m+lzth*4.78m}
+R_Rth3       2      3     {103.45m+lzth*26.82m}
+R_Rth4       3      4     {156.2m+lzth*178.04m}
+R_Rth5       4      Tcase {152.39m+lzth*173.06m}
+R_Rth6       Tcase  6     400m
+R_Rth7       6      7     15.8
+
+.ENDS
+
+**********
+
+.SUBCKT IPA60R190C6_L3 drain gate source Tj Tcase PARAMS: dVth=0 dRdson=0 Zthtype=0
+
+.PARAM Rs=2m        Rg=8.5       Ls=2.5n      Ld=2.5n      Lg=4n
+.PARAM act=12.69    Inn=9.5      Unn=10       Rmax=190m
+.PARAM lzth={limit(Zthtype,0,1)}
+
+X1  dd g s Tj 1 cool_600_i_var PARAMS: act={act} dVth={dVth} dR={dRdson} Inn={Inn} Unn={Unn} 
+                                        +Rmax={Rmax} Rs={Rs} heat=1
+L_Ld         drain  dd    {Ld}
+R_Ld         drain  dd    10
+
+L_Ls         source lsrs  {Ls}
+R_Ls         source lsrs  10
+R_Rs         s      lsrs  {Rs}
+
+L_Lg         gate   lgrg  {Lg}
+R_Lg         gate   lgrg  10
+R_Rg         lgrg   g     {Rg}
+
+C_CZth1      Tj     0     122.077u
+C_CZth2      0      1     736.155u
+C_CZth3      0      2     1.039m
+C_CZth4      0      3     5.908m
+C_CZth5      0      4     17.72m
+C_CZth6      0      5     18m
+C_CZth7      0      6     500m
+C_CZth8      0      7     600m
+R_Rth1       Tj     1     {13.37m+lzth*3.46m}
+R_Rth2       1      2     {18.43m+lzth*4.78m}
+R_Rth3       2      3     {103.45m+lzth*26.82m}
+R_Rth4       3      4     {156.2m+lzth*77.25m}
+R_Rth5       4      5     {152.39m+lzth*72.27m}
+R_Rth6       5      6     400m
+R_Rth7       6      7     5
+R_Rth8       5      Tcase {2.1+lzth*971.59m}
+.ENDS
+
+**********
+
+.SUBCKT IPW60R280C6_L3 drain gate source Tj Tcase PARAMS: dVth=0 dRdson=0 Zthtype=0
+
+.PARAM Rs=2m        Rg=11.5      Ls=5n        Ld=3n        Lg=5n
+.PARAM act=8.62     Inn=6.5      Unn=10       Rmax=280m
+.PARAM lzth={limit(Zthtype,0,1)}
+
+X1  dd g s Tj 1 cool_600_i_var PARAMS: act={act} dVth={dVth} dR={dRdson} Inn={Inn} Unn={Unn} 
+                                        +Rmax={Rmax} Rs={Rs} heat=1
+L_Ld         drain  dd    {Ld}
+R_Ld         drain  dd    10
+
+L_Ls         source lsrs  {Ls}
+R_Ls         source lsrs  10
+R_Rs         s      lsrs  {Rs}
+
+L_Lg         gate   lgrg  {Lg}
+R_Lg         gate   lgrg  10
+R_Rg         lgrg   g     {Rg}
+
+C_CZth1      Tj     0     82.924u
+C_CZth2      0      1     500.051u
+C_CZth3      0      2     705.955u
+C_CZth4      0      3     4.013m
+C_CZth5      0      4     21.939m
+C_CZth6      0      Tcase 500m
+C_CZth7      0      6     1.9
+C_CZth8      0      7     2
+R_Rth1       Tj     1     {19.68m+lzth*5.1m}
+R_Rth2       1      2     {27.14m+lzth*7.04m}
+R_Rth3       2      3     {152.3m+lzth*39.48m}
+R_Rth4       3      4     {213.42m+lzth*215.73m}
+R_Rth5       4      Tcase {311.73m+lzth*208.4m}
+R_Rth6       Tcase  6     200m
+R_Rth7       6      7     6.3
+
+.ENDS
+
+**********
+
+.SUBCKT IPP60R280C6_L3 drain gate source Tj Tcase PARAMS: dVth=0 dRdson=0 Zthtype=0
+
+.PARAM Rs=2m        Rg=11.5      Ls=2.5n      Ld=2.5n      Lg=4n
+.PARAM act=8.62     Inn=6.5      Unn=10       Rmax=280m
+.PARAM lzth={limit(Zthtype,0,1)}
+
+X1  dd g s Tj 1 cool_600_i_var PARAMS: act={act} dVth={dVth} dR={dRdson} Inn={Inn} Unn={Unn} 
+                                        +Rmax={Rmax} Rs={Rs} heat=1
+L_Ld         drain  dd    {Ld}
+R_Ld         drain  dd    10
+
+L_Ls         source lsrs  {Ls}
+R_Ls         source lsrs  10
+R_Rs         s      lsrs  {Rs}
+
+L_Lg         gate   lgrg  {Lg}
+R_Lg         gate   lgrg  10
+R_Rg         lgrg   g     {Rg}
+
+C_CZth1      Tj     0     82.924u
+C_CZth2      0      1     500.051u
+C_CZth3      0      2     705.955u
+C_CZth4      0      3     4.013m
+C_CZth5      0      4     9.586m
+C_CZth6      0      Tcase 140m
+C_CZth7      0      6     500m
+C_CZth8      0      7     450m
+R_Rth1       Tj     1     {19.68m+lzth*5.1m}
+R_Rth2       1      2     {27.14m+lzth*7.04m}
+R_Rth3       2      3     {152.3m+lzth*39.48m}
+R_Rth4       3      4     {213.42m+lzth*267.68m}
+R_Rth5       4      Tcase {207.82m+lzth*260.35m}
+R_Rth6       Tcase  6     400m
+R_Rth7       6      7     15.8
+
+.ENDS
+
+**********
+
+.SUBCKT IPA60R280C6_L3 drain gate source Tj Tcase PARAMS: dVth=0 dRdson=0 Zthtype=0
+
+.PARAM Rs=2m        Rg=11.5      Ls=2.5n      Ld=2.5n      Lg=4n
+.PARAM act=8.62     Inn=6.5      Unn=10       Rmax=280m
+.PARAM lzth={limit(Zthtype,0,1)}
+
+X1  dd g s Tj 1 cool_600_i_var PARAMS: act={act} dVth={dVth} dR={dRdson} Inn={Inn} Unn={Unn} 
+                                        +Rmax={Rmax} Rs={Rs} heat=1
+L_Ld         drain  dd    {Ld}
+R_Ld         drain  dd    10
+
+L_Ls         source lsrs  {Ls}
+R_Ls         source lsrs  10
+R_Rs         s      lsrs  {Rs}
+
+L_Lg         gate   lgrg  {Lg}
+R_Lg         gate   lgrg  10
+R_Rg         lgrg   g     {Rg}
+
+C_CZth1      Tj     0     82.924u
+C_CZth2      0      1     500.051u
+C_CZth3      0      2     705.955u
+C_CZth4      0      3     4.013m
+C_CZth5      0      4     11.504m
+C_CZth6      0      5     18m
+C_CZth7      0      6     500m
+C_CZth8      0      7     600m
+R_Rth1       Tj     1     {19.68m+lzth*5.1m}
+R_Rth2       1      2     {27.14m+lzth*7.04m}
+R_Rth3       2      3     {152.3m+lzth*39.48m}
+R_Rth4       3      4     {213.42m+lzth*101.99m}
+R_Rth5       4      5     {207.82m+lzth*94.66m}
+R_Rth6       5      6     400m
+R_Rth7       6      7     5
+R_Rth8       5      Tcase {2.1+lzth*931.39m}
+.ENDS
+
+**********
+
+.SUBCKT IPD60R380C6_L3 drain gate source Tj Tcase PARAMS: dVth=0 dRdson=0 Zthtype=0
+
+.PARAM Rs=2m        Rg=17.5      Ls=2n        Ld=1n        Lg=3n
+.PARAM act=6.34     Inn=4.8      Unn=10       Rmax=380m
+.PARAM lzth={limit(Zthtype,0,1)}
+
+X1  dd g s Tj 1 cool_600_i_var PARAMS: act={act} dVth={dVth} dR={dRdson} Inn={Inn} Unn={Unn} 
+                                        +Rmax={Rmax} Rs={Rs} heat=1
+L_Ld         drain  dd    {Ld}
+R_Ld         drain  dd    10
+
+L_Ls         source lsrs  {Ls}
+R_Ls         source lsrs  10
+R_Rs         s      lsrs  {Rs}
+
+L_Lg         gate   lgrg  {Lg}
+R_Lg         gate   lgrg  10
+R_Rg         lgrg   g     {Rg}
+
+C_CZth1      Tj     0     60.99u
+C_CZth2      0      1     367.787u
+C_CZth3      0      2     519.229u
+C_CZth4      0      3     2.952m
+C_CZth5      0      4     4.184m
+C_CZth6      0      Tcase 42.5m
+C_CZth7      0      6     65m
+C_CZth8      0      7     90m
+R_Rth1       Tj     1     {26.75m+lzth*6.94m}
+R_Rth2       1      2     {36.9m+lzth*9.57m}
+R_Rth3       2      3     {207.06m+lzth*53.68m}
+R_Rth4       3      4     {269.51m+lzth*351.88m}
+R_Rth5       4      Tcase {195.8m+lzth*341.92m}
+R_Rth6       Tcase  6     500m
+R_Rth7       6      7     50
+
+.ENDS
+
+**********
+
+.SUBCKT IPP60R380C6_L3 drain gate source Tj Tcase PARAMS: dVth=0 dRdson=0 Zthtype=0
+
+.PARAM Rs=2m        Rg=17.5      Ls=2.5n      Ld=2.5n      Lg=4n
+.PARAM act=6.34     Inn=4.8      Unn=10       Rmax=380m
+.PARAM lzth={limit(Zthtype,0,1)}
+
+X1  dd g s Tj 1 cool_600_i_var PARAMS: act={act} dVth={dVth} dR={dRdson} Inn={Inn} Unn={Unn} 
+                                        +Rmax={Rmax} Rs={Rs} heat=1
+L_Ld         drain  dd    {Ld}
+R_Ld         drain  dd    10
+
+L_Ls         source lsrs  {Ls}
+R_Ls         source lsrs  10
+R_Rs         s      lsrs  {Rs}
+
+L_Lg         gate   lgrg  {Lg}
+R_Lg         gate   lgrg  10
+R_Rg         lgrg   g     {Rg}
+
+C_CZth1      Tj     0     60.99u
+C_CZth2      0      1     367.787u
+C_CZth3      0      2     519.229u
+C_CZth4      0      3     2.952m
+C_CZth5      0      4     6.684m
+C_CZth6      0      Tcase 140m
+C_CZth7      0      6     500m
+C_CZth8      0      7     450m
+R_Rth1       Tj     1     {26.75m+lzth*6.94m}
+R_Rth2       1      2     {36.9m+lzth*9.57m}
+R_Rth3       2      3     {207.06m+lzth*53.68m}
+R_Rth4       3      4     {269.51m+lzth*318.84m}
+R_Rth5       4      Tcase {261.89m+lzth*308.87m}
+R_Rth6       Tcase  6     400m
+R_Rth7       6      7     15.8
+
+.ENDS
+
+**********
+
+.SUBCKT IPA60R380C6_L3 drain gate source Tj Tcase PARAMS: dVth=0 dRdson=0 Zthtype=0
+
+.PARAM Rs=2m        Rg=17.5      Ls=2.5n      Ld=2.5n      Lg=4n
+.PARAM act=6.34     Inn=4.8      Unn=10       Rmax=380m
+.PARAM lzth={limit(Zthtype,0,1)}
+
+X1  dd g s Tj 1 cool_600_i_var PARAMS: act={act} dVth={dVth} dR={dRdson} Inn={Inn} Unn={Unn} 
+                                        +Rmax={Rmax} Rs={Rs} heat=1
+L_Ld         drain  dd    {Ld}
+R_Ld         drain  dd    10
+
+L_Ls         source lsrs  {Ls}
+R_Ls         source lsrs  10
+R_Rs         s      lsrs  {Rs}
+
+L_Lg         gate   lgrg  {Lg}
+R_Lg         gate   lgrg  10
+R_Rg         lgrg   g     {Rg}
+
+C_CZth1      Tj     0     60.99u
+C_CZth2      0      1     367.787u
+C_CZth3      0      2     519.229u
+C_CZth4      0      3     2.952m
+C_CZth5      0      4     8.021m
+C_CZth6      0      5     18m
+C_CZth7      0      6     500m
+C_CZth8      0      7     600m
+R_Rth1       Tj     1     {26.75m+lzth*6.94m}
+R_Rth2       1      2     {36.9m+lzth*9.57m}
+R_Rth3       2      3     {207.06m+lzth*53.68m}
+R_Rth4       3      4     {269.51m+lzth*113.9m}
+R_Rth5       4      5     {261.89m+lzth*103.94m}
+R_Rth6       5      6     400m
+R_Rth7       6      7     5
+R_Rth8       5      Tcase {2.1+lzth*809.87m}
+.ENDS
+
+**********
+
+.SUBCKT IPD60R450C6_L3 drain gate source Tj Tcase PARAMS: dVth=0 dRdson=0 Zthtype=0
+
+.PARAM Rs=2m        Rg=16        Ls=2n        Ld=1n        Lg=3n
+.PARAM act=5.6135   Inn=4.2      Unn=10       Rmax=450m
+.PARAM lzth={limit(Zthtype,0,1)}
+
+X1  dd g s Tj 1 cool_600_i_var PARAMS: act={act} dVth={dVth} dR={dRdson} Inn={Inn} Unn={Unn} 
+                                        +Rmax={Rmax} Rs={Rs} heat=1
+L_Ld         drain  dd    {Ld}
+R_Ld         drain  dd    10
+
+L_Ls         source lsrs  {Ls}
+R_Ls         source lsrs  10
+R_Rs         s      lsrs  {Rs}
+
+L_Lg         gate   lgrg  {Lg}
+R_Lg         gate   lgrg  10
+R_Rg         lgrg   g     {Rg}
+
+C_CZth1      Tj     0     54.002u
+C_CZth2      0      1     325.643u
+C_CZth3      0      2     459.73u
+C_CZth4      0      3     2.613m
+C_CZth5      0      4     3.705m
+C_CZth6      0      Tcase 42.5m
+C_CZth7      0      6     65m
+C_CZth8      0      7     90m
+R_Rth1       Tj     1     {30.21m+lzth*7.83m}
+R_Rth2       1      2     {41.67m+lzth*10.8m}
+R_Rth3       2      3     {233.86m+lzth*60.63m}
+R_Rth4       3      4     {294.33m+lzth*407.15m}
+R_Rth5       4      Tcase {217.62m+lzth*395.89m}
+R_Rth6       Tcase  6     500m
+R_Rth7       6      7     50
+
+.ENDS
+
+**********
+
+.SUBCKT IPP60R450C6_L3 drain gate source Tj Tcase PARAMS: dVth=0 dRdson=0 Zthtype=0
+
+.PARAM Rs=2m        Rg=16        Ls=2.5n      Ld=2.5n      Lg=4n
+.PARAM act=5.6135   Inn=4.2      Unn=10       Rmax=450m
+.PARAM lzth={limit(Zthtype,0,1)}
+
+X1  dd g s Tj 1 cool_600_i_var PARAMS: act={act} dVth={dVth} dR={dRdson} Inn={Inn} Unn={Unn} 
+                                        +Rmax={Rmax} Rs={Rs} heat=1
+L_Ld         drain  dd    {Ld}
+R_Ld         drain  dd    10
+
+L_Ls         source lsrs  {Ls}
+R_Ls         source lsrs  10
+R_Rs         s      lsrs  {Rs}
+
+L_Lg         gate   lgrg  {Lg}
+R_Lg         gate   lgrg  10
+R_Rg         lgrg   g     {Rg}
+
+C_CZth1      Tj     0     54.002u
+C_CZth2      0      1     325.643u
+C_CZth3      0      2     459.73u
+C_CZth4      0      3     2.613m
+C_CZth5      0      4     5.76m
+C_CZth6      0      Tcase 140m
+C_CZth7      0      6     500m
+C_CZth8      0      7     450m
+R_Rth1       Tj     1     {30.21m+lzth*7.83m}
+R_Rth2       1      2     {41.67m+lzth*10.8m}
+R_Rth3       2      3     {233.86m+lzth*60.63m}
+R_Rth4       3      4     {294.33m+lzth*373.1m}
+R_Rth5       4      Tcase {285.72m+lzth*361.84m}
+R_Rth6       Tcase  6     400m
+R_Rth7       6      7     15.8
+
+.ENDS
+
+**********
+
+.SUBCKT IPA60R450C6_L3 drain gate source Tj Tcase PARAMS: dVth=0 dRdson=0 Zthtype=0
+
+.PARAM Rs=2m        Rg=16        Ls=2.5n      Ld=2.5n      Lg=4n
+.PARAM act=5.6135   Inn=4.2      Unn=10       Rmax=450m
+.PARAM lzth={limit(Zthtype,0,1)}
+
+X1  dd g s Tj 1 cool_600_i_var PARAMS: act={act} dVth={dVth} dR={dRdson} Inn={Inn} Unn={Unn} 
+                                        +Rmax={Rmax} Rs={Rs} heat=1
+L_Ld         drain  dd    {Ld}
+R_Ld         drain  dd    10
+
+L_Ls         source lsrs  {Ls}
+R_Ls         source lsrs  10
+R_Rs         s      lsrs  {Rs}
+
+L_Lg         gate   lgrg  {Lg}
+R_Lg         gate   lgrg  10
+R_Rg         lgrg   g     {Rg}
+
+C_CZth1      Tj     0     54.002u
+C_CZth2      0      1     325.643u
+C_CZth3      0      2     459.73u
+C_CZth4      0      3     2.613m
+C_CZth5      0      4     6.911m
+C_CZth6      0      5     18m
+C_CZth7      0      6     500m
+C_CZth8      0      7     600m
+R_Rth1       Tj     1     {30.21m+lzth*7.83m}
+R_Rth2       1      2     {41.67m+lzth*10.8m}
+R_Rth3       2      3     {233.86m+lzth*60.63m}
+R_Rth4       3      4     {294.33m+lzth*134.27m}
+R_Rth5       4      5     {285.72m+lzth*123.01m}
+R_Rth6       5      6     400m
+R_Rth7       6      7     5
+R_Rth8       5      Tcase {2.1+lzth*877.66m}
+.ENDS
+
+**********
+
+.SUBCKT IPD60R520C6_L3 drain gate source Tj Tcase PARAMS: dVth=0 dRdson=0 Zthtype=0
+
+.PARAM Rs=2m        Rg=16.5      Ls=2n        Ld=1n        Lg=3n
+.PARAM act=4.64     Inn=3.5      Unn=10       Rmax=520m
+.PARAM lzth={limit(Zthtype,0,1)}
+
+X1  dd g s Tj 1 cool_600_i_var PARAMS: act={act} dVth={dVth} dR={dRdson} Inn={Inn} Unn={Unn} 
+                                        +Rmax={Rmax} Rs={Rs} heat=1
+L_Ld         drain  dd    {Ld}
+R_Ld         drain  dd    10
+
+L_Ls         source lsrs  {Ls}
+R_Ls         source lsrs  10
+R_Rs         s      lsrs  {Rs}
+
+L_Lg         gate   lgrg  {Lg}
+R_Lg         gate   lgrg  10
+R_Rg         lgrg   g     {Rg}
+
+C_CZth1      Tj     0     44.637u
+C_CZth2      0      1     269.169u
+C_CZth3      0      2     380.003u
+C_CZth4      0      3     2.16m
+C_CZth5      0      4     3.062m
+C_CZth6      0      Tcase 42.5m
+C_CZth7      0      6     65m
+C_CZth8      0      7     90m
+R_Rth1       Tj     1     {36.55m+lzth*9.48m}
+R_Rth2       1      2     {50.42m+lzth*13.07m}
+R_Rth3       2      3     {282.93m+lzth*73.35m}
+R_Rth4       3      4     {335.98m+lzth*428.88m}
+R_Rth5       4      Tcase {254.08m+lzth*415.27m}
+R_Rth6       Tcase  6     500m
+R_Rth7       6      7     50
+
+.ENDS
+
+**********
+
+.SUBCKT IPP60R520C6_L3 drain gate source Tj Tcase PARAMS: dVth=0 dRdson=0 Zthtype=0
+
+.PARAM Rs=2m        Rg=16.5      Ls=2.5n      Ld=2.5n      Lg=4n
+.PARAM act=4.64     Inn=3.5      Unn=10       Rmax=520m
+.PARAM lzth={limit(Zthtype,0,1)}
+
+X1  dd g s Tj 1 cool_600_i_var PARAMS: act={act} dVth={dVth} dR={dRdson} Inn={Inn} Unn={Unn} 
+                                        +Rmax={Rmax} Rs={Rs} heat=1
+L_Ld         drain  dd    {Ld}
+R_Ld         drain  dd    10
+
+L_Ls         source lsrs  {Ls}
+R_Ls         source lsrs  10
+R_Rs         s      lsrs  {Rs}
+
+L_Lg         gate   lgrg  {Lg}
+R_Lg         gate   lgrg  10
+R_Rg         lgrg   g     {Rg}
+
+C_CZth1      Tj     0     44.637u
+C_CZth2      0      1     269.169u
+C_CZth3      0      2     380.003u
+C_CZth4      0      3     2.16m
+C_CZth5      0      4     4.52m
+C_CZth6      0      Tcase 140m
+C_CZth7      0      6     500m
+C_CZth8      0      7     450m
+R_Rth1       Tj     1     {36.55m+lzth*9.48m}
+R_Rth2       1      2     {50.42m+lzth*13.07m}
+R_Rth3       2      3     {282.93m+lzth*73.35m}
+R_Rth4       3      4     {335.98m+lzth*393.14m}
+R_Rth5       4      Tcase {325.56m+lzth*379.53m}
+R_Rth6       Tcase  6     400m
+R_Rth7       6      7     15.8
+
+.ENDS
+
+**********
+
+.SUBCKT IPA60R520C6_L3 drain gate source Tj Tcase PARAMS: dVth=0 dRdson=0 Zthtype=0
+
+.PARAM Rs=2m        Rg=16.5      Ls=2.5n      Ld=2.5n      Lg=4n
+.PARAM act=4.64     Inn=3.5      Unn=10       Rmax=520m
+.PARAM lzth={limit(Zthtype,0,1)}
+
+X1  dd g s Tj 1 cool_600_i_var PARAMS: act={act} dVth={dVth} dR={dRdson} Inn={Inn} Unn={Unn} 
+                                        +Rmax={Rmax} Rs={Rs} heat=1
+L_Ld         drain  dd    {Ld}
+R_Ld         drain  dd    10
+
+L_Ls         source lsrs  {Ls}
+R_Ls         source lsrs  10
+R_Rs         s      lsrs  {Rs}
+
+L_Lg         gate   lgrg  {Lg}
+R_Lg         gate   lgrg  10
+R_Rg         lgrg   g     {Rg}
+
+C_CZth1      Tj     0     44.637u
+C_CZth2      0      1     269.169u
+C_CZth3      0      2     380.003u
+C_CZth4      0      3     2.16m
+C_CZth5      0      4     5.425m
+C_CZth6      0      5     18m
+C_CZth7      0      6     500m
+C_CZth8      0      7     600m
+R_Rth1       Tj     1     {36.55m+lzth*9.48m}
+R_Rth2       1      2     {50.42m+lzth*13.07m}
+R_Rth3       2      3     {282.93m+lzth*73.35m}
+R_Rth4       3      4     {335.98m+lzth*141.98m}
+R_Rth5       4      5     {325.56m+lzth*128.36m}
+R_Rth6       5      6     400m
+R_Rth7       6      7     5
+R_Rth8       5      Tcase {2.1+lzth*802.33m}
+.ENDS
+
+**********
+
+.SUBCKT IPD60R600C6_L3 drain gate source Tj Tcase PARAMS: dVth=0 dRdson=0 Zthtype=0
+
+.PARAM Rs=2m        Rg=17.5      Ls=2n        Ld=1n        Lg=3n
+.PARAM act=4.02     Inn=3.0      Unn=10       Rmax=600m
+.PARAM lzth={limit(Zthtype,0,1)}
+
+X1  dd g s Tj 1 cool_600_i_var PARAMS: act={act} dVth={dVth} dR={dRdson} Inn={Inn} Unn={Unn} 
+                                        +Rmax={Rmax} Rs={Rs} heat=1
+L_Ld         drain  dd    {Ld}
+R_Ld         drain  dd    10
+
+L_Ls         source lsrs  {Ls}
+R_Ls         source lsrs  10
+R_Rs         s      lsrs  {Rs}
+
+L_Lg         gate   lgrg  {Lg}
+R_Lg         gate   lgrg  10
+R_Rg         lgrg   g     {Rg}
+
+C_CZth1      Tj     0     38.672u
+C_CZth2      0      1     233.203u
+C_CZth3      0      2     329.227u
+C_CZth4      0      3     1.872m
+C_CZth5      0      4     2.653m
+C_CZth6      0      Tcase 42.5m
+C_CZth7      0      6     65m
+C_CZth8      0      7     90m
+R_Rth1       Tj     1     {42.19m+lzth*10.94m}
+R_Rth2       1      2     {58.19m+lzth*15.09m}
+R_Rth3       2      3     {326.56m+lzth*84.66m}
+R_Rth4       3      4     {369.43m+lzth*412.72m}
+R_Rth5       4      Tcase {283.21m+lzth*397.01m}
+R_Rth6       Tcase  6     500m
+R_Rth7       6      7     50
+
+.ENDS
+
+**********
+
+.SUBCKT IPP60R600C6_L3 drain gate source Tj Tcase PARAMS: dVth=0 dRdson=0 Zthtype=0
+
+.PARAM Rs=2m        Rg=17.5      Ls=2.5n      Ld=2.5n      Lg=4n
+.PARAM act=4.02     Inn=3.0      Unn=10       Rmax=600m
+.PARAM lzth={limit(Zthtype,0,1)}
+
+X1  dd g s Tj 1 cool_600_i_var PARAMS: act={act} dVth={dVth} dR={dRdson} Inn={Inn} Unn={Unn} 
+                                        +Rmax={Rmax} Rs={Rs} heat=1
+L_Ld         drain  dd    {Ld}
+R_Ld         drain  dd    10
+
+L_Ls         source lsrs  {Ls}
+R_Ls         source lsrs  10
+R_Rs         s      lsrs  {Rs}
+
+L_Lg         gate   lgrg  {Lg}
+R_Lg         gate   lgrg  10
+R_Rg         lgrg   g     {Rg}
+
+C_CZth1      Tj     0     38.672u
+C_CZth2      0      1     233.203u
+C_CZth3      0      2     329.227u
+C_CZth4      0      3     1.872m
+C_CZth5      0      4     3.731m
+C_CZth6      0      Tcase 140m
+C_CZth7      0      6     500m
+C_CZth8      0      7     450m
+R_Rth1       Tj     1     {42.19m+lzth*10.94m}
+R_Rth2       1      2     {58.19m+lzth*15.09m}
+R_Rth3       2      3     {326.56m+lzth*84.66m}
+R_Rth4       3      4     {369.43m+lzth*375.63m}
+R_Rth5       4      Tcase {357.41m+lzth*359.91m}
+R_Rth6       Tcase  6     400m
+R_Rth7       6      7     15.8
+
+.ENDS
+
+**********
+
+.SUBCKT IPA60R600C6_L3 drain gate source Tj Tcase PARAMS: dVth=0 dRdson=0 Zthtype=0
+
+.PARAM Rs=2m        Rg=17.5      Ls=2.5n      Ld=2.5n      Lg=4n
+.PARAM act=4.02     Inn=3.0      Unn=10       Rmax=600m
+.PARAM lzth={limit(Zthtype,0,1)}
+
+X1  dd g s Tj 1 cool_600_i_var PARAMS: act={act} dVth={dVth} dR={dRdson} Inn={Inn} Unn={Unn} 
+                                        +Rmax={Rmax} Rs={Rs} heat=1
+L_Ld         drain  dd    {Ld}
+R_Ld         drain  dd    10
+
+L_Ls         source lsrs  {Ls}
+R_Ls         source lsrs  10
+R_Rs         s      lsrs  {Rs}
+
+L_Lg         gate   lgrg  {Lg}
+R_Lg         gate   lgrg  10
+R_Rg         lgrg   g     {Rg}
+
+C_CZth1      Tj     0     38.672u
+C_CZth2      0      1     233.203u
+C_CZth3      0      2     329.227u
+C_CZth4      0      3     1.872m
+C_CZth5      0      4     4.478m
+C_CZth6      0      5     18m
+C_CZth7      0      6     500m
+C_CZth8      0      7     600m
+R_Rth1       Tj     1     {42.19m+lzth*10.94m}
+R_Rth2       1      2     {58.19m+lzth*15.09m}
+R_Rth3       2      3     {326.56m+lzth*84.66m}
+R_Rth4       3      4     {369.43m+lzth*161.44m}
+R_Rth5       4      5     {357.41m+lzth*145.72m}
+R_Rth6       5      6     400m
+R_Rth7       6      7     5
+R_Rth8       5      Tcase {2.1+lzth*828.37m}
+.ENDS
+
+**********
+
+.SUBCKT IPD60R750C6_L3 drain gate source Tj Tcase PARAMS: dVth=0 dRdson=0 Zthtype=0
+
+.PARAM Rs=2m        Rg=16        Ls=2n        Ld=1n        Lg=3n
+.PARAM act=3.379    Inn=2.5      Unn=10       Rmax=750m
+.PARAM lzth={limit(Zthtype,0,1)}
+
+X1  dd g s Tj 1 cool_600_i_var PARAMS: act={act} dVth={dVth} dR={dRdson} Inn={Inn} Unn={Unn} 
+                                        +Rmax={Rmax} Rs={Rs} heat=1
+L_Ld         drain  dd    {Ld}
+R_Ld         drain  dd    10
+
+L_Ls         source lsrs  {Ls}
+R_Ls         source lsrs  10
+R_Rs         s      lsrs  {Rs}
+
+L_Lg         gate   lgrg  {Lg}
+R_Lg         gate   lgrg  10
+R_Rg         lgrg   g     {Rg}
+
+C_CZth1      Tj     0     32.506u
+C_CZth2      0      1     196.018u
+C_CZth3      0      2     276.731u
+C_CZth4      0      3     1.573m
+C_CZth5      0      4     2.23m
+C_CZth6      0      Tcase 42.5m
+C_CZth7      0      6     65m
+C_CZth8      0      7     90m
+R_Rth1       Tj     1     {50.19m+lzth*13.01m}
+R_Rth2       1      2     {69.23m+lzth*17.95m}
+R_Rth3       2      3     {388.51m+lzth*100.72m}
+R_Rth4       3      4     {412.03m+lzth*623.48m}
+R_Rth5       4      Tcase {320.09m+lzth*604.78m}
+R_Rth6       Tcase  6     500m
+R_Rth7       6      7     50
+
+.ENDS
+
+**********
+
+.SUBCKT IPP60R750C6_L3 drain gate source Tj Tcase PARAMS: dVth=0 dRdson=0 Zthtype=0
+
+.PARAM Rs=2m        Rg=16        Ls=2.5n      Ld=2.5n      Lg=4n
+.PARAM act=3.379    Inn=2.5      Unn=10       Rmax=750m
+.PARAM lzth={limit(Zthtype,0,1)}
+
+X1  dd g s Tj 1 cool_600_i_var PARAMS: act={act} dVth={dVth} dR={dRdson} Inn={Inn} Unn={Unn} 
+                                        +Rmax={Rmax} Rs={Rs} heat=1
+L_Ld         drain  dd    {Ld}
+R_Ld         drain  dd    10
+
+L_Ls         source lsrs  {Ls}
+R_Ls         source lsrs  10
+R_Rs         s      lsrs  {Rs}
+
+L_Lg         gate   lgrg  {Lg}
+R_Lg         gate   lgrg  10
+R_Rg         lgrg   g     {Rg}
+
+C_CZth1      Tj     0     32.506u
+C_CZth2      0      1     196.018u
+C_CZth3      0      2     276.731u
+C_CZth4      0      3     1.573m
+C_CZth5      0      4     2.915m
+C_CZth6      0      Tcase 140m
+C_CZth7      0      6     500m
+C_CZth8      0      7     450m
+R_Rth1       Tj     1     {50.19m+lzth*13.01m}
+R_Rth2       1      2     {69.23m+lzth*17.95m}
+R_Rth3       2      3     {388.51m+lzth*100.72m}
+R_Rth4       3      4     {412.03m+lzth*584.66m}
+R_Rth5       4      Tcase {397.73m+lzth*565.96m}
+R_Rth6       Tcase  6     400m
+R_Rth7       6      7     15.8
+
+.ENDS
+
+**********
+
+.SUBCKT IPA60R750C6_L3 drain gate source Tj Tcase PARAMS: dVth=0 dRdson=0 Zthtype=0
+
+.PARAM Rs=2m        Rg=16        Ls=2.5n      Ld=2.5n      Lg=4n
+.PARAM act=3.379    Inn=2.5      Unn=10       Rmax=750m
+.PARAM lzth={limit(Zthtype,0,1)}
+
+X1  dd g s Tj 1 cool_600_i_var PARAMS: act={act} dVth={dVth} dR={dRdson} Inn={Inn} Unn={Unn} 
+                                        +Rmax={Rmax} Rs={Rs} heat=1
+L_Ld         drain  dd    {Ld}
+R_Ld         drain  dd    10
+
+L_Ls         source lsrs  {Ls}
+R_Ls         source lsrs  10
+R_Rs         s      lsrs  {Rs}
+
+L_Lg         gate   lgrg  {Lg}
+R_Lg         gate   lgrg  10
+R_Rg         lgrg   g     {Rg}
+
+C_CZth1      Tj     0     32.506u
+C_CZth2      0      1     196.018u
+C_CZth3      0      2     276.731u
+C_CZth4      0      3     1.573m
+C_CZth5      0      4     3.498m
+C_CZth6      0      5     18m
+C_CZth7      0      6     500m
+C_CZth8      0      7     600m
+R_Rth1       Tj     1     {50.19m+lzth*13.01m}
+R_Rth2       1      2     {69.23m+lzth*17.95m}
+R_Rth3       2      3     {388.51m+lzth*100.72m}
+R_Rth4       3      4     {412.03m+lzth*164.11m}
+R_Rth5       4      5     {397.73m+lzth*145.41m}
+R_Rth6       5      6     400m
+R_Rth7       6      7     5
+R_Rth8       5      Tcase {2.1+lzth*741.1m}
+.ENDS
+
+**********
+
+.SUBCKT IPD60R950C6_L3 drain gate source Tj Tcase PARAMS: dVth=0 dRdson=0 Zthtype=0
+
+.PARAM Rs=2m        Rg=16        Ls=2n        Ld=1n        Lg=3n
+.PARAM act=2.53     Inn=1.9      Unn=10       Rmax=950m
+.PARAM lzth={limit(Zthtype,0,1)}
+
+X1  dd g s Tj 1 cool_600_i_var PARAMS: act={act} dVth={dVth} dR={dRdson} Inn={Inn} Unn={Unn} 
+                                        +Rmax={Rmax} Rs={Rs} heat=1
+L_Ld         drain  dd    {Ld}
+R_Ld         drain  dd    10
+
+L_Ls         source lsrs  {Ls}
+R_Ls         source lsrs  10
+R_Rs         s      lsrs  {Rs}
+
+L_Lg         gate   lgrg  {Lg}
+R_Lg         gate   lgrg  10
+R_Rg         lgrg   g     {Rg}
+
+C_CZth1      Tj     0     24.338u
+C_CZth2      0      1     146.767u
+C_CZth3      0      2     207.2u
+C_CZth4      0      3     1.178m
+C_CZth5      0      4     1.67m
+C_CZth6      0      Tcase 42.5m
+C_CZth7      0      6     65m
+C_CZth8      0      7     90m
+R_Rth1       Tj     1     {67.04m+lzth*17.38m}
+R_Rth2       1      2     {92.46m+lzth*23.97m}
+R_Rth3       2      3     {518.89m+lzth*134.52m}
+R_Rth4       3      4     {486.96m+lzth*854.79m}
+R_Rth5       4      Tcase {384.19m+lzth*829.81m}
+R_Rth6       Tcase  6     500m
+R_Rth7       6      7     50
+
+.ENDS
+
+**********
+
+.SUBCKT IPP60R950C6_L3 drain gate source Tj Tcase PARAMS: dVth=0 dRdson=0 Zthtype=0
+
+.PARAM Rs=2m        Rg=16        Ls=2.5n      Ld=2.5n      Lg=4n
+.PARAM act=2.53     Inn=1.9      Unn=10       Rmax=950m
+.PARAM lzth={limit(Zthtype,0,1)}
+
+X1  dd g s Tj 1 cool_600_i_var PARAMS: act={act} dVth={dVth} dR={dRdson} Inn={Inn} Unn={Unn} 
+                                        +Rmax={Rmax} Rs={Rs} heat=1
+L_Ld         drain  dd    {Ld}
+R_Ld         drain  dd    10
+
+L_Ls         source lsrs  {Ls}
+R_Ls         source lsrs  10
+R_Rs         s      lsrs  {Rs}
+
+L_Lg         gate   lgrg  {Lg}
+R_Lg         gate   lgrg  10
+R_Rg         lgrg   g     {Rg}
+
+C_CZth1      Tj     0     24.338u
+C_CZth2      0      1     146.767u
+C_CZth3      0      2     207.2u
+C_CZth4      0      3     1.178m
+C_CZth5      0      4     2m
+C_CZth6      0      Tcase 140m
+C_CZth7      0      6     500m
+C_CZth8      0      7     450m
+R_Rth1       Tj     1     {67.04m+lzth*17.38m}
+R_Rth2       1      2     {92.46m+lzth*23.97m}
+R_Rth3       2      3     {518.89m+lzth*134.52m}
+R_Rth4       3      4     {486.96m+lzth*812.95m}
+R_Rth5       4      Tcase {467.85m+lzth*787.98m}
+R_Rth6       Tcase  6     400m
+R_Rth7       6      7     15.8
+
+.ENDS
+
+**********
+
+.SUBCKT IPA60R950C6_L3 drain gate source Tj Tcase PARAMS: dVth=0 dRdson=0 Zthtype=0
+
+.PARAM Rs=2m        Rg=16        Ls=2.5n      Ld=2.5n      Lg=4n
+.PARAM act=2.53     Inn=1.9      Unn=10       Rmax=950m
+.PARAM lzth={limit(Zthtype,0,1)}
+
+X1  dd g s Tj 1 cool_600_i_var PARAMS: act={act} dVth={dVth} dR={dRdson} Inn={Inn} Unn={Unn} 
+                                        +Rmax={Rmax} Rs={Rs} heat=1
+L_Ld         drain  dd    {Ld}
+R_Ld         drain  dd    10
+
+L_Ls         source lsrs  {Ls}
+R_Ls         source lsrs  10
+R_Rs         s      lsrs  {Rs}
+
+L_Lg         gate   lgrg  {Lg}
+R_Lg         gate   lgrg  10
+R_Rg         lgrg   g     {Rg}
+
+C_CZth1      Tj     0     24.338u
+C_CZth2      0      1     146.767u
+C_CZth3      0      2     207.2u
+C_CZth4      0      3     1.178m
+C_CZth5      0      4     2.202m
+C_CZth6      0      5     18m
+C_CZth7      0      6     500m
+C_CZth8      0      7     600m
+R_Rth1       Tj     1     {67.04m+lzth*17.38m}
+R_Rth2       1      2     {92.46m+lzth*23.97m}
+R_Rth3       2      3     {518.89m+lzth*134.52m}
+R_Rth4       3      4     {486.96m+lzth*178m}
+R_Rth5       4      5     {467.85m+lzth*153.02m}
+R_Rth6       5      6     400m
+R_Rth7       6      7     5
+R_Rth8       5      Tcase {2.1+lzth*659.91m}
+.ENDS
+
+**********
+
+.SUBCKT IPD60R1K4C6_L3 drain gate source Tj Tcase PARAMS: dVth=0 dRdson=0 Zthtype=0
+
+.PARAM Rs=2m        Rg=16        Ls=2n        Ld=1n        Lg=3n
+.PARAM act=1.81     Inn=1.4      Unn=10       Rmax=1.4K
+.PARAM lzth={limit(Zthtype,0,1)}
+
+X1  dd g s Tj 1 cool_600_i_var PARAMS: act={act} dVth={dVth} dR={dRdson} Inn={Inn} Unn={Unn} 
+                                        +Rmax={Rmax} Rs={Rs} heat=1
+L_Ld         drain  dd    {Ld}
+R_Ld         drain  dd    10
+
+L_Ls         source lsrs  {Ls}
+R_Ls         source lsrs  10
+R_Rs         s      lsrs  {Rs}
+
+L_Lg         gate   lgrg  {Lg}
+R_Lg         gate   lgrg  10
+R_Rg         lgrg   g     {Rg}
+
+C_CZth1      Tj     0     17.412u
+C_CZth2      0      1     104.999u
+C_CZth3      0      2     148.234u
+C_CZth4      0      3     842.66u
+C_CZth5      0      4     1.195m
+C_CZth6      0      Tcase 42.5m
+C_CZth7      0      6     65m
+C_CZth8      0      7     90m
+R_Rth1       Tj     1     {93.7m+lzth*24.29m}
+R_Rth2       1      2     {129.25m+lzth*33.51m}
+R_Rth3       2      3     {725.3m+lzth*188.03m}
+R_Rth4       3      4     {577.12m+lzth*1.1}
+R_Rth5       4      Tcase {459.64m+lzth*1.07}
+R_Rth6       Tcase  6     500m
+R_Rth7       6      7     50
+
+.ENDS
+
+**********
+
+.SUBCKT IPP60R1K4C6_L3 drain gate source Tj Tcase PARAMS: dVth=0 dRdson=0 Zthtype=0
+
+.PARAM Rs=2m        Rg=16        Ls=2.5n      Ld=2.5n      Lg=4n
+.PARAM act=1.81     Inn=1.4      Unn=10       Rmax=1.4K
+.PARAM lzth={limit(Zthtype,0,1)}
+
+X1  dd g s Tj 1 cool_600_i_var PARAMS: act={act} dVth={dVth} dR={dRdson} Inn={Inn} Unn={Unn} 
+                                        +Rmax={Rmax} Rs={Rs} heat=1
+L_Ld         drain  dd    {Ld}
+R_Ld         drain  dd    10
+
+L_Ls         source lsrs  {Ls}
+R_Ls         source lsrs  10
+R_Rs         s      lsrs  {Rs}
+
+L_Lg         gate   lgrg  {Lg}
+R_Lg         gate   lgrg  10
+R_Rg         lgrg   g     {Rg}
+
+C_CZth1      Tj     0     17.412u
+C_CZth2      0      1     104.999u
+C_CZth3      0      2     148.234u
+C_CZth4      0      3     842.66u
+C_CZth5      0      4     2m
+C_CZth6      0      Tcase 140m
+C_CZth7      0      6     500m
+C_CZth8      0      7     450m
+R_Rth1       Tj     1     {93.7m+lzth*24.29m}
+R_Rth2       1      2     {129.25m+lzth*33.51m}
+R_Rth3       2      3     {725.3m+lzth*188.03m}
+R_Rth4       3      4     {577.12m+lzth*1.06}
+R_Rth5       4      Tcase {550.42m+lzth*1.02}
+R_Rth6       Tcase  6     400m
+R_Rth7       6      7     15.8
+
+.ENDS
+
+**********
+
+.SUBCKT IPL60R1K5C6S_L3 drain gate source Tj Tcase PARAMS: dVth=0 dRdson=0 Zthtype=0
+
+.PARAM Rs=2m        Rg=16        Ls=2n        Ld=1n        Lg=4n
+.PARAM act=1.81     Inn=1.4      Unn=10       Rmax=1.5K
+.PARAM lzth={limit(Zthtype,0,1)}
+
+X1  dd g s Tj 1 cool_600_is_var PARAMS: act={act} dVth={dVth} dR={dRdson} Inn={Inn} Unn={Unn} 
+                                        +Rmax={Rmax} Rs={Rs} heat=1
+L_Ld         drain  dd    {Ld}
+R_Ld         drain  dd    10
+
+L_Ls         source lsrs  {Ls}
+R_Ls         source lsrs  10
+R_Rs         s      lsrs  {Rs}
+
+L_Lg         gate   lgrg  {Lg}
+R_Lg         gate   lgrg  10
+R_Rg         lgrg   g     {Rg}
+
+C_CZth1      Tj     0     17.412u
+C_CZth2      0      1     104.999u
+C_CZth3      0      2     148.234u
+C_CZth4      0      3     842.66u
+C_CZth5      0      4     1.195m
+C_CZth6      0      Tcase 42.5m
+C_CZth7      0      6     65m
+C_CZth8      0      7     90m
+R_Rth1       Tj     1     {93.7m+lzth*24.29m}
+R_Rth2       1      2     {129.25m+lzth*33.51m}
+R_Rth3       2      3     {725.3m+lzth*188.03m}
+R_Rth4       3      4     {577.12m+lzth*1.25}
+R_Rth5       4      Tcase {459.64m+lzth*1.22}
+R_Rth6       Tcase  6     500m
+R_Rth7       6      7     50
+
+.ENDS
+
+**********
+
+.SUBCKT IPL60R2K1C6S_L3 drain gate source Tj Tcase PARAMS: dVth=0 dRdson=0 Zthtype=0
+
+.PARAM Rs=2m        Rg=16        Ls=2n        Ld=1n        Lg=4n
+.PARAM act=1.26     Inn=0.9      Unn=10       Rmax=2.1K
+.PARAM lzth={limit(Zthtype,0,1)}
+
+X1  dd g s Tj 1 cool_600_is_var PARAMS: act={act} dVth={dVth} dR={dRdson} Inn={Inn} Unn={Unn} 
+                                        +Rmax={Rmax} Rs={Rs} heat=1
+L_Ld         drain  dd    {Ld}
+R_Ld         drain  dd    10
+
+L_Ls         source lsrs  {Ls}
+R_Ls         source lsrs  10
+R_Rs         s      lsrs  {Rs}
+
+L_Lg         gate   lgrg  {Lg}
+R_Lg         gate   lgrg  10
+R_Rg         lgrg   g     {Rg}
+
+C_CZth1      Tj     0     12.121u
+C_CZth2      0      1     73.093u
+C_CZth3      0      2     103.191u
+C_CZth4      0      3     586.603u
+C_CZth5      0      4     1m
+C_CZth6      0      Tcase 42.5m
+C_CZth7      0      6     65m
+C_CZth8      0      7     90m
+R_Rth1       Tj     1     {134.61m+lzth*34.9m}
+R_Rth2       1      2     {185.66m+lzth*48.13m}
+R_Rth3       2      3     {1.04+lzth*270.1m}
+R_Rth4       3      4     {674.78m+lzth*1.46}
+R_Rth5       4      Tcase {538.22m+lzth*1.41}
+R_Rth6       Tcase  6     500m
+R_Rth7       6      7     50
+
+.ENDS
+
+**********
+
+.SUBCKT IPD60R2K0C6_L3 drain gate source Tj Tcase PARAMS: dVth=0 dRdson=0 Zthtype=0
+
+.PARAM Rs=2m        Rg=16        Ls=2n        Ld=1n        Lg=3n
+.PARAM act=1.26     Inn=0.9      Unn=10       Rmax=2.0K
+.PARAM lzth={limit(Zthtype,0,1)}
+
+X1  dd g s Tj 1 cool_600_i_var PARAMS: act={act} dVth={dVth} dR={dRdson} Inn={Inn} Unn={Unn} 
+                                        +Rmax={Rmax} Rs={Rs} heat=1
+L_Ld         drain  dd    {Ld}
+R_Ld         drain  dd    10
+
+L_Ls         source lsrs  {Ls}
+R_Ls         source lsrs  10
+R_Rs         s      lsrs  {Rs}
+
+L_Lg         gate   lgrg  {Lg}
+R_Lg         gate   lgrg  10
+R_Rg         lgrg   g     {Rg}
+
+C_CZth1      Tj     0     12.121u
+C_CZth2      0      1     73.093u
+C_CZth3      0      2     103.191u
+C_CZth4      0      3     586.603u
+C_CZth5      0      4     1m
+C_CZth6      0      Tcase 42.5m
+C_CZth7      0      6     65m
+C_CZth8      0      7     90m
+R_Rth1       Tj     1     {134.61m+lzth*34.9m}
+R_Rth2       1      2     {185.66m+lzth*48.13m}
+R_Rth3       2      3     {1.04+lzth*270.1m}
+R_Rth4       3      4     {674.78m+lzth*1.36}
+R_Rth5       4      Tcase {538.22m+lzth*1.31}
+R_Rth6       Tcase  6     500m
+R_Rth7       6      7     50
+
+.ENDS
+
+**********
+
+.SUBCKT IPP60R2K0C6_L3 drain gate source Tj Tcase PARAMS: dVth=0 dRdson=0 Zthtype=0
+
+.PARAM Rs=2m        Rg=16        Ls=2.5n      Ld=2.5n      Lg=4n
+.PARAM act=1.26     Inn=0.9      Unn=10       Rmax=2.0K
+.PARAM lzth={limit(Zthtype,0,1)}
+
+X1  dd g s Tj 1 cool_600_i_var PARAMS: act={act} dVth={dVth} dR={dRdson} Inn={Inn} Unn={Unn} 
+                                        +Rmax={Rmax} Rs={Rs} heat=1
+L_Ld         drain  dd    {Ld}
+R_Ld         drain  dd    10
+
+L_Ls         source lsrs  {Ls}
+R_Ls         source lsrs  10
+R_Rs         s      lsrs  {Rs}
+
+L_Lg         gate   lgrg  {Lg}
+R_Lg         gate   lgrg  10
+R_Rg         lgrg   g     {Rg}
+
+C_CZth1      Tj     0     12.121u
+C_CZth2      0      1     73.093u
+C_CZth3      0      2     103.191u
+C_CZth4      0      3     586.603u
+C_CZth5      0      4     2m
+C_CZth6      0      Tcase 140m
+C_CZth7      0      6     500m
+C_CZth8      0      7     450m
+R_Rth1       Tj     1     {134.61m+lzth*34.9m}
+R_Rth2       1      2     {185.66m+lzth*48.13m}
+R_Rth3       2      3     {1.04+lzth*270.1m}
+R_Rth4       3      4     {674.78m+lzth*1.31}
+R_Rth5       4      Tcase {636.43m+lzth*1.26}
+R_Rth6       Tcase  6     400m
+R_Rth7       6      7     15.8
+
+.ENDS
+
+**********
+
+.SUBCKT IPD60R3K3C6_L3 drain gate source Tj Tcase PARAMS: dVth=0 dRdson=0 Zthtype=0
+
+.PARAM Rs=2m        Rg=16        Ls=2n        Ld=1n        Lg=3n
+.PARAM act=0.84     Inn=0.6      Unn=10       Rmax=3.0K
+.PARAM lzth={limit(Zthtype,0,1)}
+
+X1  dd g s Tj 1 cool_600_i_var PARAMS: act={act} dVth={dVth} dR={dRdson} Inn={Inn} Unn={Unn} 
+                                        +Rmax={Rmax} Rs={Rs} heat=1
+L_Ld         drain  dd    {Ld}
+R_Ld         drain  dd    10
+
+L_Ls         source lsrs  {Ls}
+R_Ls         source lsrs  10
+R_Rs         s      lsrs  {Rs}
+
+L_Lg         gate   lgrg  {Lg}
+R_Lg         gate   lgrg  10
+R_Rg         lgrg   g     {Rg}
+
+C_CZth1      Tj     0     8.081u
+C_CZth2      0      1     48.729u
+C_CZth3      0      2     68.794u
+C_CZth4      0      3     500u
+C_CZth5      0      4     1m
+C_CZth6      0      Tcase 42.5m
+C_CZth7      0      6     65m
+C_CZth8      0      7     90m
+R_Rth1       Tj     1     {201.91m+lzth*52.34m}
+R_Rth2       1      2     {278.49m+lzth*72.2m}
+R_Rth3       2      3     {1.56+lzth*405.16m}
+R_Rth4       3      4     {780.39m+lzth*1.5}
+R_Rth5       4      Tcase {617.17m+lzth*1.43}
+R_Rth6       Tcase  6     500m
+R_Rth7       6      7     50
+
+.ENDS
+
+**********
+
+.SUBCKT IPP60R3K3C6_L3 drain gate source Tj Tcase PARAMS: dVth=0 dRdson=0 Zthtype=0
+
+.PARAM Rs=2m        Rg=16        Ls=2.5n      Ld=2.5n      Lg=4n
+.PARAM act=0.84     Inn=0.6      Unn=10       Rmax=3.0K
+.PARAM lzth={limit(Zthtype,0,1)}
+
+X1  dd g s Tj 1 cool_600_i_var PARAMS: act={act} dVth={dVth} dR={dRdson} Inn={Inn} Unn={Unn} 
+                                        +Rmax={Rmax} Rs={Rs} heat=1
+L_Ld         drain  dd    {Ld}
+R_Ld         drain  dd    10
+
+L_Ls         source lsrs  {Ls}
+R_Ls         source lsrs  10
+R_Rs         s      lsrs  {Rs}
+
+L_Lg         gate   lgrg  {Lg}
+R_Lg         gate   lgrg  10
+R_Rg         lgrg   g     {Rg}
+
+C_CZth1      Tj     0     8.081u
+C_CZth2      0      1     48.729u
+C_CZth3      0      2     68.794u
+C_CZth4      0      3     500u
+C_CZth5      0      4     2m
+C_CZth6      0      Tcase 140m
+C_CZth7      0      6     500m
+C_CZth8      0      7     450m
+R_Rth1       Tj     1     {201.91m+lzth*52.34m}
+R_Rth2       1      2     {278.49m+lzth*72.2m}
+R_Rth3       2      3     {1.56+lzth*405.16m}
+R_Rth4       3      4     {780.39m+lzth*1.45}
+R_Rth5       4      Tcase {722.86m+lzth*1.37}
+R_Rth6       Tcase  6     400m
+R_Rth7       6      7     15.8
+
+.ENDS
+
+**********
+
+.SUBCKT cool_600_i_var dd g s Tj t1 PARAMS: act=1 dVth=0 dR=0 Inn=1u Unn=10 Rmax=1 Rs=1u heat=1 
+*
+.PARAM  p666={4*SQRT(act)}
+*
+.PARAM Vth0=3.7
+.PARAM Vmin=2.8     Vmax=4.7      
+*
+.PARAM fpar1=0.1265         fpar2=1.2825    
+.PARAM fpar29=298           Tref=273           fpar3=4.7m
+.PARAM fpar4=600m           fpar6=660
+.PARAM fpar7=207m           fpar9=4
+.PARAM fpar10=2.89          tt=400n
+.PARAM fpar12=1.1           fpar13={1.97/act}  fpar14={48m/act}    fpar15=13 
+.PARAM fpar16=-0.008        fpar17 ={0.1*4}
+.PARAM fpar18=85.8u         fpar19=-29         fpar20=1.08         fpar21={Exp(fpar19)}
+.PARAM fpar22={2.05*act}
+.PARAM fpar23=0.91
+.PARAM loge=0.43429448                     
+*
+.PARAM muth=1.08375                     
+*
+.PARAM Vth={Vth0+(Vmax-Vth0)*LIMIT(dVth,0,1)-(Vmin-Vth0)*LIMIT(dVth,-1,0)}
+.PARAM p1={Unn-Inn*Rs-Vth0}
+.PARAM p2={(((p1-SQRT(p1**2-4*fpar2/fpar22*Inn*(1+fpar1*p1)))/fpar2*fpar12+1)**2-1)/(4*fpar12)}
+.PARAM p3={fpar15/(2*(Inn*(Inn*(Rmax-Rs)-p2)))}
+.PARAM Rlim={p3*(-fpar15+SQRT(fpar15**2+4*(Rmax*Inn)**2-8*Rmax*Inn*(Inn*Rs+p2)+(2*p2+2*Inn*Rs)**2))}
+.PARAM dRd={fpar13+IF(dVth==0,LIMIT(dR,0,1)*MAX(Rlim-fpar13,0),0)}
+*
+.FUNC  fpar24(Uee,p,pp,z1)  {IF(Uee>pp,(Uee-fpar2*z1)*z1,p*(pp-p)/fpar2*EXP((Uee-pp)/p))}
+.FUNC  fpar25(Uds,p,Uee,z1,Tjx) {(fpar22/(1+fpar1*Uee)*(fpar29/Tjx)**muth)*fpar24(Uee,p,MIN(2*p,p+fpar2*Uds),z1)}
+.FUNC  fpar28(Uds,Ugs,Tjx,p)  {fpar25(Uds,p,Ugs-Vth+fpar3*(Tjx-fpar29),MIN(Uds,(Ugs-Vth+fpar3*(Tjx-fpar29))/(2*fpar2)),Tjx)}
+.FUNC  fpar26(Uds,Tjx)      {act*EXP(MIN(fpar19+(Uds-fpar6-fpar4*(Tjx-fpar29))/fpar7,23))}
+.FUNC  fpar27(Uds,Ugs,Tjx) {sgn(Uds)*fpar28((SQRT(1+4*fpar12*abs(Uds))-1)/2/fpar12,Ugs,Tjx,fpar9*fpar18*Tjx)}
+*
+R1 g s 1G
+G_G1 d s VALUE={fpar27(V(d,s),V(g,s),Tref+LIMIT(V(Tj),-200,999))}
+Rd01 d s 500Meg
+*
+V_Ichannel d1 d 0
+V_Iepi     dd d2 0  
+*
+G_G_Rd     d2 d1 VALUE 
++ {V(d2,d1)/( 
++ (1-fpar17)
++ *((dRd*0.5*(1+SQRT(1+4*(MAX(V(d2,d1),0)/fpar15)**(LIMIT(2+fpar16*(V(t1)+Tref-fpar29),0,3)))))
++ *((Tref+LIMIT(V(t1),-200,999))/fpar29)**fpar10)
++ + (fpar17)*((dRd*0.5*(1+SQRT(1+4*(MAX(V(d2,d1),0)/fpar15)**(LIMIT(2+fpar16*(V(t1)+Tref-fpar29),0,3)))))))}
+*
+R_R_ERd_g  d2 d1  10k
+*
+G_Rdiod    dd    dio2 VALUE {V(dd,dio2)/(fpar14*((Tref+LIMIT(V(t1),-200,999))/fpar29)**fpar23)}
+R_Rdiod    dd    dio 500Meg
+V_Idiode   dio2  dio 0
+*
+Dbody      s    di    DBODY
+.MODEL DBODY  D(IS={fpar21*act}  N={fpar20}  RS=2u  EG=1.12  TT={tt})
+*
+Rd02       s    di 500Meg
+G_diode2   s    di VALUE={-fpar26(V(di,s),Tref+LIMIT(V(t1),-200,999))}
+V_Idio     dio  di 0
+*
+
+*Capacitance model:
+*Cgd
+.PARAM  cgdvgg=-0.1            cgducut=100 
+.PARAM  cgda1={130p*act}    cgdb1=-1.7                 cgdC1_0={cgda1*EXP(cgdb1*cgdvgg)}
+.PARAM  cgda2={80p*act}     cgdb2=-0.12                cgdC2_0={cgda2*EXP(cgdb2*cgdvgg)}
+.PARAM  cgda3={4p*act}      cgdb3=-4      cgdc3=40     cgdC3_0={1/2*cgda3*(1+TANH((cgdvgg-cgdc3)/cgdb3))}
+.PARAM  cgda4={1.2p*act}    cgdb4=200     cgdc4=400    cgdC4_0={1/2*cgda4*(1+TANH((cgdvgg-cgdc4)/cgdb4))}
+.PARAM  cgda5={0.001p*p666}                            cgdC5_0={cgda5}
+.PARAM  cgda6={0.3p*p666}   cgdb6=-600    cgdc6=40     cgdC6_0={1/2*cgda6*(1+TANH((cgdvgg-cgdc6)/cgdb6))}
+
+*Cds
+.PARAM  cdsvgg=0            cdsucut=100
+.PARAM  cdsa1={400p*act}    cdsb1=-0.3                 cdsC1_0={cdsa1*EXP(cdsb1*cdsvgg)}
+.PARAM  cdsa2={260p*act}    cdsb2=-0.05                cdsC2_0={cdsa2*EXP(cdsb2*cdsvgg)}
+.PARAM  cdsa3={0p*act}      cdsb3=1       cdsc3=1      cdsC3_0={1/2*cdsa3*(1+TANH((cdsvgg-cdsc3)/cdsb3))}
+.PARAM  cdsa4={5p*act}      cdsb4=-700    cdsc4=300    cdsC4_0={1/2*cdsa4*(1+TANH((cdsvgg-cdsc4)/cdsb4))}
+.PARAM  cdsa5={0.001p*p666}                            cdsC5_0={cdsa5}
+.PARAM  cdsa6={0.7p*p666}   cdsb6=-700    cdsc6=300    cdsC6_0={1/2*cdsa6*(1+TANH((cdsvgg-cdsc6)/cdsb6))}
+
+*Cgs
+.PARAM  cgs={act*110p}
+
+
+.FUNC     cgdQges1(U)    {cgda1/cgdb1 * (EXP(cgdb1*U)-1)} 
+.FUNC     cgdQges2(U)    {cgda2/cgdb2 * (EXP(cgdb2*U)-1)} 
+.FUNC     cgdQges3(U)    {IF (U< cgducut, cgda3*U/2 + 1/2*cgda3*cgdb3*LOG10(COSH((U-cgdc3)/cgdb3))/loge 
++                         - 1/2*cgda3*cgdb3*LOG10(COSH((-cgdc3)/cgdb3))/loge, 
++                         cgda3*cgducut/2 + 1/2*cgda3*cgdb3*LOG10(COSH((cgducut-cgdc3)/cgdb3))/loge 
++                         - 1/2*cgda3*cgdb3*LOG10(COSH((-cgdc3)/cgdb3))/loge)}  
+.FUNC     cgdQges4(U)    {cgda4*U/2 + 1/2*cgda4*cgdb4*LOG10(COSH((U-cgdc4)/cgdb4))/loge 
++                         - 1/2*cgda4*cgdb4*LOG10(COSH((-cgdc4)/cgdb4))/loge}  
+.FUNC     cgdQges5(U)    {cgda5*U}
+.FUNC     cgdQges6(U)    {cgda6*U/2 + 1/2*cgda6*cgdb6*LOG10(COSH((U-cgdc6)/cgdb6))/loge 
++                         - 1/2*cgda6*cgdb6*LOG10(COSH((-cgdc6)/cgdb6))/loge}  
+
+
+*Cgd with voltage source
+E1cgd    cgdhigh   cgdnint1  VALUE { MAX(V(cgdhigh,cgdlow),cgdvgg) - cgdQges1(MAX(V(cgdhigh,cgdlow),cgdvgg))/cgdC1_0}
+C1cgd    cgdnint1  cgdlow   {cgdC1_0}
+*
+E2cgd    cgdhigh   cgdnint2  VALUE { MAX(V(cgdhigh,cgdlow),cgdvgg) - cgdQges2(MAX(V(cgdhigh,cgdlow),cgdvgg))/cgdC2_0}
+C2cgd    cgdnint2  cgdlow   {cgdC2_0}
+*
+E3cgd    cgdhigh   cgdnint3  VALUE { MAX(V(cgdhigh,cgdlow),cgdvgg) - cgdQges3(MAX(V(cgdhigh,cgdlow),cgdvgg))/cgdC3_0}
+C3cgd    cgdnint3  cgdlow   {cgdC3_0}
+*
+E4cgd    cgdhigh   cgdnint4  VALUE { MAX(V(cgdhigh,cgdlow),cgdvgg) - cgdQges4(MAX(V(cgdhigh,cgdlow),cgdvgg))/cgdC4_0}
+C4cgd    cgdnint4  cgdlow   {cgdC4_0}
+*
+C5cgd    cgdhigh   cgdlow   {cgdC5_0}
+*
+E6cgd    cgdhigh   cgdnint6  VALUE { MAX(V(cgdhigh,cgdlow),cgdvgg) - cgdQges6(MAX(V(cgdhigh,cgdlow),cgdvgg))/cgdC6_0}
+C6cgd    cgdnint6  cgdlow   {cgdC6_0}
+*
+
+.FUNC     cdsQges1(U)    {cdsa1/cdsb1 * (EXP(cdsb1*U)-1)} 
+.FUNC     cdsQges2(U)    {cdsa2/cdsb2 * (EXP(cdsb2*U)-1)} 
+.FUNC     cdsQges3(U)    {IF (U<cdsucut, cdsa3*U/2 + 1/2*cdsa3*cdsb3*LOG10(COSH((U-cdsc3)/cdsb3))/loge 
++                         - 1/2*cdsa3*cdsb3*LOG10(COSH((-cdsc3)/cdsb3))/loge, 
++                         cdsa3*cdsucut/2 + 1/2*cdsa3*cdsb3*LOG10(COSH((cdsucut-cdsc3)/cdsb3))/loge 
++                         - 1/2*cdsa3*cdsb3*LOG10(COSH((-cdsc3)/cdsb3))/loge)}  
+.FUNC     cdsQges4(U)    {cdsa4*U/2 + 1/2*cdsa4*cdsb4*LOG10(COSH((U-cdsc4)/cdsb4))/loge 
++                         - 1/2*cdsa4*cdsb4*LOG10(COSH((-cdsc4)/cdsb4))/loge}  
+.FUNC     cdsQges5(U)    {cdsa5*U}
+.FUNC     cdsQges6(U)    {cdsa6*U/2 + 1/2*cdsa6*cdsb6*LOG10(COSH((U-cdsc6)/cdsb6))/loge 
++                         - 1/2*cdsa6*cdsb6*LOG10(COSH((-cdsc6)/cdsb6))/loge}  
+
+
+*Cds with voltage source
+E1cds       cdshigh    cdsnint1  VALUE { MAX(V(cdshigh,cdslow),cdsvgg) - cdsQges1(MAX(V(cdshigh,cdslow),cdsvgg))/cdsC1_0}
+C1cds       cdsnint1   cdslow  {cdsC1_0}
+*
+E2cds       cdshigh    cdsnint2  VALUE { MAX(V(cdshigh,cdslow),cdsvgg) - cdsQges2(MAX(V(cdshigh,cdslow),cdsvgg))/cdsC2_0}
+C2cds       cdsnint2   cdslow  {cdsC2_0}
+*
+E3cds       cdshigh    cdsnint3  VALUE { MAX(V(cdshigh,cdslow),cdsvgg) - cdsQges3(MAX(V(cdshigh,cdslow),cdsvgg))/cdsC3_0}
+C3cds       cdsnint3   cdslow  {cdsC3_0}
+*
+E4cds       cdshigh    cdsnint4  VALUE { MAX(V(cdshigh,cdslow),cdsvgg) - cdsQges4(MAX(V(cdshigh,cdslow),cdsvgg))/cdsC4_0}
+C4cds       cdsnint4   cdslow  {cdsC4_0}
+*
+C5cds       cdshigh    cdslow  {cdsC5_0}
+*
+E6cds       cdshigh    cdsnint6  VALUE { MAX(V(cdshigh,cdslow),cdsvgg) - cdsQges6(MAX(V(cdshigh,cdslow),cdsvgg))/cdsC6_0}
+C6cds       cdsnint6   cdslow  {cdsC6_0}
+*
+*
+C_Cgs      g    s        {Cgs}
+*
+
+Vcdshigh   d1   cdshigh  0
+Vcdslow    s    cdslow   0
+
+Vcgdhigh   d1   cgdhigh  0
+Vcgdlow    g    cgdlow   0
+
+*****
+
+G_G_Ptot_channel 0 Tj VALUE {heat*LIMIT(V(d,s)*I(V_Ichannel),0,100k) }
+G_G_Ptot_Epi     0 t1 VALUE {heat*(LIMIT(V(dd,d1)*I(V_Iepi),0,100k)+LIMIT(V(dd,dio)*I(V_Idiode)+V(dio,s)*I(V_Idio),0,100k))}
+*
+
+.ENDS
+
+**********
+
+.SUBCKT cool_600_is_var dd g s Tj t1 PARAMS: act=1 dVth=0 dR=0 Inn=1u Unn=10 Rmax=1 Rs=1u heat=1 
+*
+.PARAM  p666={4*SQRT(act)}
+*
+.PARAM Vth0=3.7
+.PARAM Vmin=2.8     Vmax=4.7      
+*
+.PARAM fpar1=0.1265         fpar2=1.2825    
+.PARAM fpar29=298           Tref=273           fpar3=4.7m
+.PARAM fpar4=600m           fpar6=660
+.PARAM fpar7=207m           fpar9=4
+.PARAM fpar10=2.89          tt=400n
+.PARAM fpar12=1.1           fpar13={2.167/act}  fpar14={48m/act}    fpar15=13 
+.PARAM fpar16=-0.008        fpar17 ={0.1*4}
+.PARAM fpar18=85.8u         fpar19=-29         fpar20=1.08         fpar21={Exp(fpar19)}
+.PARAM fpar22={2.05*act}
+.PARAM fpar23=0.91
+.PARAM loge=0.43429448                     
+*
+.PARAM muth=1.08375                     
+*
+.PARAM Vth={Vth0+(Vmax-Vth0)*LIMIT(dVth,0,1)-(Vmin-Vth0)*LIMIT(dVth,-1,0)}
+.PARAM p1={Unn-Inn*Rs-Vth0}
+.PARAM p2={(((p1-SQRT(p1**2-4*fpar2/fpar22*Inn*(1+fpar1*p1)))/fpar2*fpar12+1)**2-1)/(4*fpar12)}
+.PARAM p3={fpar15/(2*(Inn*(Inn*(Rmax-Rs)-p2)))}
+.PARAM Rlim={p3*(-fpar15+SQRT(fpar15**2+4*(Rmax*Inn)**2-8*Rmax*Inn*(Inn*Rs+p2)+(2*p2+2*Inn*Rs)**2))}
+.PARAM dRd={fpar13+IF(dVth==0,LIMIT(dR,0,1)*MAX(Rlim-fpar13,0),0)}
+*
+.FUNC  fpar24(Uee,p,pp,z1)  {IF(Uee>pp,(Uee-fpar2*z1)*z1,p*(pp-p)/fpar2*EXP((Uee-pp)/p))}
+.FUNC  fpar25(Uds,p,Uee,z1,Tjx) {(fpar22/(1+fpar1*Uee)*(fpar29/Tjx)**muth)*fpar24(Uee,p,MIN(2*p,p+fpar2*Uds),z1)}
+.FUNC  fpar28(Uds,Ugs,Tjx,p)  {fpar25(Uds,p,Ugs-Vth+fpar3*(Tjx-fpar29),MIN(Uds,(Ugs-Vth+fpar3*(Tjx-fpar29))/(2*fpar2)),Tjx)}
+.FUNC  fpar26(Uds,Tjx)      {act*EXP(MIN(fpar19+(Uds-fpar6-fpar4*(Tjx-fpar29))/fpar7,23))}
+.FUNC  fpar27(Uds,Ugs,Tjx) {sgn(Uds)*fpar28((SQRT(1+4*fpar12*abs(Uds))-1)/2/fpar12,Ugs,Tjx,fpar9*fpar18*Tjx)}
+*
+R1 g s 1G
+G_G1 d s VALUE={fpar27(V(d,s),V(g,s),Tref+LIMIT(V(Tj),-200,999))}
+Rd01 d s 500Meg
+*
+V_Ichannel d1 d 0
+V_Iepi     dd d2 0  
+*
+G_G_Rd     d2 d1 VALUE 
++ {V(d2,d1)/( 
++ (1-fpar17)
++ *((dRd*0.5*(1+SQRT(1+4*(MAX(V(d2,d1),0)/fpar15)**(LIMIT(2+fpar16*(V(t1)+Tref-fpar29),0,3)))))
++ *((Tref+LIMIT(V(t1),-200,999))/fpar29)**fpar10)
++ + (fpar17)*((dRd*0.5*(1+SQRT(1+4*(MAX(V(d2,d1),0)/fpar15)**(LIMIT(2+fpar16*(V(t1)+Tref-fpar29),0,3)))))))}
+*
+R_R_ERd_g  d2 d1  10k
+*
+G_Rdiod    dd    dio2 VALUE {V(dd,dio2)/(fpar14*((Tref+LIMIT(V(t1),-200,999))/fpar29)**fpar23)}
+R_Rdiod    dd    dio 500Meg
+V_Idiode   dio2  dio 0
+*
+Dbody      s    di    DBODY
+.MODEL DBODY  D(IS={fpar21*act}  N={fpar20}  RS=2u  EG=1.12  TT={tt})
+*
+Rd02       s    di 500Meg
+G_diode2   s    di VALUE={-fpar26(V(di,s),Tref+LIMIT(V(t1),-200,999))}
+V_Idio     dio  di 0
+*
+
+*Capacitance model:
+*Cgd
+.PARAM  cgdvgg=-0.1            cgducut=100 
+.PARAM  cgda1={130p*act}    cgdb1=-1.7                 cgdC1_0={cgda1*EXP(cgdb1*cgdvgg)}
+.PARAM  cgda2={80p*act}     cgdb2=-0.12                cgdC2_0={cgda2*EXP(cgdb2*cgdvgg)}
+.PARAM  cgda3={4p*act}      cgdb3=-4      cgdc3=40     cgdC3_0={1/2*cgda3*(1+TANH((cgdvgg-cgdc3)/cgdb3))}
+.PARAM  cgda4={1.2p*act}    cgdb4=200     cgdc4=400    cgdC4_0={1/2*cgda4*(1+TANH((cgdvgg-cgdc4)/cgdb4))}
+.PARAM  cgda5={0.001p*p666}                            cgdC5_0={cgda5}
+.PARAM  cgda6={0.3p*p666}   cgdb6=-600    cgdc6=40     cgdC6_0={1/2*cgda6*(1+TANH((cgdvgg-cgdc6)/cgdb6))}
+
+*Cds
+.PARAM  cdsvgg=0            cdsucut=100
+.PARAM  cdsa1={400p*act}    cdsb1=-0.3                 cdsC1_0={cdsa1*EXP(cdsb1*cdsvgg)}
+.PARAM  cdsa2={260p*act}    cdsb2=-0.05                cdsC2_0={cdsa2*EXP(cdsb2*cdsvgg)}
+.PARAM  cdsa3={0p*act}      cdsb3=1       cdsc3=1      cdsC3_0={1/2*cdsa3*(1+TANH((cdsvgg-cdsc3)/cdsb3))}
+.PARAM  cdsa4={5p*act}      cdsb4=-700    cdsc4=300    cdsC4_0={1/2*cdsa4*(1+TANH((cdsvgg-cdsc4)/cdsb4))}
+.PARAM  cdsa5={0.001p*p666}                            cdsC5_0={cdsa5}
+.PARAM  cdsa6={0.7p*p666}   cdsb6=-700    cdsc6=300    cdsC6_0={1/2*cdsa6*(1+TANH((cdsvgg-cdsc6)/cdsb6))}
+
+*Cgs
+.PARAM  cgs={act*110p}
+
+
+.FUNC     cgdQges1(U)    {cgda1/cgdb1 * (EXP(cgdb1*U)-1)} 
+.FUNC     cgdQges2(U)    {cgda2/cgdb2 * (EXP(cgdb2*U)-1)} 
+.FUNC     cgdQges3(U)    {IF (U< cgducut, cgda3*U/2 + 1/2*cgda3*cgdb3*LOG10(COSH((U-cgdc3)/cgdb3))/loge 
++                         - 1/2*cgda3*cgdb3*LOG10(COSH((-cgdc3)/cgdb3))/loge, 
++                         cgda3*cgducut/2 + 1/2*cgda3*cgdb3*LOG10(COSH((cgducut-cgdc3)/cgdb3))/loge 
++                         - 1/2*cgda3*cgdb3*LOG10(COSH((-cgdc3)/cgdb3))/loge)}  
+.FUNC     cgdQges4(U)    {cgda4*U/2 + 1/2*cgda4*cgdb4*LOG10(COSH((U-cgdc4)/cgdb4))/loge 
++                         - 1/2*cgda4*cgdb4*LOG10(COSH((-cgdc4)/cgdb4))/loge}  
+.FUNC     cgdQges5(U)    {cgda5*U}
+.FUNC     cgdQges6(U)    {cgda6*U/2 + 1/2*cgda6*cgdb6*LOG10(COSH((U-cgdc6)/cgdb6))/loge 
++                         - 1/2*cgda6*cgdb6*LOG10(COSH((-cgdc6)/cgdb6))/loge}  
+
+
+*Cgd with voltage source
+E1cgd    cgdhigh   cgdnint1  VALUE { MAX(V(cgdhigh,cgdlow),cgdvgg) - cgdQges1(MAX(V(cgdhigh,cgdlow),cgdvgg))/cgdC1_0}
+C1cgd    cgdnint1  cgdlow   {cgdC1_0}
+*
+E2cgd    cgdhigh   cgdnint2  VALUE { MAX(V(cgdhigh,cgdlow),cgdvgg) - cgdQges2(MAX(V(cgdhigh,cgdlow),cgdvgg))/cgdC2_0}
+C2cgd    cgdnint2  cgdlow   {cgdC2_0}
+*
+E3cgd    cgdhigh   cgdnint3  VALUE { MAX(V(cgdhigh,cgdlow),cgdvgg) - cgdQges3(MAX(V(cgdhigh,cgdlow),cgdvgg))/cgdC3_0}
+C3cgd    cgdnint3  cgdlow   {cgdC3_0}
+*
+E4cgd    cgdhigh   cgdnint4  VALUE { MAX(V(cgdhigh,cgdlow),cgdvgg) - cgdQges4(MAX(V(cgdhigh,cgdlow),cgdvgg))/cgdC4_0}
+C4cgd    cgdnint4  cgdlow   {cgdC4_0}
+*
+C5cgd    cgdhigh   cgdlow   {cgdC5_0}
+*
+E6cgd    cgdhigh   cgdnint6  VALUE { MAX(V(cgdhigh,cgdlow),cgdvgg) - cgdQges6(MAX(V(cgdhigh,cgdlow),cgdvgg))/cgdC6_0}
+C6cgd    cgdnint6  cgdlow   {cgdC6_0}
+*
+
+.FUNC     cdsQges1(U)    {cdsa1/cdsb1 * (EXP(cdsb1*U)-1)} 
+.FUNC     cdsQges2(U)    {cdsa2/cdsb2 * (EXP(cdsb2*U)-1)} 
+.FUNC     cdsQges3(U)    {IF (U<cdsucut, cdsa3*U/2 + 1/2*cdsa3*cdsb3*LOG10(COSH((U-cdsc3)/cdsb3))/loge 
++                         - 1/2*cdsa3*cdsb3*LOG10(COSH((-cdsc3)/cdsb3))/loge, 
++                         cdsa3*cdsucut/2 + 1/2*cdsa3*cdsb3*LOG10(COSH((cdsucut-cdsc3)/cdsb3))/loge 
++                         - 1/2*cdsa3*cdsb3*LOG10(COSH((-cdsc3)/cdsb3))/loge)}  
+.FUNC     cdsQges4(U)    {cdsa4*U/2 + 1/2*cdsa4*cdsb4*LOG10(COSH((U-cdsc4)/cdsb4))/loge 
++                         - 1/2*cdsa4*cdsb4*LOG10(COSH((-cdsc4)/cdsb4))/loge}  
+.FUNC     cdsQges5(U)    {cdsa5*U}
+.FUNC     cdsQges6(U)    {cdsa6*U/2 + 1/2*cdsa6*cdsb6*LOG10(COSH((U-cdsc6)/cdsb6))/loge 
++                         - 1/2*cdsa6*cdsb6*LOG10(COSH((-cdsc6)/cdsb6))/loge}  
+
+
+*Cds with voltage source
+E1cds       cdshigh    cdsnint1  VALUE { MAX(V(cdshigh,cdslow),cdsvgg) - cdsQges1(MAX(V(cdshigh,cdslow),cdsvgg))/cdsC1_0}
+C1cds       cdsnint1   cdslow  {cdsC1_0}
+*
+E2cds       cdshigh    cdsnint2  VALUE { MAX(V(cdshigh,cdslow),cdsvgg) - cdsQges2(MAX(V(cdshigh,cdslow),cdsvgg))/cdsC2_0}
+C2cds       cdsnint2   cdslow  {cdsC2_0}
+*
+E3cds       cdshigh    cdsnint3  VALUE { MAX(V(cdshigh,cdslow),cdsvgg) - cdsQges3(MAX(V(cdshigh,cdslow),cdsvgg))/cdsC3_0}
+C3cds       cdsnint3   cdslow  {cdsC3_0}
+*
+E4cds       cdshigh    cdsnint4  VALUE { MAX(V(cdshigh,cdslow),cdsvgg) - cdsQges4(MAX(V(cdshigh,cdslow),cdsvgg))/cdsC4_0}
+C4cds       cdsnint4   cdslow  {cdsC4_0}
+*
+C5cds       cdshigh    cdslow  {cdsC5_0}
+*
+E6cds       cdshigh    cdsnint6  VALUE { MAX(V(cdshigh,cdslow),cdsvgg) - cdsQges6(MAX(V(cdshigh,cdslow),cdsvgg))/cdsC6_0}
+C6cds       cdsnint6   cdslow  {cdsC6_0}
+*
+*
+C_Cgs      g    s        {Cgs}
+*
+
+Vcdshigh   d1   cdshigh  0
+Vcdslow    s    cdslow   0
+
+Vcgdhigh   d1   cgdhigh  0
+Vcgdlow    g    cgdlow   0
+
+*****
+
+G_G_Ptot_channel 0 Tj VALUE {heat*LIMIT(V(d,s)*I(V_Ichannel),0,100k) }
+G_G_Ptot_Epi     0 t1 VALUE {heat*(LIMIT(V(dd,d1)*I(V_Iepi),0,100k)+LIMIT(V(dd,dio)*I(V_Idiode)+V(dio,s)*I(V_Idio),0,100k))}
+*
+
+.ENDS
+
+**********
+
+.SUBCKT cool_600_i240_var dd g s Tj t1 PARAMS: act=1 dVth=0 dR=0 Inn=1u Unn=10 Rmax=1 Rs=1u heat=1 
+*
+.PARAM  p666={4*SQRT(act)}
+*
+.PARAM Vth0=3.7
+.PARAM Vmin=2.8     Vmax=4.7      
+*
+.PARAM fpar1=0.1265         fpar2=1.2825    
+.PARAM fpar29=298           Tref=273            fpar3=4.7m
+.PARAM fpar4=600m           fpar6=660
+.PARAM fpar7=207m           fpar9=4
+.PARAM fpar10=2.89          tt=400n
+.PARAM fpar12=1.1           fpar13={1.567/act}  fpar14={23.9m/act}   fpar15=12 
+.PARAM fpar16=-0.008        fpar17 ={0.1*4}
+.PARAM fpar18=85.8u         fpar19=-29          fpar20=1.08          fpar21={Exp(fpar19)}
+.PARAM fpar22={2.05*act}
+.PARAM fpar23=0.91
+.PARAM loge=0.43429448                     
+*
+.PARAM muth=1.08375                     
+*
+.PARAM Vth={Vth0+(Vmax-Vth0)*LIMIT(dVth,0,1)-(Vmin-Vth0)*LIMIT(dVth,-1,0)}
+.PARAM p1={Unn-Inn*Rs-Vth0}
+.PARAM p2={(((p1-SQRT(p1**2-4*fpar2/fpar22*Inn*(1+fpar1*p1)))/fpar2*fpar12+1)**2-1)/(4*fpar12)}
+.PARAM p3={fpar15/(2*(Inn*(Inn*(Rmax-Rs)-p2)))}
+.PARAM Rlim={p3*(-fpar15+SQRT(fpar15**2+4*(Rmax*Inn)**2-8*Rmax*Inn*(Inn*Rs+p2)+(2*p2+2*Inn*Rs)**2))}
+.PARAM dRd={fpar13+IF(dVth==0,LIMIT(dR,0,1)*MAX(Rlim-fpar13,0),0)}
+*
+.FUNC  fpar24(Uee,p,pp,z1)  {IF(Uee>pp,(Uee-fpar2*z1)*z1,p*(pp-p)/fpar2*EXP((Uee-pp)/p))}
+.FUNC  fpar25(Uds,p,Uee,z1,Tjx) {(fpar22/(1+fpar1*Uee)*(fpar29/Tjx)**muth)*fpar24(Uee,p,MIN(2*p,p+fpar2*Uds),z1)}
+.FUNC  fpar28(Uds,Ugs,Tjx,p)  {fpar25(Uds,p,Ugs-Vth+fpar3*(Tjx-fpar29),MIN(Uds,(Ugs-Vth+fpar3*(Tjx-fpar29))/(2*fpar2)),Tjx)}
+.FUNC  fpar26(Uds,Tjx)      {act*EXP(MIN(fpar19+(Uds-fpar6-fpar4*(Tjx-fpar29))/fpar7,23))}
+.FUNC  fpar27(Uds,Ugs,Tjx) {sgn(Uds)*fpar28((SQRT(1+4*fpar12*abs(Uds))-1)/2/fpar12,Ugs,Tjx,fpar9*fpar18*Tjx)}
+*
+R1 g s 1G
+G_G1 d s VALUE={fpar27(V(d,s),V(g,s),Tref+LIMIT(V(Tj),-200,999))}
+Rd01 d s 500Meg
+*
+V_Ichannel d1 d 0
+V_Iepi     dd d2 0  
+*
+G_G_Rd     d2 d1 VALUE 
++ {V(d2,d1)/( 
++ (1-fpar17)
++ *((dRd*0.5*(1+SQRT(1+4*(MAX(V(d2,d1),0)/fpar15)**(LIMIT(2+fpar16*(V(t1)+Tref-fpar29),0,3)))))
++ *((Tref+LIMIT(V(t1),-200,999))/fpar29)**fpar10)
++ + (fpar17)*((dRd*0.5*(1+SQRT(1+4*(MAX(V(d2,d1),0)/fpar15)**(LIMIT(2+fpar16*(V(t1)+Tref-fpar29),0,3)))))))}
+*
+R_R_ERd_g  d2 d1  10k
+*
+G_Rdiod    dd    dio2 VALUE {V(dd,dio2)/(fpar14*((Tref+LIMIT(V(t1),-200,999))/fpar29)**fpar23)}
+R_Rdiod    dd    dio 500Meg
+V_Idiode   dio2  dio 0
+*
+Dbody      s    di    DBODY
+.MODEL DBODY  D(IS={fpar21*act}  N={fpar20}  RS=2u  EG=1.12  TT={tt})
+*
+Rd02       s    di 500Meg
+G_diode2   s    di VALUE={-fpar26(V(di,s),Tref+LIMIT(V(t1),-200,999))}
+V_Idio     dio  di 0
+*
+
+*Capacitance model:
+*Cgd
+.PARAM  cgdvgg=-0.1            cgducut=100 
+.PARAM  cgda1={130p*act}    cgdb1=-1.7                 cgdC1_0={cgda1*EXP(cgdb1*cgdvgg)}
+.PARAM  cgda2={80p*act}     cgdb2=-0.12                cgdC2_0={cgda2*EXP(cgdb2*cgdvgg)}
+.PARAM  cgda3={4p*act}      cgdb3=-4      cgdc3=40     cgdC3_0={1/2*cgda3*(1+TANH((cgdvgg-cgdc3)/cgdb3))}
+.PARAM  cgda4={1.2p*act}    cgdb4=200     cgdc4=400    cgdC4_0={1/2*cgda4*(1+TANH((cgdvgg-cgdc4)/cgdb4))}
+.PARAM  cgda5={0.001p*p666}                            cgdC5_0={cgda5}
+.PARAM  cgda6={0.3p*p666}   cgdb6=-600    cgdc6=40     cgdC6_0={1/2*cgda6*(1+TANH((cgdvgg-cgdc6)/cgdb6))}
+
+*Cds
+.PARAM  cdsvgg=0            cdsucut=100
+.PARAM  cdsa1={400p*act}    cdsb1=-0.3                 cdsC1_0={cdsa1*EXP(cdsb1*cdsvgg)}
+.PARAM  cdsa2={260p*act}    cdsb2=-0.05                cdsC2_0={cdsa2*EXP(cdsb2*cdsvgg)}
+.PARAM  cdsa3={0p*act}      cdsb3=1       cdsc3=1      cdsC3_0={1/2*cdsa3*(1+TANH((cdsvgg-cdsc3)/cdsb3))}
+.PARAM  cdsa4={5p*act}      cdsb4=-700    cdsc4=300    cdsC4_0={1/2*cdsa4*(1+TANH((cdsvgg-cdsc4)/cdsb4))}
+.PARAM  cdsa5={0.001p*p666}                            cdsC5_0={cdsa5}
+.PARAM  cdsa6={0.7p*p666}   cdsb6=-700    cdsc6=300    cdsC6_0={1/2*cdsa6*(1+TANH((cdsvgg-cdsc6)/cdsb6))}
+
+*Cgs
+.PARAM  cgs={act*110p}
+
+
+.FUNC     cgdQges1(U)    {cgda1/cgdb1 * (EXP(cgdb1*U)-1)} 
+.FUNC     cgdQges2(U)    {cgda2/cgdb2 * (EXP(cgdb2*U)-1)} 
+.FUNC     cgdQges3(U)    {IF (U< cgducut, cgda3*U/2 + 1/2*cgda3*cgdb3*LOG10(COSH((U-cgdc3)/cgdb3))/loge 
++                         - 1/2*cgda3*cgdb3*LOG10(COSH((-cgdc3)/cgdb3))/loge, 
++                         cgda3*cgducut/2 + 1/2*cgda3*cgdb3*LOG10(COSH((cgducut-cgdc3)/cgdb3))/loge 
++                         - 1/2*cgda3*cgdb3*LOG10(COSH((-cgdc3)/cgdb3))/loge)}  
+.FUNC     cgdQges4(U)    {cgda4*U/2 + 1/2*cgda4*cgdb4*LOG10(COSH((U-cgdc4)/cgdb4))/loge 
++                         - 1/2*cgda4*cgdb4*LOG10(COSH((-cgdc4)/cgdb4))/loge}  
+.FUNC     cgdQges5(U)    {cgda5*U}
+.FUNC     cgdQges6(U)    {cgda6*U/2 + 1/2*cgda6*cgdb6*LOG10(COSH((U-cgdc6)/cgdb6))/loge 
++                         - 1/2*cgda6*cgdb6*LOG10(COSH((-cgdc6)/cgdb6))/loge}  
+
+
+*Cgd with voltage source
+E1cgd    cgdhigh   cgdnint1  VALUE { MAX(V(cgdhigh,cgdlow),cgdvgg) - cgdQges1(MAX(V(cgdhigh,cgdlow),cgdvgg))/cgdC1_0}
+C1cgd    cgdnint1  cgdlow   {cgdC1_0}
+*
+E2cgd    cgdhigh   cgdnint2  VALUE { MAX(V(cgdhigh,cgdlow),cgdvgg) - cgdQges2(MAX(V(cgdhigh,cgdlow),cgdvgg))/cgdC2_0}
+C2cgd    cgdnint2  cgdlow   {cgdC2_0}
+*
+E3cgd    cgdhigh   cgdnint3  VALUE { MAX(V(cgdhigh,cgdlow),cgdvgg) - cgdQges3(MAX(V(cgdhigh,cgdlow),cgdvgg))/cgdC3_0}
+C3cgd    cgdnint3  cgdlow   {cgdC3_0}
+*
+E4cgd    cgdhigh   cgdnint4  VALUE { MAX(V(cgdhigh,cgdlow),cgdvgg) - cgdQges4(MAX(V(cgdhigh,cgdlow),cgdvgg))/cgdC4_0}
+C4cgd    cgdnint4  cgdlow   {cgdC4_0}
+*
+C5cgd    cgdhigh   cgdlow   {cgdC5_0}
+*
+E6cgd    cgdhigh   cgdnint6  VALUE { MAX(V(cgdhigh,cgdlow),cgdvgg) - cgdQges6(MAX(V(cgdhigh,cgdlow),cgdvgg))/cgdC6_0}
+C6cgd    cgdnint6  cgdlow   {cgdC6_0}
+*
+
+.FUNC     cdsQges1(U)    {cdsa1/cdsb1 * (EXP(cdsb1*U)-1)} 
+.FUNC     cdsQges2(U)    {cdsa2/cdsb2 * (EXP(cdsb2*U)-1)} 
+.FUNC     cdsQges3(U)    {IF (U<cdsucut, cdsa3*U/2 + 1/2*cdsa3*cdsb3*LOG10(COSH((U-cdsc3)/cdsb3))/loge 
++                         - 1/2*cdsa3*cdsb3*LOG10(COSH((-cdsc3)/cdsb3))/loge, 
++                         cdsa3*cdsucut/2 + 1/2*cdsa3*cdsb3*LOG10(COSH((cdsucut-cdsc3)/cdsb3))/loge 
++                         - 1/2*cdsa3*cdsb3*LOG10(COSH((-cdsc3)/cdsb3))/loge)}  
+.FUNC     cdsQges4(U)    {cdsa4*U/2 + 1/2*cdsa4*cdsb4*LOG10(COSH((U-cdsc4)/cdsb4))/loge 
++                         - 1/2*cdsa4*cdsb4*LOG10(COSH((-cdsc4)/cdsb4))/loge}  
+.FUNC     cdsQges5(U)    {cdsa5*U}
+.FUNC     cdsQges6(U)    {cdsa6*U/2 + 1/2*cdsa6*cdsb6*LOG10(COSH((U-cdsc6)/cdsb6))/loge 
++                         - 1/2*cdsa6*cdsb6*LOG10(COSH((-cdsc6)/cdsb6))/loge}  
+
+
+*Cds with voltage source
+E1cds       cdshigh    cdsnint1  VALUE { MAX(V(cdshigh,cdslow),cdsvgg) - cdsQges1(MAX(V(cdshigh,cdslow),cdsvgg))/cdsC1_0}
+C1cds       cdsnint1   cdslow  {cdsC1_0}
+*
+E2cds       cdshigh    cdsnint2  VALUE { MAX(V(cdshigh,cdslow),cdsvgg) - cdsQges2(MAX(V(cdshigh,cdslow),cdsvgg))/cdsC2_0}
+C2cds       cdsnint2   cdslow  {cdsC2_0}
+*
+E3cds       cdshigh    cdsnint3  VALUE { MAX(V(cdshigh,cdslow),cdsvgg) - cdsQges3(MAX(V(cdshigh,cdslow),cdsvgg))/cdsC3_0}
+C3cds       cdsnint3   cdslow  {cdsC3_0}
+*
+E4cds       cdshigh    cdsnint4  VALUE { MAX(V(cdshigh,cdslow),cdsvgg) - cdsQges4(MAX(V(cdshigh,cdslow),cdsvgg))/cdsC4_0}
+C4cds       cdsnint4   cdslow  {cdsC4_0}
+*
+C5cds       cdshigh    cdslow  {cdsC5_0}
+*
+E6cds       cdshigh    cdsnint6  VALUE { MAX(V(cdshigh,cdslow),cdsvgg) - cdsQges6(MAX(V(cdshigh,cdslow),cdsvgg))/cdsC6_0}
+C6cds       cdsnint6   cdslow  {cdsC6_0}
+*
+*
+C_Cgs      g    s        {Cgs}
+*
+
+Vcdshigh   d1   cdshigh  0
+Vcdslow    s    cdslow   0
+
+Vcgdhigh   d1   cgdhigh  0
+Vcgdlow    g    cgdlow   0
+
+*****
+
+G_G_Ptot_channel 0 Tj VALUE {heat*LIMIT(V(d,s)*I(V_Ichannel),0,100k) }
+G_G_Ptot_Epi     0 t1 VALUE {heat*(LIMIT(V(dd,d1)*I(V_Iepi),0,100k)+LIMIT(V(dd,dio)*I(V_Idiode)+V(dio,s)*I(V_Idio),0,100k))}
+*
+
+.ENDS
+*
+
