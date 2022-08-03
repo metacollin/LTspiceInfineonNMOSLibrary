@@ -17,7 +17,7 @@ WINDOW 0 56 32 Left 2
 WINDOW 3 56 72 Left 2
 SYMATTR Value BSC032N04LS
 SYMATTR Prefix X
-SYMATTR ModelFile OptiMOS5_40V_PSpice.lib
+SYMATTR ModelFile OptiMOS5_40V.lib
 SYMATTR Description N-Channel MOSFET transistor
 PIN 48 0 NONE 0
 PINATTR PinName D

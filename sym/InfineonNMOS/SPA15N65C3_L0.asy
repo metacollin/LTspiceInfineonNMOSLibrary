@@ -17,7 +17,7 @@ WINDOW 0 56 32 Left 2
 WINDOW 3 56 72 Left 2
 SYMATTR Value SPA15N65C3_L0
 SYMATTR Prefix X
-SYMATTR ModelFile Infineon - Simulation Model - PSpice - CoolMOS™ - C3 - 650V.lib
+SYMATTR ModelFile SimulationModel_CoolMOS_C3_MOSFET_650V_Spice.lib
 SYMATTR Description N-Channel MOSFET transistor
 PIN 48 0 NONE 0
 PINATTR PinName D

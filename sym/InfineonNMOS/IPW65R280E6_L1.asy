@@ -17,7 +17,7 @@ WINDOW 0 56 32 Left 2
 WINDOW 3 56 72 Left 2
 SYMATTR Value IPW65R280E6_L1
 SYMATTR Prefix X
-SYMATTR ModelFile IFX_E6_650V.lib
+SYMATTR ModelFile SimulationModel_CoolMOS_E6_MOSFET_650V_Spice.lib
 SYMATTR Description N-Channel MOSFET transistor
 PIN 48 0 NONE 0
 PINATTR PinName D

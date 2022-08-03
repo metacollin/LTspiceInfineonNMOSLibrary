@@ -1,0 +1,528 @@
+*****************************************************************
+* INFINEON Power Transistors                                    *
+* Level-0/1/3 PSPICE Library for CoolMOS Transistors C3A 800V   *
+* Version 020518                                                *
+*                                                               *
+*****************************************************************
+*****************************************************************
+*                                                               *
+* Models provided by INFINEON are not warranted by INFINEON as  *
+* fully representing all of the specifications and operating    *
+* characteristics of the semiconductor product to which the     *
+* model relates. The model describe the characteristics of a    *
+* typical device.                                               *
+* In all cases, the current data sheet information for a given  *
+* device is the final design guideline and the only actual      *
+* performance specification.                                    *
+* Altough models can be a useful tool in evaluating device      *
+* performance, they cannot model exact device performance under *
+* all conditions, nor are they intended to replace bread-       *
+* boarding for final verification. INFINEON therefore does not  *
+* assume any liability arising from their use.                  *
+* INFINEON reserves the right to change models without prior    *
+* notice.                                                       *
+*                                                               *
+* This library contains models of the following INFINEON        *
+* CoolMOS transistors:                                          *
+*                                                               *
+*   800 V C3A                                                   *
+*        IPB80R290C3A      IPW80R290C3A        IPD80R2K7C3A     *
+*                                                               *
+*****************************************************************
+
+.SUBCKT IPB80R290C3A_L0  drain  gate  source
+
+Lg     gate  g1    7n
+Ld     drain d1    1n
+Ls     source s1   7n
+Rs      s1    s2   1m
+
+Rg     g1    g2     0.85
+M1      d2    g2    s2    s2    DMOS    L=1u   W=1u
+.MODEL DMOS NMOS ( KP= 18.507  VTO=3.6  THETA=0  VMAX=1.5e5  ETA=0  LEVEL=3)
+Rd     d2    d1a    0.231 TC=12m
+.MODEL MVDR NMOS (KP=51.54 VTO=-1   LAMBDA=0.1)
+Mr d1 d2a d1a d1a MVDR W=1u L=1u
+Rx d2a d1a 1m
+Cds1 s2 d2 49.8p
+Dbd     s2    d2    Dbt
+.MODEL     Dbt    D(BV=800   M=0.55  CJO=4.48n  VJ=0.5V)
+Dbody   s2   21    DBODY
+.MODEL DBODY  D(IS=1p  N=1  RS=7u  EG=1.12  TT=2u)
+Rdiode  d1  21    8.79m TC=6m
+
+.MODEL   sw    NMOS(VTO=0  KP=10   LEVEL=1)
+Maux      g2   c    a    a   sw
+Maux2     b    d    g2    g2   sw
+Eaux      c    a    d2    g2   1
+Eaux2     d    g2   d2    g2   -1
+Cox       b    d2   5.37n
+.MODEL     DGD    D(M=1.2   CJO=5.37n   VJ=0.5)
+Rpar      b    d2   1Meg
+Dgd       a    d2   DGD
+Rpar2     d2   a    10Meg
+Cgs     g2    s2    2.29n
+
+.ENDS  IPB80R290C3A_L0
+
+******
+
+.SUBCKT IPW80R290C3A_L0  drain  gate  source
+
+Lg     gate  g1    7n
+Ld     drain d1    3n
+Ls     source s1   7n
+Rs      s1    s2   1m
+
+Rg     g1    g2     0.85
+M1      d2    g2    s2    s2    DMOS    L=1u   W=1u
+.MODEL DMOS NMOS ( KP= 18.507  VTO=3.6  THETA=0  VMAX=1.5e5  ETA=0  LEVEL=3)
+Rd     d2    d1a    0.231 TC=12m
+.MODEL MVDR NMOS (KP=51.54 VTO=-1   LAMBDA=0.1)
+Mr d1 d2a d1a d1a MVDR W=1u L=1u
+Rx d2a d1a 1m
+Cds1 s2 d2 49.8p
+Dbd     s2    d2    Dbt
+.MODEL     Dbt    D(BV=800   M=0.55  CJO=4.48n  VJ=0.5V)
+Dbody   s2   21    DBODY
+.MODEL DBODY  D(IS=1p  N=1  RS=7u  EG=1.12  TT=2u)
+Rdiode  d1  21    8.79m TC=6m
+
+.MODEL   sw    NMOS(VTO=0  KP=10   LEVEL=1)
+Maux      g2   c    a    a   sw
+Maux2     b    d    g2    g2   sw
+Eaux      c    a    d2    g2   1
+Eaux2     d    g2   d2    g2   -1
+Cox       b    d2   5.37n
+.MODEL     DGD    D(M=1.2   CJO=5.37n   VJ=0.5)
+Rpar      b    d2   1Meg
+Dgd       a    d2   DGD
+Rpar2     d2   a    10Meg
+Cgs     g2    s2    2.29n
+
+.ENDS  IPW80R290C3A_L0
+
+********
+
+.SUBCKT IPD80R2K7C3A_L0  drain  gate  source
+
+Lg     gate  g1    7n
+Ld     drain d1    3n
+Ls     source s1   7n
+Rs      s1    s2   2m
+
+Rg     g1    g2     1.4
+M1      d2    g2    s2    s2    DMOS    L=1u   W=1u
+.MODEL DMOS NMOS ( KP= 2.12  VTO=4  THETA=0  VMAX=1.5e5  ETA=0  LEVEL=3)
+Rd     d2    d1a    2.118 TC=12m
+.MODEL MVDR NMOS (KP=5.91 VTO=-1   LAMBDA=0.1)
+Mr d1 d2a d1a d1a MVDR W=1u L=1u
+Rx d2a d1a 1m
+Cds1 s2 d2 5.7p
+Dbd     s2    d2    Dbt
+.MODEL     Dbt    D(BV=800   M=0.55  CJO=0.29n  VJ=0.5V)
+Dbody   s2   21    DBODY
+.MODEL DBODY  D(IS=0.1p  N=1  RS=58u  EG=1.12  TT=750n)
+Rdiode  d1  21    76.75m TC=6m
+
+.MODEL   sw    NMOS(VTO=0  KP=10   LEVEL=1)
+Maux      g2   c    a    a   sw
+Maux2     b    d    g2    g2   sw
+Eaux      c    a    d2    g2   1
+Eaux2     d    g2   d2    g2   -1
+Cox       b    d2   0.62n
+.MODEL     DGD    D(M=1.2   CJO=0.62n   VJ=0.5)
+Rpar      b    d2   1Meg
+Dgd       a    d2   DGD
+Rpar2     d2   a    10Meg
+Cgs     g2    s2    0.21n
+
+.ENDS  IPD80R2K7C3A_L0
+
+******
+
+.SUBCKT IPB80R290C3A_L1 drain gate source PARAMS: dVth=0 dRdson=0
+
+.PARAM Rs=1m        Rg=0.85      Ls=7n        Ld=1n        Lg=7n
+.PARAM act=19.9     Inn=11       Unn=10       Rmax=290m
+
+X1  dd g s Tj Tj cool_800_t_var PARAMS: a={act} dVth={dVth} dR={dRdson} Inn={Inn} Unn={Unn} 
+                                        +Rmax={Rmax} Rs={Rs} heat=0
+L_Ld         drain  dd    {Ld}
+R_Ld         drain  dd    10
+
+L_Ls         source lsrs  {Ls}
+R_Ls         source lsrs  10
+R_Rs         s      lsrs  {Rs}
+
+L_Lg         gate   lgrg  {Lg}
+R_Lg         gate   lgrg  10
+R_Rg         lgrg   g     {Rg}
+
+E1    Tj     w      VALUE={TEMP}
+R1    w      0      1u
+
+.ENDS
+
+**********
+
+.SUBCKT IPW80R290C3A_L1 drain gate source PARAMS: dVth=0 dRdson=0
+
+.PARAM Rs=1m        Rg=0.85      Ls=7n        Ld=3n        Lg=7n
+.PARAM act=19.9     Inn=11       Unn=10       Rmax=290m
+
+X1  dd g s Tj Tj cool_800_t_var PARAMS: a={act} dVth={dVth} dR={dRdson} Inn={Inn} Unn={Unn} 
+                                        +Rmax={Rmax} Rs={Rs} heat=0
+L_Ld         drain  dd    {Ld}
+R_Ld         drain  dd    10
+
+L_Ls         source lsrs  {Ls}
+R_Ls         source lsrs  10
+R_Rs         s      lsrs  {Rs}
+
+L_Lg         gate   lgrg  {Lg}
+R_Lg         gate   lgrg  10
+R_Rg         lgrg   g     {Rg}
+
+E1    Tj     w      VALUE={TEMP}
+R1    w      0      1u
+
+.ENDS
+
+**********
+
+.SUBCKT IPD80R2K7C3A_L1 drain gate source PARAMS: dVth=0 dRdson=0
+
+.PARAM Rs=2m        Rg=1.4       Ls=7n        Ld=3n        Lg=7n
+.PARAM act=2.28     Inn=1.2      Unn=10       Rmax=2.7
+
+X1  dd g s Tj Tj cool_800_c_var PARAMS: act={act} dVth={dVth} dR={dRdson} Inn={Inn} Unn={Unn} 
+                                        +Rmax={Rmax} Rs={Rs} heat=0
+L_Ld         drain  dd    {Ld}
+R_Ld         drain  dd    10
+
+L_Ls         source lsrs  {Ls}
+R_Ls         source lsrs  10
+R_Rs         s      lsrs  {Rs}
+
+L_Lg         gate   lgrg  {Lg}
+R_Lg         gate   lgrg  10
+R_Rg         lgrg   g     {Rg}
+
+E1    Tj     w      VALUE={TEMP}
+R1    w      0      1u
+
+.ENDS
+
+**********
+
+.SUBCKT IPB80R290C3A_L3 drain gate source Tj Tcase PARAMS: dVth=0 dRdson=0 Zthtype=0
+
+.PARAM Rs=1m        Rg=0.85      Ls=7n        Ld=1n        Lg=7n
+.PARAM act=19.9     Inn=11       Unn=10       Rmax=290m
+.PARAM lzth={limit(Zthtype,0,1)}
+
+X1  dd g s Tj 1 cool_800_t_var PARAMS: a={act} dVth={dVth} dR={dRdson} Inn={Inn} Unn={Unn} 
+                                        +Rmax={Rmax} Rs={Rs} heat=1
+L_Ld         drain  dd    {Ld}
+R_Ld         drain  dd    10
+
+L_Ls         source lsrs  {Ls}
+R_Ls         source lsrs  10
+R_Rs         s      lsrs  {Rs}
+
+L_Lg         gate   lgrg  {Lg}
+R_Lg         gate   lgrg  10
+R_Rg         lgrg   g     {Rg}
+
+C_CZth1      Tj     0     191.437u
+C_CZth2      0      1     1.959m
+C_CZth3      0      2     1.744m
+C_CZth4      0      3     9.292m
+C_CZth5      0      4     23.944m
+C_CZth6      0      Tcase 140m
+C_CZth7      0      6     220m
+C_CZth8      0      7     500m
+R_Rth1       Tj     1     {11.87m+lzth*3.08m}
+R_Rth2       1      2     {16.88m+lzth*4.38m}
+R_Rth3       2      3     {63.79m+lzth*16.54m}
+R_Rth4       3      4     {105.46m+lzth*112.63m}
+R_Rth5       4      Tcase {104.28m+lzth*111.09m}
+R_Rth6       Tcase  6     400m
+R_Rth7       6      7     30
+
+.ENDS
+
+**********
+
+.SUBCKT IPW80R290C3A_L3 drain gate source Tj Tcase PARAMS: dVth=0 dRdson=0 Zthtype=0
+
+.PARAM Rs=1m        Rg=0.85      Ls=7n        Ld=3n        Lg=7n
+.PARAM act=19.9     Inn=11       Unn=10       Rmax=290m
+.PARAM lzth={limit(Zthtype,0,1)}
+
+X1  dd g s Tj 1 cool_800_t_var PARAMS: a={act} dVth={dVth} dR={dRdson} Inn={Inn} Unn={Unn} 
+                                        +Rmax={Rmax} Rs={Rs} heat=1
+L_Ld         drain  dd    {Ld}
+R_Ld         drain  dd    10
+
+L_Ls         source lsrs  {Ls}
+R_Ls         source lsrs  10
+R_Rs         s      lsrs  {Rs}
+
+L_Lg         gate   lgrg  {Lg}
+R_Lg         gate   lgrg  10
+R_Rg         lgrg   g     {Rg}
+
+C_CZth1      Tj     0     191.437u
+C_CZth2      0      1     1.959m
+C_CZth3      0      2     1.744m
+C_CZth4      0      3     9.292m
+C_CZth5      0      4     50.648m
+C_CZth6      0      Tcase 500m
+C_CZth7      0      6     1.9
+C_CZth8      0      7     2
+R_Rth1       Tj     1     {11.87m+lzth*3.08m}
+R_Rth2       1      2     {16.88m+lzth*4.38m}
+R_Rth3       2      3     {63.79m+lzth*16.54m}
+R_Rth4       3      4     {105.46m+lzth*86.56m}
+R_Rth5       4      Tcase {156.42m+lzth*85.02m}
+R_Rth6       Tcase  6     200m
+R_Rth7       6      7     6.3
+
+.ENDS
+
+
+**********
+
+.SUBCKT IPD80R2K7C3A_L3 drain gate source Tj Tcase PARAMS: dVth=0 dRdson=0 Zthtype=0
+
+.PARAM Rs=2m        Rg=1.4       Ls=7n        Ld=3n        Lg=7n
+.PARAM act=2.28     Inn=1.2      Unn=10       Rmax=2.7
+.PARAM lzth={limit(Zthtype,0,1)}
+
+X1  dd g s Tj 1 cool_800_c_var PARAMS: act={act} dVth={dVth} dR={dRdson} Inn={Inn} Unn={Unn} 
+                                        +Rmax={Rmax} Rs={Rs} heat=1
+L_Ld         drain  dd    {Ld}
+R_Ld         drain  dd    10
+
+L_Ls         source lsrs  {Ls}
+R_Ls         source lsrs  10
+R_Rs         s      lsrs  {Rs}
+
+L_Lg         gate   lgrg  {Lg}
+R_Lg         gate   lgrg  10
+R_Rg         lgrg   g     {Rg}
+
+C_CZth1      Tj     0     21.933u
+C_CZth2      0      1     224.468u
+C_CZth3      0      2     199.872u
+C_CZth4      0      3     1.065m
+C_CZth5      0      4     1.505m
+C_CZth6      0      Tcase 42.5m
+C_CZth7      0      6     65m
+C_CZth8      0      7     90m
+R_Rth1       Tj     1     {103.64m+lzth*26.87m}
+R_Rth2       1      2     {147.34m+lzth*38.2m}
+R_Rth3       2      3     {556.8m+lzth*144.35m}
+R_Rth4       3      4     {503.82m+lzth*542.39m}
+R_Rth5       4      Tcase {407.66m+lzth*528.94m}
+R_Rth6       Tcase  6     500m
+R_Rth7       6      7     50
+
+.ENDS
+
+**********
+
+.SUBCKT cool_800_t_var dd g s Tj t1 PARAMS: a=1 dVth=0 dR=0 dgfs=0 Inn=1 Unn=1 Rmax=1
++gmin=1 Rs=1 Rp=1 dC=0 heat=0
+
+.PARAM  Fm=0.0     Fn=0.5     fpar18=85.8u
+.PARAM  fpar2=1.344    muc=0.00   Vth0=3.35    fpar3=4.85m   fpar12=1
+.PARAM  UT=0.3     ab=1.172   ab2=0        lB=-23       UB=876
+
+.PARAM  b0=1.2     p0=7.174   p1=-21.8m    p2=40u
+
+.PARAM  Rd=4.58    nmu=3.1    Tref=298     fpar30=273       lnIsj=-26.191
+.PARAM  ndi=1.217  Rdi=92m    nmu2=0.859   ta=2u        td=300n
+.PARAM  fpar17=0.15    nmu3=1.314 fpar15=19        fpar16=-4m
+
+.PARAM  f3=115p    f3a=0p     f4=13.2p     f5=4p      sl=0.3p     
+.PARAM  ps1=250p   ps2=-2     ps3=40p      ps4=-0.1   ps5=0.2p    ps6=0p    sl2=2f
+.PARAM  qs1=0p     qs2=400p   q3=-2        qs4=300p   q5=-0.071   q6=40p    U0=1
+
+.PARAM  Vmin=2.35   Vmax=4.35  dCmax=0.33
+.PARAM  Vth={Vth0+(Vmax-Vth0)*limit(dVth,0,1)-(Vmin-Vth0)*limit(dVth,-1,0)}
+.PARAM  r0={b0*((fpar30/Tref)**nmu3)*a}
+.PARAM  r1={(Unn-Inn*Rs-Vth0)*r0}
+.PARAM  r2={(Fm*SQRT(0.4)-fpar2)*Inn*r0}
+.PARAM  Rlim={(r1+2*r2*Rmax-SQRT(r1**2+4*r2))/(2*r2)}
+.PARAM  dRd={Rd/a+if(dVth==0,limit(dR,0,1)*max(Rlim-Rd/a-Rs-Rp,0),0)}
+.PARAM  bm={fpar2/((1/gmin-Rs)**2*Inn*a*(fpar30/Tref)**nmu3)}
+.PARAM  bet={b0+(b0-bm)*if(dR==0,if(dVth==0,limit(dgfs,-1,0),0),0)}
+.PARAM  dC1={1+dCmax*limit(dC,0,1)}
+
+.PARAM  x0={(f4-f5)/sl}  x1={f4/sl} dx={x1-x0} y1={(ps5*a+ps6)*dC1}
+
+.PARAM  Cox1={ps1*a*dC1}
+.PARAM  Cox2={ps3*a*dC1}
+.PARAM  y0={f5*a*dC1}
+.PARAM  C0={q6*a*dC1}
+.PARAM  C1={qs2*a*dC1}
+.PARAM  C2={qs4*a*dC1}
+.PARAM  Cgs0={(f3a+f3*a)*dC1}
+.PARAM  dRdi={Rdi/a}
+
+.FUNC QCdg1(x) {y0*min(x,x1)+y1*max(x-x1,0)+sl2/2*x*x+(y0-y1)*((limit(x,x0,x1)-x0)**3/(dx*dx)*((limit(x,x0,x1)-x0)/(2*dx)-1))}
+.FUNC fpar24(Uee,p,pp,z1,cc)  {if(Uee>pp,(Uee-cc*z1)*z1,p*(pp-p)/cc*exp((Uee-pp)/p))}
+.FUNC fpar28(Uds,fpar29,p,Uee,cc)  {bet*(fpar30/fpar29)**nmu3*fpar24(Uee,p,min(2*p,p+cc*Uds),min(Uds,Uee/(2*cc)),cc)}
+.FUNC J(d,g,fpar29,da,s) 
++      {a*(s*((fpar28(da,fpar29,(p0+(p1+p2*fpar29)*fpar29)*fpar18*fpar29,g-Vth+fpar3*(fpar29-Tref),fpar2)
++      +1*exp(min(lB+(d-UB-ab*(fpar29-Tref))/UT,25)))))}
+
+.FUNC Idiode(Usd,Tj,Iss) {exp(min(log(Iss)+Usd/(ndi*fpar18*Tj),7))-Iss}
+.FUNC Idiod(Usd,Tj)      {a*Idiode(Usd,Tj,exp(min(lnIsj+(Tj/Tref-1)*1.12/(ndi*fpar18*Tj),7))*(Tj/Tref)**3)}
+
+E_Edg1    d1   ox  VALUE {if(V(d1,g)>0,V(d1,g)-(exp(ps2*max(V(d1,g),0))-1)/ps2,0)}
+C_Cdg1   ox   g   {Cox1}
+E_Edg2    d1   ox1 VALUE {if(V(d1,g)>0,V(d1,g)-(exp(ps4*max(V(d1,g),0))-1)/ps4,0)}
+C_Cdg2  ox1   g   {Cox2}
+E_Edg4    d1   ox4 VALUE {V(d1,g)-QCdg1(V(d1,g))/y0}
+C_Cdg4  ox4   g   {y0} 
+
+E_Eds     d1 edep  VALUE {(V(d1,s)-I(V_sense3)/(C1+C2))}
+C_Cds  edep    s  {C1+C2}
+
+E_Eds1     d1 edep1  VALUE {(V(d1,s)-2*(SQRT(U0*(limit(U0+V(d1,s),0,2*UB)))))}
+C_Cds1  edep1    s  {C0}
+
+C_Cgs   g    s   {Cgs0}
+
+G_chan    d    s  VALUE={J(V(d,s),V(g,s),fpar30+limit(V(Tj),-200,499),(SQRT(1+4*fpar12*abs(V(d,s)))-1)/2/fpar12,sgn(V(d,s)))}
+V_Ichannel d1 d 0
+
+
+V_Iepi     dd d2 0  
+G_G_Rd     d2 d1 VALUE 
++       {V(d2,d1)/((fpar17*dRd+(1-fpar17)*dRd*((fpar30+LIMIT(V(t1),-200,999))/Tref)**nmu)
++       *(0.5*(1+SQRT(1+4*(max(V(d2,d1),0)/fpar15)**2))))}
+R_R_ERd_g  d2 d1  10k
+
+*no fpar16 
+
+Dbody s dio dbody
+.model dbody D (BV= {UB*10},CJO ={(C1+C2)/1000},TT ={ta},IS ={a*exp(lnIsj)} m={0.3} RS={dRdi/100} N={ndi} )
+
+
+G_Rdio   dio2   dd  VALUE={V(dio2,dd)/(dRdi*((limit(V(Tj),-200,999)+fpar30)/Tref)**nmu2)}
+V_sense2 dio2   dio  0
+
+V_sense3  fpar2    0  0
+E_E002    e    0  VALUE 
++ {C1/q3*(exp(q3*max(V(d1,s),-1))-1)+C2/q5*(exp(q5*max(V(d1,s),-1))-1)} 
+R_R002    e    fpar2  1
+
+R1        g    s    1G
+Rd01      d    s    500Meg
+Rd02     d2    s    500Meg
+Rd04     d1    dio2 1k
+Rd05     dio   s    500Meg
+
+G_G_Ptot_channel 0 Tj VALUE {heat*LIMIT(V(d,s)*I(V_Ichannel),0,100k) }
+G_G_Ptot_Epi     0 t1 VALUE {heat*(LIMIT(V(dd,d1)*I(V_Iepi),0,100k)+LIMIT(V(dd,s)*I(V_sense2),0,100k))}
+
+
+.ENDS
+
+*******************************
+
+.SUBCKT cool_800_c_var dd g s Tj t1 PARAMS: dVth=0 act=1 dR=0 dgfs=0 Inn=1u Unn=10 Rmax=1 Rs=1u heat=1
+
+*control parameter: 1 if diode should store charge, 0 otherwise
+.PARAM enable_diode=1
+
+.PARAM w0={0.5p+SQRT(act)*1p}   w1={215p*act} w2={41p*act}  x1=-1.39    x2=-139m  Uoff=0.25    y1={exp(Uoff*x1)}
+.PARAM w3={150p*act}  w4={45p*act}  w5={200p*act} x3=-105.3m x4=0.5     x5=2      x6=1         x7=1 
+.PARAM w6={85p*act}   w7={60p*act}  sl={2p*act}   
+.PARAM Cgs={90p*act}  Cox={w0+w1+w2}
+.PARAM k14=-2   deltb=1
+
+.PARAM L=2u            g2=57.5m        fpar1=90m       fpar2=2
+.PARAM Vth0=3.75       fpar29=300           Tref=273        fpar3=5.5m
+.PARAM fpar4=800m       fpar5=100p        fpar6=800         coxi=431.4u
+.PARAM Un=99.19u       fpar7=207m      W={148m*act}    fpar9=5
+.PARAM fpar10=2.4         g16=-27.24      ta=1u           td=110n
+.PARAM fpar12=1            fpar13={5.169/act} fpar14={151m/act}  fpar15=23
+.PARAM fpar18=85.8u       fpar19=-29
+.PARAM fpar22={W*coxi*g2/L}
+
+.PARAM  Vmin=2.75     Vmax=4.75         
+.PARAM  Vth={Vth0+(Vmax-Vth0)*limit(dVth,0,1)-(Vmin-Vth0)*limit(dVth,-1,0)}
+.PARAM  p1={Unn-Inn*Rs-Vth0}
+.PARAM  p2={(((p1-SQRT(p1**2-4*fpar2/fpar22*Inn*(1+fpar1*p1)))/fpar2*fpar12+1)**2-1)/(4*fpar12)}
+.PARAM  p3={fpar15/(2*(Inn*(Inn*(Rmax-Rs)-p2)))}
+.PARAM  Rlim={p3*(-fpar15+SQRT(fpar15**2+4*(Rmax*Inn)**2-8*Rmax*Inn*(Inn*Rs+p2)+(2*p2+2*Inn*Rs)**2))}
+.PARAM  dRd={fpar13+if(dVth==0,limit(dR,0,1)*max(Rlim-fpar13,0),0)}
+
+.FUNC  fpar24(Uee,p,pp,z1)  {if(Uee>pp,(Uee-fpar2*z1)*z1,p*(pp-p)/fpar2*exp((Uee-pp)/p))}
+.FUNC  fpar25(Uds,p,Uee,z1,Tjx) {(fpar22/(1+fpar1*Uee)*(fpar29/Tjx)**1.5)*fpar24(Uee,p,min(2*p,p+fpar2*Uds),z1)}
+.FUNC  fpar28(Uds,Ugs,Tjx,p)  {fpar25(Uds,p,Ugs-Vth+fpar3*(Tjx-fpar29),min(Uds,(Ugs-Vth+fpar3*(Tjx-fpar29))/(2*fpar2)),Tjx)}
+.FUNC  fpar26(Uds,Tjx)      {act*exp(min(fpar19+(Uds-fpar6-fpar4*(Tjx-fpar29))/fpar7,23))}
+.FUNC  fpar27(Uds,Ugs,Tjx) {sgn(Uds)*fpar28((SQRT(1+4*fpar12*abs(Uds))-1)/2/fpar12,Ugs,Tjx,fpar9*fpar18*Tjx)}
+
+.FUNC  fpar31(Tjx) {exp(min(g16+(Tjx/fpar29-1)*(1.12/(Un*Tjx)),23))*(Tjx/fpar29)**1.5}
+.FUNC  Ird(Usd,Tjx)  {act*(-fpar31(Tjx)+exp(min(log(fpar31(Tjx))+Usd/(Un*Tjx),23)))}
+
+.FUNC  QCds(x,z)  {w7*z-sl*z**2/2-w6*max((w7-w6)/sl-x,0)}
+
+G_G1 d s VALUE={fpar27(V(d,s),V(g,s),Tref+limit(V(Tj),-200,999))}
+R1 g s 2G
+Rd01 d s 500Meg
+
+G_G_Rd ldrd d VALUE {V(ldrd,d)/((dRd*0.5*(1+SQRT(1+4*(max(V(ldrd,d),0)/fpar15)**2)))
++                    *((Tref+LIMIT(V(t1),-200,999))/fpar29)**fpar10)}
+R_R_ERd_g     ldrd d  10k
+
+G_Rdiod       ldrd dio2 VALUE {  V(ldrd,dio2)/(fpar14*((Tref+LIMIT(V(t1),-200,999))/fpar29)**1.5)}
+R_Rdiod       ldrd dio 500Meg
+V_sense       dio  dio2 0
+
+G_diode      s    dio VALUE={Ird(V(s,dio),Tref+LIMIT(V(t1),-200,999))}
+Rd02         s    dio2 500Meg
+G_diode2     s    dio2 VALUE={LIMIT(I(V_sense2),-1k,1k)-fpar26(V(dio2,s),Tref+LIMIT(V(t1),-200,999))}
+
+C_pack    dd  g   {w0}
+E_Edg1    d   ox1 VALUE {V(d,g)-((exp(min((V(d,g)+Uoff)*x1,0))-y1)/x1+min((V(d,g)+Uoff),0))}
+C_Cdg1    ox1 g   {w1}
+E_Edg2    d   ox2 VALUE {V(d,g)-((exp(min(V(d,g)*x2,0))-1)/x2+min(V(d,g),0))}
+C_Cdg2    ox2 g   {w2}
+
+E_Eds1  dio2 dEQJ1 VALUE {V(dio2,s)-(exp(min(V(dio2,s)*x3,0))-1)/x3+min(V(dio2,s),0)}
+C_Cds1  s    dEQJ1  {w3} 
+E_Eds2  d    dEQJ2 VALUE {V(d,s)-2*(SQRT(x6*limit(x6+V(d,s),0,2*fpar6))-x6)}
+C_Cds2  s    dEQJ2  {w4}
+E_Eds3  dio2 dEQJ3 VALUE {V(dio2,s)-1/(1-x5)*(x7**x5*limit(x7+V(dio2,s),1e-6,2*fpar6)**(1-x5)-x7)}
+C_Cds3  s   dEQJ3  {w5}
+E_Eds4  d    dEQJ4 VALUE {V(d,s)-(w7*limit(V(d,s),(w7-w6)/sl,w7/sl)-sl*limit(V(d,s),
+ +(w7-w6)/sl,w7/sl)**2/2-w6*max((w7-w6)/sl-V(d,s),0))/w6}
+C_Cds4  s    dEQJ4  {w6}
+
+E_Egs        g sm  VALUE  {(0.5*((V(g,s)-k14)+SQRT((V(g,s)-k14)**2+deltb*0.3))-deltb*0.3)*Cox/(Cgs+Cox)}   
+C_Cgs        sm s  {Cgs+Cox}
+
+V_Isense     dd ldrd 0
+
+G_G_Ptot_channel     0 Tj VALUE {heat*LIMIT(V(d,s)*I(V_Isense),0,100k) }
+G_G_Ptot_Epi         0 t1 VALUE {heat*LIMIT(V(ldrd,d)*I(V_Isense),0,100k) }
+
+*auxillary circuit for non-equilibirium diode charge
+
+C_C001  a 0 {ta*td/(ta+td)}
+R_R001  a b 1
+V_sense2 b fpar2 0
+E_E001  fpar2 0 VALUE {-enable_diode*ta/td*I(V_sense)}
+
+.ENDS
+*$
+
+************************

@@ -17,7 +17,7 @@ WINDOW 0 56 32 Left 2
 WINDOW 3 56 72 Left 2
 SYMATTR Value IPL65R650C6S_L1
 SYMATTR Prefix X
-SYMATTR ModelFile Infineon - Simulation Model - PSpice - CoolMOS™ - C6 - 650V.lib
+SYMATTR ModelFile SimulationModel_CoolMOS_C6_MOSFET_650V_Spice.lib
 SYMATTR Description N-Channel MOSFET transistor
 PIN 48 0 NONE 0
 PINATTR PinName D

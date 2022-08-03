@@ -1,0 +1,412 @@
+*****************************************************************
+* INFINEON Power Transistors                                    *
+* Content:        SPICE Model Library                           *
+* Device:         CoolMOS (Superjunction MOSFET)                *
+* Model Types:    L0 L1 L3                                      *
+* Technology:     G7 650V                                       *
+* Date and time:  03.09.2020  17:31:43                          *
+* Version:        793-718-410-726-806-611-611-806-806           *
+*****************************************************************
+*                                                               *
+* The models for Infineon Power MOSFET are evaluated with       *
+* SIMetrixTM-SPICE simulator. The Infineon Power MOSFET models  *
+* are tested, verified and provided in SPICE simulation code.   *
+*                                                               *
+* Infineon | Terminals | Usage suggestion                       *
+* Level    |           |                                        *
+* ------------------------------------------------------------- *
+* L0       | G, D, S   | General electrical simulations/ whole  *
+*          |           | application circuits.                  *
+* ------------------------------------------------------------- *
+* L1       | G, D, S   | Transient, switching losses and        *
+*          |           | efficiency analyses. Behavior of       *
+*          |           | device over full temperature range.    *
+* ------------------------------------------------------------- *
+* L2       | G, D, S,  | Same as L1 but with individual device  *
+*          | Tj, Tcase | temperature. This model is not         *
+*          |           | supported because it is covered by     *
+*          |           | L3-model.                              *
+* ------------------------------------------------------------- *
+* L3       | G, D, S,  | Self-heating effects, modeling of heat *
+*          | Tj, Tcase | flow including thermal models of       *
+*          |           | application.                           *
+*                                                               *
+*****************************************************************
+* Detailed Informations:                                        *
+*                                                               *
+* The model files are available on the Infineon web page:       *
+* http://www.infineon.com                                       *
+* Please refer also to the Infineon application note AN 2014-02 *
+* "Simulation models for Infineon Power MOSFET"                 *
+*                                                               *
+* This library contains models of the following INFINEON        *
+* CoolMOS transistors:                                          *
+*                                                               *
+*   G7 650V                                                     *
+*      IPT65R033G7       IPT65R105G7       IPT65R195G7          *
+*                                                               *
+*****************************************************************
+**********************************************************************
+************************ L1 TECHNOLOGY MODEL *************************
+**********************************************************************
+.SUBCKT cool_650_j_var dd g s Tj t1 PARAMS: a=1 dVth=0 dR=0 Inn=1 Unn=1 Rmax=1
++gmin=1 Rs=1 Rdp=1 heat=0
+.PARAM  fpar39=298 
+.PARAM  fpar1=4.55 
+.PARAM  fpar2=0.0055 
+.PARAM  fpar3=-0.0027 
+.PARAM  fpar4=10.913 
+.PARAM  fpar5=0.8 
+.PARAM  fpar6=3.3 
+.PARAM  fpar7=0.3 
+.PARAM  fpar8=4.343 
+.PARAM  fpar9=0.777 
+.PARAM  fpar10=7 
+.PARAM  fpar11=0.8459 
+.PARAM  fpar12=3.283 
+.PARAM  fpar13=1 
+.PARAM  fpar14=-23 
+.PARAM  fpar15=715 
+.PARAM  fpar16=0.715 
+.PARAM  fpar17=0.09 
+.PARAM  fpar18=-27.6 
+.PARAM  fpar19=2e-006 
+.PARAM  fpar20=1.09 
+.PARAM  fpar21=1.408 
+.PARAM  fpar22=1.47e-012 
+.PARAM  fpar23=1.3e-010 
+.PARAM  fpar24=1.314e-011 
+.PARAM  fpar25=1.2e-015 
+.PARAM  fpar26=5e-013 
+.PARAM  fpar27=9e-012 
+.PARAM  fpar28=4.1e-013 
+.PARAM  fpar29=2.8e-014 
+.PARAM  fpar30=123 
+.PARAM  fpar31=2.1e-012 
+.PARAM  fpar32=5.2e-010 
+.PARAM  fpar33=8.7435775e-008 
+.PARAM  fpar34=3.98498e-009 
+.PARAM  fpar35=0.5e-010 
+.PARAM  fpar36=1.77e-010 
+.PARAM  fpar40=0.0
+.PARAM	fpar37=85.8u
+.PARAM  fpar38=273
+.PARAM  dRdi={fpar17/a}
+.PARAM  Cdio={fpar22*a}
+.PARAM  Cdg1={fpar23*a} 
+.PARAM  Cdg2={fpar24*a}
+.PARAM  CdgV1={fpar25*a} 
+.PARAM  CdgV2={(fpar29*a+fpar26)}
+.PARAM  Cds0={fpar31*a} 
+.PARAM  Cds1={a*fpar32}
+.PARAM  Cgs0={(fpar35+fpar36*a)}
+.PARAM  Vmin=3.4   Vmax=5.4
+.PARAM  Vth={fpar1+(Vmax-fpar1)*limit(dVth,0,1)-(Vmin-fpar1)*limit(dVth,-1,0)}
+.PARAM  r0={fpar8*((fpar38/fpar39)**fpar9)*a}
+.PARAM  r1={(Unn-Inn*Rs-fpar1)*r0}
+.PARAM  r2={(fpar40*SQRT(0.4)-fpar11)*Inn*r0}
+.PARAM  Rlim={(r1+2*r2*Rmax-SQRT(r1**2+4*r2))/(2*r2)}
+.PARAM  dRd={fpar5/a+if(dVth==0,limit(dR,0,1)*max(Rlim-fpar5/a-Rs-Rdp,0),0)}
+.PARAM  CAP_eedg=-0.556
+.PARAM  x0={(fpar27-fpar24)/fpar28}  x1={fpar27/fpar28} dx={x1-x0}
+.FUNC 	QCdg1(x) {Cdg2*min(x,x1)+CdgV2*max(x-x1,0)+CdgV1/2*max(0, x-fpar30)**2+(Cdg2-CdgV2)*((limit(x,x0,x1)-x0)**3/(dx*dx)*((limit(x,x0,x1)-x0)/(2*dx)-1))} 
+.PARAM  Eds1={-6000}	Eds2={-320}	Eds3={-200}	eeds1={-0.1667}	eeds2={-6.25m}  eeds3={-0.05}               
+.PARAM 	a0={(fpar33-fpar32)/fpar34} a1={fpar33/fpar34} da={a1-a0}
+.FUNC 	QCds1(x) {Cds1*min(x,a1)+Cds1*((limit(x,a0,a1)-a0)**3/(da*da)*((limit(x,a0,a1)-a0)/(2*da)-1))}
+E_Edg1     d1     ox  VALUE {if(V(d1,g)>0,V(d1,g)-(exp(CAP_eedg*max(V(d1,g),0))-1)/CAP_eedg,0)}
+C_Cdg1     ox      g  {Cdg1}
+E_Edg2     d1    ox2  VALUE {V(d1,g)-QCdg1(V(d1,g))/Cdg2}
+C_Cdg2    ox2      g  {Cdg2} 
+C_Cds0     d1      s  {Cds0}
+E_Eds1     d1  edep1  VALUE {if(V(d1,s)>0,V(d1,s)-Eds1*(exp(eeds1*max(V(d1,s),0))-1)-Eds2*(exp(eeds2*max(V(d1,s),0))-1)-Eds3*(exp(eeds3*max(V(d1,s),0))-1),0)}
+C_Cds1  edep1      s  {Cds0}
+E_Eds2     d1  edep2  VALUE {V(d1,s)-QCds1(V(d1,s))/Cds1}
+C_Cds2  edep2      s  {Cds1}
+C_Cgs       g      s  {Cgs0}
+.FUNC I0(Uee,p,pp,z1,cc)  {if(Uee>pp,(Uee-cc*z1)*z1,p*(pp-p)/cc*exp((Uee-pp)/p))}
+.FUNC Ig(Uds,T,p,Uee,cc)  {fpar8*(fpar38/T)**fpar9*I0(Uee,p,min(2*p,p+cc*Uds),min(Uds,Uee/(2*cc)),cc)}
+.FUNC J(d,g,T,da,s) 
++ {a*(s*(Ig(da,T,fpar10*fpar37*T,g-Vth+fpar2*(T-fpar39),fpar11)+1*exp(min(fpar14+(d-fpar15-fpar16*(T-fpar39))/fpar13,25))))}
+G_chan    d    s  VALUE={J(V(d,s),V(g,s),fpar38+limit(V(Tj),-200,499),(SQRT(1+4*fpar12*abs(V(d,s)))-1)/2/fpar12,sgn(V(d,s)))}
+V_Ichannel d1 d 0
+.FUNC Rd0(T)  {(fpar7*dRd+(1-fpar7)*dRd*(T/fpar39)**fpar6)}
+.FUNC CF(T,Iepi) {(fpar4**2)/max(1,fpar4**2-(Rd0(T)*Iepi)**limit(2+fpar3*(T-fpar39),1.2,3))}
+V_Iepi     dd d2 0 
+G_G_Rd     d2 d1 VALUE {V(d2,d1)/(Rd0(fpar38+LIMIT(V(t1),-200,999))*CF(fpar38+LIMIT(V(t1),-200,999),abs(I(V_Iepi))))}
+G_Dio  s dio VALUE={(a*exp(fpar18-3.3))*exp(((((V(Tj)+273)/273)-1)*1.11)/(((V(Tj)+273)*fpar20*fpar37)))*((V(Tj)+273)/273)**(3/fpar20)*(exp(V(s,dio)/((V(Tj)+273)*fpar20*fpar37)-1))} 
+G_Rdio   dio2   dd  VALUE={V(dio2,dd)/(dRdi*((limit(V(Tj),-200,999)+fpar38)/fpar39)**fpar21)}
+V_sense2 dio2   dio  0
+R_R_ERd_g  d2 d1  10k
+R1        g    s    1G
+Rd01      d    s    500Meg
+Rd02     d2    s    500Meg
+Rd03     dio   s    500Meg
+G_G_Ptot_channel 0 Tj VALUE {heat*LIMIT(V(d,s)*I(V_Ichannel),0,100k) }
+G_G_Ptot_Epi     0 t1 VALUE {heat*(LIMIT(V(dd,d1)*I(V_Iepi),0,100k)+LIMIT(V(dd,s)*I(V_sense2),0,100k))}
+.ENDS
+
+**********************************************************************
+**********************************************************************
+************************ L0 TECHNOLOGY MODEL *************************
+**********************************************************************
+
+.SUBCKT IPT65R033G7_L0  drain  gate  source
+Lg     gate  g1    6.5n
+Ld     drain d1    1n
+Ls     source s1   4n
+Rs      s1    s2   581.8u
+Rg     g1    g2     0.85
+M1      d2    g2    s2    s2    DMOS    L=1u   W=1u
+.MODEL DMOS NMOS ( KP= 83.983  VTO=4.2  THETA=0  VMAX=1.5e5  ETA=0  LEVEL=3)
+Rd     d2    d1a    0.022 TC=19m
+.MODEL MVDR NMOS (KP=193.36 VTO=-1   LAMBDA=0.15)
+Mr d1 d2a d1a d1a MVDR W=1u L=1u
+Rx d2a d1a 1m
+Cds1 s2 d2 49.4p
+Dbd     s2    d2    Dbt
+.MODEL     Dbt    D(BV=650   M=0.9  CJO=9.9n  VJ=0.5V)
+Dbody   s2   21    DBODY
+.MODEL DBODY  D(IS=3347760p  N=1.95  RS=5u  EG=1.12  TT=250n)
+Rdiode  d1  21    2.95m TC=4m
+.MODEL   sw    NMOS(VTO=0  KP=10   LEVEL=1)
+Maux      g2   c    a    a   sw
+Maux2     b    d    g2    g2   sw
+Eaux      c    a    d2    g2   1
+Eaux2     d    g2   d2    g2   -1
+Cox       b    d2   1.39n
+.MODEL     DGD    D(M=0.55   CJO=1.39n   VJ=0.5)
+Rpar      b    d2   1Meg
+Dgd       a    d2   DGD
+Rpar2     d2   a    10Meg
+Cgs     g2    s2    5.11n
+.ENDS  IPT65R033G7_L0
+
+********************************************************************************
+
+.SUBCKT IPT65R033G7_L1 drain gate source PARAMS: dVth=0 dRdson=0
+.PARAM Rs=2.15E-04    Rg=0.85    Rdp=7.10E-07          Ls=1.10E-09        Ld=4.53E-11
+.PARAM Lg=4.24E-09    act=28.86        Inn={1.0*28.86}  Unn=10.0       Rmax=33m
+X1  dd g s Tj Tj cool_650_j_var PARAMS: a={act} dVth={dVth} dR={dRdson} Inn={Inn} Unn={Unn} 
+                                      +Rmax={Rmax} Rs={Rs} Rdp={Rdp} heat=0
+L_Ld         drain  ldrd    {Ld}
+R_Ld         drain  ldrd    10
+R_Rd         dd     ldrd    {Rdp}
+L_Ls         source lsrs  {Ls}
+R_Ls         source lsrs  10
+R_Rs         s      lsrs  {Rs}
+L_Lg         gate   lgrg  {Lg}
+R_Lg         gate   lgrg  10
+R_Rg         lgrg   g     {Rg}
+E1    Tj     w      VALUE={TEMP}
+R1    w      0      1u
+.ENDS
+
+********************************************************************************
+
+.SUBCKT IPT65R033G7_L3 drain gate source Tj Tcase PARAMS: dVth=0 dRdson=0 Zthtype=0
+.PARAM Rs=2.15E-04    Rg=0.85    Rdp=7.10E-07          Ls=1.10E-09        Ld=4.53E-11
+.PARAM Lg=4.24E-09    act=28.86        Inn={1.0*28.86}  Unn=10.0       Rmax=33m
+.PARAM lzth={limit(Zthtype,0,1)}
+X1  dd g s Tj 1 cool_650_j_var PARAMS: a={act} dVth={dVth} dR={dRdson} Inn={Inn} Unn={Unn}
+                                     +Rmax={Rmax} Rs={Rs} Rdp={Rdp} heat=1
+L_Ld         drain  ldrd    {Ld}
+R_Ld         drain  ldrd    10
+R_Rd         dd     ldrd    {Rdp}
+L_Ls         source lsrs  {Ls}
+R_Ls         source lsrs  10
+R_Rs         s      lsrs  {Rs}
+L_Lg         gate   lgrg  {Lg}
+R_Lg         gate   lgrg  10
+R_Rg         lgrg   g     {Rg}
+C_Czth1      Tj     0     277.632u
+C_Czth2      0      1     1.674m
+C_Czth3      0      2     2.364m
+C_Czth4      0      3     30.464m
+C_Czth5      0      4     121.928m
+C_Czth6      0      Tcase 140.0m
+C_Czth7      0      6     220.0m
+C_Czth8      0      7     500.0m
+R_Rth1       Tj     1     {5.88m+lzth*1.52m}
+R_Rth2       1      2     {8.11m+lzth*2.1m}
+R_Rth3       2      3     {45.49m+lzth*11.79m}
+R_Rth4       3      4     {63.73m+lzth*60.75m}
+R_Rth5       4      Tcase {62.06m+lzth*58.57m}
+R_Rth6       Tcase  6     400.0m
+R_Rth7       6      7     30.0
+.ENDS
+
+********************************************************************************
+
+.SUBCKT IPT65R105G7_L0  drain  gate  source
+Lg     gate  g1    6.5n
+Ld     drain d1    1n
+Ls     source s1   4n
+Rs      s1    s2   693.8u
+Rg     g1    g2     1.0
+M1      d2    g2    s2    s2    DMOS    L=1u   W=1u
+.MODEL DMOS NMOS ( KP= 25.783  VTO=4.2  THETA=0  VMAX=1.5e5  ETA=0  LEVEL=3)
+Rd     d2    d1a    0.073 TC=19m
+.MODEL MVDR NMOS (KP=59.36 VTO=-1   LAMBDA=0.15)
+Mr d1 d2a d1a d1a MVDR W=1u L=1u
+Rx d2a d1a 1m
+Cds1 s2 d2 15.2p
+Dbd     s2    d2    Dbt
+.MODEL     Dbt    D(BV=650   M=0.9  CJO=3.04n  VJ=0.5V)
+Dbody   s2   21    DBODY
+.MODEL DBODY  D(IS=1027760p  N=1.95  RS=15u  EG=1.12  TT=250n)
+Rdiode  d1  21    9.59m TC=4m
+.MODEL   sw    NMOS(VTO=0  KP=10   LEVEL=1)
+Maux      g2   c    a    a   sw
+Maux2     b    d    g2    g2   sw
+Eaux      c    a    d2    g2   1
+Eaux2     d    g2   d2    g2   -1
+Cox       b    d2   0.43n
+.MODEL     DGD    D(M=0.55   CJO=0.43n   VJ=0.5)
+Rpar      b    d2   1Meg
+Dgd       a    d2   DGD
+Rpar2     d2   a    10Meg
+Cgs     g2    s2    1.57n
+.ENDS  IPT65R105G7_L0
+
+********************************************************************************
+
+.SUBCKT IPT65R105G7_L1 drain gate source PARAMS: dVth=0 dRdson=0
+.PARAM Rs=6.35E-04    Rg=1.00    Rdp=7.13E-07          Ls=2.12E-09        Ld=4.58E-11
+.PARAM Lg=4.29E-09    act=8.86        Inn={1.0*8.86}  Unn=10.0       Rmax=105m
+X1  dd g s Tj Tj cool_650_j_var PARAMS: a={act} dVth={dVth} dR={dRdson} Inn={Inn} Unn={Unn} 
+                                      +Rmax={Rmax} Rs={Rs} Rdp={Rdp} heat=0
+L_Ld         drain  ldrd    {Ld}
+R_Ld         drain  ldrd    10
+R_Rd         dd     ldrd    {Rdp}
+L_Ls         source lsrs  {Ls}
+R_Ls         source lsrs  10
+R_Rs         s      lsrs  {Rs}
+L_Lg         gate   lgrg  {Lg}
+R_Lg         gate   lgrg  10
+R_Rg         lgrg   g     {Rg}
+E1    Tj     w      VALUE={TEMP}
+R1    w      0      1u
+.ENDS
+
+********************************************************************************
+
+.SUBCKT IPT65R105G7_L3 drain gate source Tj Tcase PARAMS: dVth=0 dRdson=0 Zthtype=0
+.PARAM Rs=6.35E-04    Rg=1.00    Rdp=7.13E-07          Ls=2.12E-09        Ld=4.58E-11
+.PARAM Lg=4.29E-09    act=8.86        Inn={1.0*8.86}  Unn=10.0       Rmax=105m
+.PARAM lzth={limit(Zthtype,0,1)}
+X1  dd g s Tj 1 cool_650_j_var PARAMS: a={act} dVth={dVth} dR={dRdson} Inn={Inn} Unn={Unn}
+                                     +Rmax={Rmax} Rs={Rs} Rdp={Rdp} heat=1
+L_Ld         drain  ldrd    {Ld}
+R_Ld         drain  ldrd    10
+R_Rd         dd     ldrd    {Rdp}
+L_Ls         source lsrs  {Ls}
+R_Ls         source lsrs  10
+R_Rs         s      lsrs  {Rs}
+L_Lg         gate   lgrg  {Lg}
+R_Lg         gate   lgrg  10
+R_Rg         lgrg   g     {Rg}
+C_Czth1      Tj     0     85.233u
+C_Czth2      0      1     513.974u
+C_Czth3      0      2     725.61u
+C_Czth4      0      3     9.352m
+C_Czth5      0      4     36.472m
+C_Czth6      0      Tcase 140.0m
+C_Czth7      0      6     220.0m
+C_Czth8      0      7     500.0m
+R_Rth1       Tj     1     {19.14m+lzth*4.96m}
+R_Rth2       1      2     {26.4m+lzth*6.84m}
+R_Rth3       2      3     {148.17m+lzth*38.41m}
+R_Rth4       3      4     {99.19m+lzth*185.13m}
+R_Rth5       4      Tcase {93.74m+lzth*178.0m}
+R_Rth6       Tcase  6     400.0m
+R_Rth7       6      7     30.0
+.ENDS
+
+********************************************************************************
+
+.SUBCKT IPT65R195G7_L0  drain  gate  source
+Lg     gate  g1    6.5n
+Ld     drain d1    1n
+Ls     source s1   4n
+Rs      s1    s2   2m
+Rg     g1    g2     1.2
+M1      d2    g2    s2    s2    DMOS    L=1u   W=1u
+.MODEL DMOS NMOS ( KP= 13.91  VTO=4.2  THETA=0  VMAX=1.5e5  ETA=0  LEVEL=3)
+Rd     d2    d1a    0.135 TC=19m
+.MODEL MVDR NMOS (KP=32.03 VTO=-1   LAMBDA=0.15)
+Mr d1 d2a d1a d1a MVDR W=1u L=1u
+Rx d2a d1a 1m
+Cds1 s2 d2 8.2p
+Dbd     s2    d2    Dbt
+.MODEL     Dbt    D(BV=650   M=0.9  CJO=1.64n  VJ=0.5V)
+Dbody   s2   21    DBODY
+.MODEL DBODY  D(IS=554480p  N=1.95  RS=28u  EG=1.12  TT=250n)
+Rdiode  d1  21    17.78m TC=4m
+.MODEL   sw    NMOS(VTO=0  KP=10   LEVEL=1)
+Maux      g2   c    a    a   sw
+Maux2     b    d    g2    g2   sw
+Eaux      c    a    d2    g2   1
+Eaux2     d    g2   d2    g2   -1
+Cox       b    d2   0.23n
+.MODEL     DGD    D(M=0.55   CJO=0.23n   VJ=0.5)
+Rpar      b    d2   1Meg
+Dgd       a    d2   DGD
+Rpar2     d2   a    10Meg
+Cgs     g2    s2    0.85n
+.ENDS  IPT65R195G7_L0
+
+********************************************************************************
+
+.SUBCKT IPT65R195G7_L1 drain gate source PARAMS: dVth=0 dRdson=0
+.PARAM Rs=6.35E-04    Rg=1.20    Rdp=7.13E-07          Ls=2.12E-09        Ld=4.58E-11
+.PARAM Lg=4.29E-09    act=4.78        Inn={1.0*4.78}  Unn=10.0       Rmax=195m
+X1  dd g s Tj Tj cool_650_j_var PARAMS: a={act} dVth={dVth} dR={dRdson} Inn={Inn} Unn={Unn} 
+                                      +Rmax={Rmax} Rs={Rs} Rdp={Rdp} heat=0
+L_Ld         drain  ldrd    {Ld}
+R_Ld         drain  ldrd    10
+R_Rd         dd     ldrd    {Rdp}
+L_Ls         source lsrs  {Ls}
+R_Ls         source lsrs  10
+R_Rs         s      lsrs  {Rs}
+L_Lg         gate   lgrg  {Lg}
+R_Lg         gate   lgrg  10
+R_Rg         lgrg   g     {Rg}
+E1    Tj     w      VALUE={TEMP}
+R1    w      0      1u
+.ENDS
+
+********************************************************************************
+
+.SUBCKT IPT65R195G7_L3 drain gate source Tj Tcase PARAMS: dVth=0 dRdson=0 Zthtype=0
+.PARAM Rs=6.35E-04    Rg=1.20    Rdp=7.13E-07          Ls=2.12E-09        Ld=4.58E-11
+.PARAM Lg=4.29E-09    act=4.78        Inn={1.0*4.78}  Unn=10.0       Rmax=195m
+.PARAM lzth={limit(Zthtype,0,1)}
+X1  dd g s Tj 1 cool_650_j_var PARAMS: a={act} dVth={dVth} dR={dRdson} Inn={Inn} Unn={Unn}
+                                     +Rmax={Rmax} Rs={Rs} Rdp={Rdp} heat=1
+L_Ld         drain  ldrd    {Ld}
+R_Ld         drain  ldrd    10
+R_Rd         dd     ldrd    {Rdp}
+L_Ls         source lsrs  {Ls}
+R_Ls         source lsrs  10
+R_Rs         s      lsrs  {Rs}
+L_Lg         gate   lgrg  {Lg}
+R_Lg         gate   lgrg  10
+R_Rg         lgrg   g     {Rg}
+C_Czth1      Tj     0     45.983u
+C_Czth2      0      1     277.291u
+C_Czth3      0      2     391.469u
+C_Czth4      0      3     5.046m
+C_Czth5      0      4     19.039m
+C_Czth6      0      Tcase 140.0m
+C_Czth7      0      6     220.0m
+C_Czth8      0      7     500.0m
+R_Rth1       Tj     1     {35.48m+lzth*9.2m}
+R_Rth2       1      2     {48.94m+lzth*12.69m}
+R_Rth3       2      3     {274.64m+lzth*71.2m}
+R_Rth4       3      4     {115.83m+lzth*314.76m}
+R_Rth5       4      Tcase {105.72m+lzth*301.54m}
+R_Rth6       Tcase  6     400.0m
+R_Rth7       6      7     30.0
+.ENDS
+
+********************************************************************************

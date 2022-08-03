@@ -17,7 +17,7 @@ WINDOW 0 56 32 Left 2
 WINDOW 3 56 72 Left 2
 SYMATTR Value IPD65R190C7_L0
 SYMATTR Prefix X
-SYMATTR ModelFile 00_UPDATED_Infineon - Simulation Model - PSpice - CoolMOS™ - C7 - 650V_UPDATED.lib
+SYMATTR ModelFile Infineon_Simulation Model_CoolMOS_C7_MOSFET_650V_Spice.lib
 SYMATTR Description N-Channel MOSFET transistor
 PIN 48 0 NONE 0
 PINATTR PinName D

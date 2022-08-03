@@ -17,7 +17,7 @@ WINDOW 0 56 32 Left 2
 WINDOW 3 56 72 Left 2
 SYMATTR Value IPD033N06N
 SYMATTR Prefix X
-SYMATTR ModelFile OptiMOS_60V_LTSpice.lib
+SYMATTR ModelFile OptiMOS_OptiMOS5_60V_LTSpice.lib
 SYMATTR Description N-Channel MOSFET transistor
 PIN 48 0 NONE 0
 PINATTR PinName D

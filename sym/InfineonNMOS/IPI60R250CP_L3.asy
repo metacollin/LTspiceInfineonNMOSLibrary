@@ -17,7 +17,7 @@ WINDOW 0 56 32 Left 2
 WINDOW 3 56 72 Left 2
 SYMATTR Value IPI60R250CP_L3
 SYMATTR Prefix X
-SYMATTR ModelFile Infineon - Simulation Model - PSpice - CoolMOS™ - CP - 600V.lib
+SYMATTR ModelFile SimultaionModel_CoolMOS_CP_MOSFET_600V_Spice.lib
 SYMATTR Description N-Channel MOSFET transistor
 PIN 48 0 NONE 0
 PINATTR PinName D

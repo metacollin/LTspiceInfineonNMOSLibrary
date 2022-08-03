@@ -1,0 +1,1715 @@
+ ****************************************************************
+*                                                               *
+* INFINEON Power Transistors                                    *
+* Level0, Level1 and Level3 SPICE Library for 650V SiC Trench   *
+* MOSFETs                                                       *
+*                                                               *
+* Version 869-857-864-934-891-947                               *
+*                                                               *
+*****************************************************************
+*****************************************************************
+*                                                               *
+* The Simulation Model is subject to change without notice. In  *
+* addition, models can be a useful tool in evaluating device    *
+* performance, they cannot reflect the accurate device          *
+* performance under all conditions, nor are they intended to    *
+* replace bread boarding for final verification. Infineon       *
+* therefore does not assume any warranty or liability           *
+* whatsoever arising from their use. Infineon does not assume   *
+* any warranty or liability for the values and functions of the *
+* Simulation Model.                                             *
+* The methods and results of the Simulation Model are to the    *
+* best of our knowledge correct.                                *
+* However, the user is fully responsible to verify and validate *
+* these results under the operating conditions and in the       *
+* environment of its application. Infineon will not bear the    *
+* responsibility arising out of or in connection with any       *
+* malfunction of the Simulation Models.                         *
+* Models provided by Infineon are not warranted by Infineon as  *
+* completely and comprehensively representing all the           *
+* specifications and operating characteristics of the           *
+* semiconductor products to which these models relate.          *
+* The models describe the characteristics of typical devices.   *
+* In all cases, the current data sheet information for a given  *
+* device is the conclusive design guideline and the only actual *
+* performance specification.                                    *
+*                                                               *
+* This library contains Level0, Level1 and Level3 models of the *
+* following INFINEON 650V SiC Trench MOSFETs:                   *
+*                                                               *
+*   CoolSiC Gen1_650V                                           *
+*      IMW65R027M1H       IMZA65R027M1H       IMW65R048M1H          *
+*      IMZA65R048M1H       IMW65R072M1H       IMZA65R072M1H          *
+*      IMW65R107M1H       IMZA65R107M1H       IMW65R030M1H          *
+*      IMZA65R030M1H       IMW65R039M1H       IMZA65R039M1H          *
+*      IMW65R057M1H       IMZA65R057M1H       IMW65R083M1H          *
+*      IMZA65R083M1H       IMBG65R048M1H       IMBG65R072M1H          *
+*      IMBG65R107M1H       IMBG65R163M1H       IMBG65R260M1H          *
+*      IMBG65R022M1H       IMBG65R030M1H       IMBG65R039M1H          *
+*      IMBG65R057M1H       IMBG65R083M1H                        *
+*                                                               *
+*****************************************************************
+**********************************************************************
+************************ L1 TECHNOLOGY MODEL *************************
+**********************************************************************
+
+.SUBCKT SiCMOS_650V	dd gg ss Pj Tj    PARAMS: dVth=0 fpar127={1.0}
+*?@ Start SIMPLIS Encryption $$WC_SIMPLIS_ENCRYPT_TAG$$
+	.PARAM fpar1 = {8.148}
+	.PARAM fpar2 = {fpar127/fpar1}
+	.PARAM fpar3 = {-10.496 * (1/fpar127) ** 2 + 29.237 * (1/fpar127) - 0.3034}
+	.PARAM fpar4 = {0.894}
+	.PARAM fpar5 = {1.056}
+	.PARAM fpar6 = {1.0 * fpar2}
+	.PARAM fpar7 = {1.0 * fpar2}
+	.PARAM fpar8 = {1.0 * fpar2}
+	.PARAM fpar9 = {1.0 * fpar2}
+	.PARAM fpar10 = {1.0 * fpar2}
+	X$CGDAA	gi	dd2		CGDAA		PARAMS: fpar11 = {fpar6} fpar12 = {fpar7}
+	RPCGD	gi	dd2		10G
+	RSCGD	dd	dd2		10m
+	X$CDS	dd1	sx		CDSAA		PARAMS: fpar40 = {fpar9} fpar41 = {fpar10}
+	RPCDS	dd1	sx		10G
+	RSCDS	dd	dd1		10m
+	X$CGS	gi	ss1		CGSAA		PARAMS: fpar56 = {fpar8}
+	RPCGS	gi	ss1		10G
+	RSCGS	ss1	sx		10m
+	RGint	gg	gi	{fpar3}
+	X$MF	dd	gi	sx	Tj	MF	PARAMS: fpar61 = {fpar4} fpar62 = {fpar5} dVth = {dVth} fpar133 = {fpar2}
+	X$BD	sx	dd	gi Tj BodyDiodeModel PARAMS: fpar107 = {fpar2}
+	VIPow	sx	ss	DC=0
+	G_Pow  0   Pj   VALUE = {LIMIT( I(VIPow)*(V(dd,ss))  ,-100k,100k) }
+	R_Pow  0   Pj  1
+*?@ End SIMPLIS Encryption
+.ENDS
+
+.SUBCKT CGDAA	g	d	PARAMS: fpar11 = 100 fpar12 = 100
+*?@ Start SIMPLIS Encryption $$WC_SIMPLIS_ENCRYPT_TAG$$
+	.PARAM	fpar13 = {19.26e-12 * fpar11 + 1.78e-12}
+	+		fpar14 = {2.33712e-07 * fpar11}
+	+		fpar15 = {5.387175e-11 * fpar11}
+	+		fpar16 = {2.7495e-05 * fpar11}
+	+		fpar17 = {2.6883e-11 * fpar11}
+	+		fpar18 = {2.8152e-10 * fpar11}
+	+		fpar19 = {1.00000e-11}
+	+		fpar20 = {1.2e-14 * fpar11}
+	+		fpar21 = {300.0}
+	+		fpar22 = {-1.0463}
+	+		fpar23 = {-0.11402}
+	+		fpar24 = {-2.5082}
+	+		fpar25 = {-0.015454}
+	+		fpar26 = {-0.53076}
+	+		fpar27 = {7.4115}
+	+		fpar28 = {12.4075}
+	+		fpar29 = {5.0532}
+	+		fpar30 = {12.1418}
+	+		fpar31 = {0.0}
+	.PARAM	fpar32 = {fpar14 * exp(fpar22 * fpar27)}
+	.PARAM	fpar33 = {fpar14 / (fpar22 * fpar32)}
+	.PARAM	fpar34 = {fpar15 * exp(fpar23 * fpar28)}
+	.PARAM	fpar35 = {fpar15 / (fpar23 * fpar34)}
+	.PARAM	fpar36 = {fpar16 * exp(fpar24 * fpar29)}
+	.PARAM	fpar37 = {fpar16 / (fpar24 * fpar36)}
+	.PARAM	fpar38 = {fpar17 * exp(fpar25 * fpar30)}
+	.PARAM	fpar39 = {fpar17 / (fpar25 * fpar38)}
+	.FUNC 	QCdg1(x) {fpar20/2*max(0, x-fpar21)**2}
+	C_a		d		g		{fpar13}
+	E_b		d		k_b		VALUE   {if(V(d,g) > fpar27,	V(d,g) - (fpar33*(exp(fpar22*V(d,g)) - exp(fpar22*fpar27)) + fpar27)	,0)}
+	C_b		k_b		g		{fpar32}
+	E_c		d		k_c		VALUE   {if(V(d,g) > fpar28,	V(d,g) - (fpar35*(exp(fpar23*V(d,g)) - exp(fpar23*fpar28)) + fpar28)	,0)}
+	C_c		k_c		g		{fpar34}
+	E_d		d		k_d		VALUE   {if(V(d,g) > fpar29,	V(d,g) - (fpar37*(exp(fpar24*V(d,g)) - exp(fpar24*fpar29)) + fpar29)	,0)}
+	C_d		k_d		g		{fpar36}
+	E_e		d		k_e		VALUE   {if(V(d,g) > fpar30,	V(d,g) - (fpar39*(exp(fpar25*V(d,g)) - exp(fpar25*fpar30)) + fpar30)	,0)}
+	C_e		k_e		g		{fpar38}
+	E_f		d		k_f		VALUE	{if(V(d,g) > 0,		V(d,g) - (exp(fpar26*V(d,g))-1)/fpar26 ,0)}
+	C_f		k_f		g		{fpar18}
+	E_g     d       k_g  	VALUE 	{V(d,g)-QCdg1(V(d,g))/fpar19}
+	C_g     k_g     g  		{fpar19}
+*?@ End SIMPLIS Encryption
+.ENDS
+
+.SUBCKT CDSAA	d	s	PARAMS: fpar40 = 100 fpar41 = 100
+*?@ Start SIMPLIS Encryption $$WC_SIMPLIS_ENCRYPT_TAG$$
+	.PARAM  fpar1 = {8.148}
+	.PARAM  fpar42 = {fpar40 * max(1, 0.7675 / (fpar1 * fpar40) + 0.5941)}
+	.PARAM	fpar43 = {2.18933e-10 * fpar42}
+	+		fpar44 = {4.6728e-10 * fpar42}
+	+		fpar45 = {0.17589 * fpar42}
+	+		fpar46 = {7.54996e-10 * fpar42}
+	+		fpar47 = {9.68374e-10 * fpar40}
+	+		fpar48 = {-0.012679}
+	+		fpar49 = {-2.6337}
+	+		fpar50 = {-0.10396}
+	+		fpar51 = {-0.34146}
+	+		fpar52 = {3.565}
+	+		fpar53 = {7.8969}
+	+		fpar54 = {4.5163}
+	+		fpar55 = {-6.12e-16}
+	.PARAM	fpar32 = {fpar44 * exp(fpar48 * fpar52)}
+	.PARAM	fpar33 = {fpar44 / (fpar48 * fpar32)}
+	.PARAM	fpar34 = {fpar45 * exp(fpar49 * fpar53)}
+	.PARAM	fpar35 = {fpar45 / (fpar49 * fpar34)}
+	.PARAM	fpar36 = {fpar46 * exp(fpar50 * fpar54)}
+	.PARAM	fpar37 = {fpar46 / (fpar50 * fpar36)}
+	.PARAM	fpar38 = {fpar47 * exp(fpar51 * fpar55)}
+	.PARAM	fpar39 = {fpar47 / (fpar51 * fpar38)}
+	C_a		d		s		{fpar43}
+	E_b		d		k_b		VALUE   {if(V(d,s) > fpar52,	V(d,s) - (fpar33*(exp(fpar48*V(d,s)) - exp(fpar48*fpar52)) + fpar52)	,0)}
+	C_b		k_b		s		{fpar32}
+	E_c		d		k_c		VALUE   {if(V(d,s) > fpar53,	V(d,s) - (fpar35*(exp(fpar49*V(d,s)) - exp(fpar49*fpar53)) + fpar53)	,0)}
+	C_c		k_c		s		{fpar34}
+	E_d		d		k_d		VALUE   {if(V(d,s) > fpar54,	V(d,s) - (fpar37*(exp(fpar50*V(d,s)) - exp(fpar50*fpar54)) + fpar54)	,0)}
+	C_d		k_d		s		{fpar36}
+	E_e		d		k_e		VALUE	{if(V(d,s) > 0,		V(d,s) - (exp(fpar51*V(d,s))-1)/fpar51 ,0)}
+	C_e		k_e		s		{fpar47}
+*?@ End SIMPLIS Encryption
+.ENDS
+
+.SUBCKT CGSAA	g	s	PARAMS: fpar56 = 100
+*?@ Start SIMPLIS Encryption $$WC_SIMPLIS_ENCRYPT_TAG$$
+	.PARAM	fpar57 = {2109e-12 * fpar56}
+	+ 		fpar58 = {148e-12 * fpar56}
+	+		fpar59 = {1.0}
+	+ 		fpar60 = {6.0}
+	.FUNC Egs(V) = {-fpar58 / (fpar59 * (fpar57 + fpar58)) * ln(cosh(fpar59*(V-fpar60)))}
+	E_b		g		k_b		VALUE   {Egs(V(g,s))}
+	C_b		k_b		s		{fpar57+fpar58}
+*?@ End SIMPLIS Encryption
+.ENDS
+
+.SUBCKT MF	dd	gg	ss	Tj	PARAMS: fpar61 = 100 fpar62 = 100 dVth = 100	fpar133 = 100
+*?@ Start SIMPLIS Encryption $$WC_SIMPLIS_ENCRYPT_TAG$$
+	.FUNC IMOS(T,VD,VG) = {IS(T,VD,VG)*((tanh((VD/(IS(T,VD,VG)*RON(T,VD,VG)))**(1/KR(T,VG))))**KR(T,VG))}
+		.FUNC DIBL(VD) = {fpar65*VD}
+			.PARAM fpar65 = {0.0045}
+		.FUNC VGS(T,VD,VG) = {VG - (Uth(T) + dVth + fpar66 - DIBL(VD))}
+			.PARAM fpar66 = {0}
+		.FUNC VGEff(T,VD,VG) = {(VGS(T,VD,VG) + LN(2*cosh(VGS(T,VD,VG))))/2 + 0.0001}
+		.PARAM fpar1 = {8.148}
+		.FUNC fpar132(fpar134) = {IF(fpar134==8.148, 220, IF(fpar134 >= 6.278, 190, 205))}
+		.FUNC RK(T) = {(fpar61 * fpar67 + fpar68 *T) * 0.933 * fpar132(fpar133*fpar1)/205}
+			.PARAM	fpar67 = {1}
+			+		fpar68 = {0}
+		.FUNC RON(T,VD,VG)	= {RK(T)*(RON_Y0(T) + 1/((VGEff(T,VD,VG))**RON_P(T)))}
+			.FUNC Uth(T) = {fpar69 + fpar70*T + fpar71*T**2}
+				.PARAM		fpar69 = {5.82}
+				+			fpar70 = {-0.0149}
+				+			fpar71 = {3.311e-05}
+			.FUNC RON_Y0(T) = {fpar72 + fpar73*T + fpar74*T**2 + fpar75*T**3}
+			.PARAM		fpar72 = {0.0217}
+				+		fpar73 = {-4.4491e-06}
+				+		fpar74 = {1.0011e-06}
+				+		fpar75 = {-2.5155e-09}
+			.FUNC RON_P(T) = {fpar76 + fpar77*T + fpar78*T**2}
+				.PARAM		fpar76 = {1.9199}
+				+			fpar77 = {0.0016407}
+				+			fpar78 = {1.9845e-06}
+		.FUNC IS(T,VD,VG) = {fpar62*fpar79*(ISAT(T)*VGEff(T,VD,VG))**ISC(T,VG)}
+			.FUNC ISAT(T) = {(fpar80 - fpar81 * T) * (0 + 1.1085 - 0.0292 * fpar1 * fpar133 + 0.002 * (fpar1 * fpar133)**2)}
+				.PARAM		fpar79 = {1}
+				+			fpar80 = {1.104}
+				+			fpar81 = {-0.00042133}
+			.FUNC ISC(T,VG) = {IF(VG >0, if(VG<30, fpar82 + fpar83*T + fpar84*VG, fpar82 + fpar83*T + fpar84*(VG*30**(1/fpar85-1))**fpar85), 1) }
+				.PARAM		fpar82 = {2.2777}
+				+			fpar83 = {-0.00097982}
+				+			fpar84 = {-0.013753}
+				+			fpar85 = {0.9}
+		.FUNC KR(T,VG) = {IF(VG >0, (0.5 * tanh(-fpar86*(Vg-fpar87)) + 0.5) *(KR_A(T) + KR_B(T) * VG) + (0.5 * tanh(fpar86*(Vg-fpar87)) + 0.5) * 1, 1) }
+			.PARAM	fpar86 = {1}
+			+		fpar87 = {18}
+			.FUNC KR_A(T) = {fpar88 + fpar89*T + fpar90*T**2}
+				.PARAM	fpar88 = {5.7934}
+				+		fpar89 = {-0.044734}
+				+		fpar90 = {0.00016481}
+			.FUNC KR_B(T) = {fpar91 + fpar92*T + fpar93*T**2}
+				.PARAM	fpar91 = {-0.24197}
+				+		fpar92 = {0.0028899}
+				+		fpar93 = {-1.16e-05}
+	.FUNC dV(T,VD,VG) =  {1+(LB(T,VD,VG)*dV0(VD))}
+		.FUNC dV0(VD) = {((tanh((abs(VD)-fpar94)*fpar95)-tanh((-fpar94)*fpar95))/(1-tanh((-fpar94)*fpar95)))}
+			.PARAM	fpar94 = {166.8718}
+			+		fpar95 = {0.083249}
+		.FUNC LB(T,VD,VG) = {LB_A(T) + LB_B(T) * VGEff(T,VD,VG)}
+			.FUNC	LB_A(T) = {fpar96 + fpar97*T + fpar98*T**2}
+				.PARAM	fpar96 = {-1.4365}
+				+		fpar97 = {0.0084808}
+				+		fpar98 = {9.4867e-05}
+			.FUNC	LB_B(T) = {fpar99 + fpar100*T + fpar101*T**2}
+				.PARAM	fpar99 = {0.057997}
+				+		fpar100 = {-0.0011779}
+				+		fpar101 = {-9.8894e-07}
+	.FUNC dL(VD) = {1 + if(Vd>fpar102, (((VD-fpar102)/fpar105)/(fpar104*((VD-fpar102)/fpar105)+fpar103))**2, 0)}
+		.PARAM	fpar102 = {0}
+		+		fpar103 = {0.003}
+		+		fpar104 = {1.68}
+		+		fpar105 = {5000}
+	.FUNC IMOSFET(T,VD,VG)	= {IMOS(T,VD,VG)*dL(VD) + limit(EXP(VD-730.0), 0, 1k)}
+	.PARAM fpar106 = {0.97}
+	.FUNC IDIODE(T,VD,VG)	= {VD/(RON(T,VD,VG))}
+	GMOS	dd	ss	VALUE = {fpar133 * IF(V(dd,ss) > 0.0,IMOSFET(V(Tj,0),V(dd,ss),V(gg,ss)), fpar106 * IDIODE(V(Tj,0),V(dd,ss),V(gg,ss)))}
+*?@ End SIMPLIS Encryption
+.ENDS
+
+.SUBCKT BodyDiodeModel ss dd gg Tj PARAMS: fpar107 = 100
+*?@ Start SIMPLIS Encryption $$WC_SIMPLIS_ENCRYPT_TAG$$
+		.FUNC VBD_LIM(T, VD, VG) = { LIMIT( VD-fpar108, -100.0, -VDPN(T,VG)) }
+			.PARAM fpar108={ 0 }
+		.FUNC VG_LIM(VG)  = { fpar109 *( LIMIT(VG,-20,0) + fpar110 ) }
+			.PARAM	fpar109 = { 0.2 }
+			+		fpar110 = { 25 }
+		.FUNC ALPHA(T,VG) =	{ fpar111 + fpar112 * T + fpar113 * VG_LIM(VG) + fpar114 * VG_LIM(VG)**2 }
+			.PARAM	fpar111 = { 8.7663  }
+			+		fpar112 = { 0.001 }
+			+		fpar113 = { 0.00514 }
+			+		fpar114 = { 0.001 }
+		.FUNC VDPN(T,VG) =	{ fpar115 + fpar116 * T + fpar117 * T**2 + fpar121 * tanh(fpar122*(VG-fpar123)) + fpar118 * VG_LIM(VG) + fpar119 * VG_LIM(VG)**2 + fpar120 * VG_LIM(VG)**3 }
+			.PARAM	fpar115 = {1.507}
+			+		fpar116 = {-4.6860e-03}
+			+		fpar117 = {1.581e-05}
+			+		fpar118 = { 0 }
+			+		fpar119 = { 0 }
+			+		fpar120 = { 0 }
+			+		fpar121 = { -1.25 }
+			+		fpar122 = { 0.2 }
+			+		fpar123 = { 2.25 - 0.28 }
+		.FUNC GAMMA(T,VG) =	{ fpar124 + fpar125 * T + fpar126 * VG_LIM(VG) }
+			.PARAM	fpar124 = { 2.949  }
+			+		fpar125 = { 0.001 }
+			+		fpar126 = { -0.2005 }
+		.FUNC IDpn(T, VD, VG) =  {  (- ALPHA(T,VG) * ( IDpnTMP(T, VD, VG)  ) ** GAMMA(T,VG) ) }
+		.FUNC IDpnTMP(T, VD, VG) =	IF( -VBD_LIM(T, VD, VG) - VDPN(T,VG) > 0, -VBD_LIM(T, VD, VG) - VDPN(T,VG) , 0)
+		GIDIODE	dd	ss	VALUE = { fpar107 * IDpn( V(Tj,0) , V(dd,ss), V(gg,ss) ) }
+*?@ End SIMPLIS Encryption
+.ENDS
+
+**********************************************************************
+**********************************************************************
+************************ L0 TECHNOLOGY MODEL *************************
+**********************************************************************
+
+.SUBCKT  tech_sicmos_L0  dd  g  s   PARAMS:  Rs=1 Rg=1 fpar128=1 fpar129=1 fpar127=1
+.PARAM fpar130={fpar128*fpar127/8.15}
+.PARAM fpar131={fpar129*fpar127/8.15}
+.PARAM Rd={15.3m/fpar130} Rd_TC1=-0.5m Rd_TC2=30.0u Rx=1m
+.PARAM DMOS_Vth=7.5 DMOS_KP={fpar130*25.1} DMOS_THETA=0 DMOS_VMAX=1.5e5 DMOS_ETA=0
+.PARAM DMOS_GAMMA=0 DMOS_IS={fpar130*1E-38} DMOS_T_ABS=150 DMOS_RS=0 DMOS_RB={0.01/fpar130}
+.PARAM MVDR_KP={fpar130*245} MVDR_Vth=-1 MVDR_LAMBDA=0.5
+.PARAM Cds1={fpar131*48p} Cox={fpar131*0.5n} Cgs={fpar131*2.1n}
+.PARAM sw_Vth=0.0 sw_KP=10
+.PARAM Dbt_BV=715 Dbt_M=0.53 Dbt_CJO={fpar131*2.31n} Dbt_VJ=2.4 Dbt_IS=1E-20 Dbt_N=20 Dbt_T_ABS=27
+.PARAM DGD_M=0.6 DGD_CJO={fpar131*0.5n} DGD_VJ=1.2 DGD_IS=1E-20 DGD_T_ABS=27
+.PARAM Eaux=1 Eaux2=-1
+.PARAM RDIBL1=500G RDIBL2=3G Rconv1=1Meg Rconv2=10Meg
+.MODEL DMOS  NMOS(GAMMA={DMOS_GAMMA}  IS={DMOS_IS}  T_ABS={DMOS_T_ABS}  RS={DMOS_RS}  RB={DMOS_RB}  KP={DMOS_KP}  VTO={DMOS_Vth}
++ THETA={DMOS_THETA}  VMAX={DMOS_VMAX}  ETA={DMOS_ETA}  LEVEL=3)
+.MODEL MVDR  NMOS(KP={MVDR_KP}  VTO={MVDR_Vth}  LAMBDA={MVDR_LAMBDA}   LEVEL=1)
+.MODEL sw    NMOS(VTO={sw_Vth}  KP={sw_KP}   LEVEL=1)
+.MODEL Dbt   D(IS={Dbt_IS}  BV={Dbt_BV}   M={Dbt_M}  CJO={Dbt_CJO}  VJ={Dbt_VJ}  N={Dbt_N}  T_ABS={Dbt_T_ABS}  LEVEL=1)
+.MODEL DGD   D(IS={DGD_IS}  M={DGD_M}   CJO={DGD_CJO}   VJ={DGD_VJ}  T_ABS={DGD_T_ABS}  LEVEL=1)
+Rs     s       s2   {Rs}
+Rg     g       g2   {Rg}
+Rd     d2      d1a  {Rd}   TC1={Rd_TC1}  TC2={Rd_TC2}
+M1     d2      g3   s2   s2   DMOS    L={1u}   W={1u}
+Mr     dd      d2a  d1a  d1a  MVDR    L={1u}   W={1u}
+Rx     d2a     d1a  {Rx}
+Cds1   s2      d2   {Cds1}
+Dbd    s2      d2   Dbt
+Maux   g2      c    a    a   sw
+Maux2  b       d    g2    g2   sw
+Eaux   c       a    d2    g2   {Eaux}
+Eaux2  d       g2   d2    g2   {Eaux2}
+Cox    b       d2   {Cox}
+Rpar   b       d2   {Rconv1}
+Dgd    a       d2   DGD
+Rpar2  d2      a    {Rconv2}
+Cgs    g2      s2   {Cgs}
+RDIBL1 d2      m1   {RDIBL1}
+RDIBL2 m1      s2   {RDIBL2}
+Einv   m2      s2   m1   s2   {-1}
+Edibl  g3      s2   g2   m2   {1}
+.ENDS
+
+**********************************************************************
+
+.SUBCKT IMW65R027M1H_L0 drain gate source  PARAMS:  Ls=3.44E-09 Ld=2.14E-09 Lg=8.67E-09
+.PARAM fpar128=1.0 fpar129=1.0 Rs=1.20E-03 Rg=4.31E-02 fpar127=8.148
+Ld     drain    dd   Ld
+Lg     gate     g    Lg
+Ls     source   s    Ls
+X1  dd  g  s  tech_sicmos_L0  PARAMS: Rs={Rs} Rg={Rg} fpar128={fpar128} fpar129={fpar129} fpar127={fpar127}
+.ENDS IMW65R027M1H_L0
+
+********************************************************************************
+
+.SUBCKT IMW65R027M1H_L1 drain gate source PARAMS: dVth=0 Ls=3.44E-09 Ld=2.14E-09 Lg=8.67E-09
+.PARAM Rs=1.20E-03      Rg=4.31E-02       Rd=7.70E-05       fpar127=8.148
+Lg    gate   g1   {Lg}
+Rg    g1     g    {Rg}
+Ls    source s1   {Ls}
+Rs    s1     s    {Rs}
+Ld    drain  d1   {Ld}
+Rd    d1     dd   {Rd}
+X$MF  dd     g     s  Pow	Tj  SiCMOS_650V    PARAMS: dVth={dVth} fpar127={fpar127}
+ETj	Tj	w	VALUE = {TEMP}
+RTj	w	0	1u
+.ENDS
+
+.SUBCKT IMW65R027M1H_L3 drain gate source Tj Tcase PARAMS: dVth=0 Ls=3.44E-09 Ld=2.14E-09 Lg=8.67E-09 Zthtype=0
+.PARAM Rs=1.20E-03      Rg=4.31E-02       Rd=7.70E-05       fpar127=8.148
+.PARAM lzth={limit(Zthtype,0,1)}
+Lg    gate   g1   {Lg}
+Rg    g1     g    {Rg}
+Ls    source s1   {Ls}
+Rs    s1     s    {Rs}
+Ld    drain  d1   {Ld}
+Rd    d1     dd   {Rd}
+X$MF  dd     g     s  Pow	Tj  SiCMOS_650V    PARAMS: dVth={dVth} fpar127={fpar127}
+GPOW    0   Tj  VALUE = {IF(time > 0,LIMIT(V(Pow,0),-1e6,1e6),0)}
+RGPOW   Tj  0   1Meg
+C_CZth1      Tj     0      2.581980e-04
+C_CZth2      0      1      7.787040e-04
+C_CZth3      0      2      3.301100e-03
+C_CZth4      0      3      6.505990e-02
+C_CZth5      0      4      4.414640e-02
+R_Rth1       Tj     1      {0.014146+lzth*0.004244}
+R_Rth2       1      2      {0.067968+lzth*0.020390}
+R_Rth3       2      3      {0.170023+lzth*0.051007}
+R_Rth4       3      4      {0.078694+lzth*0.023608}
+R_Rth5       4      Tcase  {0.176862+lzth*0.053058}
+.ENDS
+
+********************************************************************************
+
+.SUBCKT IMZA65R027M1H_L0 drain gate source source_sense  PARAMS:  Ls=2.16E-09 Ld=2.33E-09 Lg=7.35E-09 Lssk=4.59E-09
+.PARAM fpar128=1.0 fpar129=1.0 Rs=9.65E-04 Rg=4.53E-02 Rssk=3.60E-02 fpar127=8.148
+Ld     drain    dd   Ld
+Lg     gate     g    Lg
+Ls     source   s    Ls
+Rssk   source_k sk1  Rssk
+Lssk   sk1      s    Lssk
+X1  dd  g  s  tech_sicmos_L0  PARAMS: Rs={Rs} Rg={Rg} fpar128={fpar128} fpar129={fpar129} fpar127={fpar127}
+.ENDS IMZA65R027M1H_L0
+
+********************************************************************************
+
+.SUBCKT IMZA65R027M1H_L1 drain gate source source_k PARAMS: dVth=0 Ls=2.16E-09 Ld=2.33E-09 Lg=7.35E-09 Lssk=4.59E-09
+.PARAM Rs=9.65E-04      Rg=4.53E-02       Rd=1.19E-04       Rssk=3.60E-02      fpar127=8.148
+Lg    gate   g1   {Lg}
+Rg    g1     g    {Rg}
+Ls    source s1   {Ls}
+Rs    s1     s    {Rs}
+Ld    drain  d1   {Ld}
+Rd    d1     dd   {Rd}
+Lssk  s      sk1  {Lssk}
+Rssk  sk1    source_k  {Rssk}
+X$MF  dd     g     s  Pow	Tj  SiCMOS_650V    PARAMS: dVth={dVth} fpar127={fpar127}
+ETj	Tj	w	VALUE = {TEMP}
+RTj	w	0	1u
+.ENDS
+
+.SUBCKT IMZA65R027M1H_L3 drain gate source source_k Tj Tcase PARAMS: dVth=0 Ls=2.16E-09 Ld=2.33E-09 Lg=7.35E-09 Lssk=4.59E-09 Zthtype=0
+.PARAM Rs=9.65E-04      Rg=4.53E-02       Rd=1.19E-04       Rssk=3.60E-02      fpar127=8.148
+.PARAM lzth={limit(Zthtype,0,1)}
+Lg    gate   g1   {Lg}
+Rg    g1     g    {Rg}
+Ls    source s1   {Ls}
+Rs    s1     s    {Rs}
+Ld    drain  d1   {Ld}
+Rd    d1     dd   {Rd}
+Lssk  s      sk1  {Lssk}
+Rssk  sk1    source_k  {Rssk}
+X$MF  dd     g     s  Pow	Tj  SiCMOS_650V    PARAMS: dVth={dVth} fpar127={fpar127}
+GPOW    0   Tj  VALUE = {IF(time > 0,LIMIT(V(Pow,0),-1e6,1e6),0)}
+RGPOW   Tj  0   1Meg
+C_CZth1      Tj     0      2.581980e-04
+C_CZth2      0      1      7.787040e-04
+C_CZth3      0      2      3.301100e-03
+C_CZth4      0      3      6.505990e-02
+C_CZth5      0      4      4.414640e-02
+R_Rth1       Tj     1      {0.014146+lzth*0.004244}
+R_Rth2       1      2      {0.067968+lzth*0.020390}
+R_Rth3       2      3      {0.170023+lzth*0.051007}
+R_Rth4       3      4      {0.078694+lzth*0.023608}
+R_Rth5       4      Tcase  {0.176862+lzth*0.053058}
+.ENDS
+
+********************************************************************************
+
+.SUBCKT IMW65R048M1H_L0 drain gate source  PARAMS:  Ls=3.71E-09 Ld=2.25E-09 Lg=9.59E-09
+.PARAM fpar128=1.074566409 fpar129=0.9944033729999999 Rs=1.00E-03 Rg=4.83E-02 fpar127=4.269
+Ld     drain    dd   Ld
+Lg     gate     g    Lg
+Ls     source   s    Ls
+X1  dd  g  s  tech_sicmos_L0  PARAMS: Rs={Rs} Rg={Rg} fpar128={fpar128} fpar129={fpar129} fpar127={fpar127}
+.ENDS IMW65R048M1H_L0
+
+********************************************************************************
+
+.SUBCKT IMW65R048M1H_L1 drain gate source PARAMS: dVth=0 Ls=3.71E-09 Ld=2.25E-09 Lg=9.59E-09
+.PARAM Rs=1.00E-03      Rg=4.83E-02       Rd=7.84E-05       fpar127=4.269
+Lg    gate   g1   {Lg}
+Rg    g1     g    {Rg}
+Ls    source s1   {Ls}
+Rs    s1     s    {Rs}
+Ld    drain  d1   {Ld}
+Rd    d1     dd   {Rd}
+X$MF  dd     g     s  Pow	Tj  SiCMOS_650V    PARAMS: dVth={dVth} fpar127={fpar127}
+ETj	Tj	w	VALUE = {TEMP}
+RTj	w	0	1u
+.ENDS
+
+.SUBCKT IMW65R048M1H_L3 drain gate source Tj Tcase PARAMS: dVth=0 Ls=3.71E-09 Ld=2.25E-09 Lg=9.59E-09 Zthtype=0
+.PARAM Rs=1.00E-03      Rg=4.83E-02       Rd=7.84E-05       fpar127=4.269
+.PARAM lzth={limit(Zthtype,0,1)}
+Lg    gate   g1   {Lg}
+Rg    g1     g    {Rg}
+Ls    source s1   {Ls}
+Rs    s1     s    {Rs}
+Ld    drain  d1   {Ld}
+Rd    d1     dd   {Rd}
+X$MF  dd     g     s  Pow	Tj  SiCMOS_650V    PARAMS: dVth={dVth} fpar127={fpar127}
+GPOW    0   Tj  VALUE = {IF(time > 0,LIMIT(V(Pow,0),-1e6,1e6),0)}
+RGPOW   Tj  0   1Meg
+C_CZth1      Tj     0      1.704107e-04
+C_CZth2      0      1      5.139446e-04
+C_CZth3      0      2      2.178726e-03
+C_CZth4      0      3      4.293953e-02
+C_CZth5      0      4      2.913662e-02
+R_Rth1       Tj     1      {0.021433+lzth*0.006430}
+R_Rth2       1      2      {0.102982+lzth*0.030894}
+R_Rth3       2      3      {0.257611+lzth*0.077283}
+R_Rth4       3      4      {0.119233+lzth*0.035770}
+R_Rth5       4      Tcase  {0.267973+lzth*0.080391}
+.ENDS
+
+********************************************************************************
+
+.SUBCKT IMZA65R048M1H_L0 drain gate source source_sense  PARAMS:  Ls=2.65E-09 Ld=2.30E-09 Lg=8.42E-09 Lssk=5.18E-09
+.PARAM fpar128=1.074566409 fpar129=0.9944033729999999 Rs=1.35E-03 Rg=5.06E-02 Rssk=4.08E-02 fpar127=4.269
+Ld     drain    dd   Ld
+Lg     gate     g    Lg
+Ls     source   s    Ls
+Rssk   source_k sk1  Rssk
+Lssk   sk1      s    Lssk
+X1  dd  g  s  tech_sicmos_L0  PARAMS: Rs={Rs} Rg={Rg} fpar128={fpar128} fpar129={fpar129} fpar127={fpar127}
+.ENDS IMZA65R048M1H_L0
+
+********************************************************************************
+
+.SUBCKT IMZA65R048M1H_L1 drain gate source source_k PARAMS: dVth=0 Ls=2.65E-09 Ld=2.30E-09 Lg=8.42E-09 Lssk=5.18E-09
+.PARAM Rs=1.35E-03      Rg=5.06E-02       Rd=1.20E-04       Rssk=4.08E-02      fpar127=4.269
+Lg    gate   g1   {Lg}
+Rg    g1     g    {Rg}
+Ls    source s1   {Ls}
+Rs    s1     s    {Rs}
+Ld    drain  d1   {Ld}
+Rd    d1     dd   {Rd}
+Lssk  s      sk1  {Lssk}
+Rssk  sk1    source_k  {Rssk}
+X$MF  dd     g     s  Pow	Tj  SiCMOS_650V    PARAMS: dVth={dVth} fpar127={fpar127}
+ETj	Tj	w	VALUE = {TEMP}
+RTj	w	0	1u
+.ENDS
+
+.SUBCKT IMZA65R048M1H_L3 drain gate source source_k Tj Tcase PARAMS: dVth=0 Ls=2.65E-09 Ld=2.30E-09 Lg=8.42E-09 Lssk=5.18E-09 Zthtype=0
+.PARAM Rs=1.35E-03      Rg=5.06E-02       Rd=1.20E-04       Rssk=4.08E-02      fpar127=4.269
+.PARAM lzth={limit(Zthtype,0,1)}
+Lg    gate   g1   {Lg}
+Rg    g1     g    {Rg}
+Ls    source s1   {Ls}
+Rs    s1     s    {Rs}
+Ld    drain  d1   {Ld}
+Rd    d1     dd   {Rd}
+Lssk  s      sk1  {Lssk}
+Rssk  sk1    source_k  {Rssk}
+X$MF  dd     g     s  Pow	Tj  SiCMOS_650V    PARAMS: dVth={dVth} fpar127={fpar127}
+GPOW    0   Tj  VALUE = {IF(time > 0,LIMIT(V(Pow,0),-1e6,1e6),0)}
+RGPOW   Tj  0   1Meg
+C_CZth1      Tj     0      1.704107e-04
+C_CZth2      0      1      5.139446e-04
+C_CZth3      0      2      2.178726e-03
+C_CZth4      0      3      4.293953e-02
+C_CZth5      0      4      2.913662e-02
+R_Rth1       Tj     1      {0.021433+lzth*0.006430}
+R_Rth2       1      2      {0.102982+lzth*0.030894}
+R_Rth3       2      3      {0.257611+lzth*0.077283}
+R_Rth4       3      4      {0.119233+lzth*0.035770}
+R_Rth5       4      Tcase  {0.267973+lzth*0.080391}
+.ENDS
+
+********************************************************************************
+
+.SUBCKT IMW65R072M1H_L0 drain gate source  PARAMS:  Ls=4.11E-09 Ld=2.36E-09 Lg=9.65E-09
+.PARAM fpar128=1.076638478 fpar129=0.9962494709999999 Rs=2.23E-03 Rg=4.79E-02 fpar127=2.838
+Ld     drain    dd   Ld
+Lg     gate     g    Lg
+Ls     source   s    Ls
+X1  dd  g  s  tech_sicmos_L0  PARAMS: Rs={Rs} Rg={Rg} fpar128={fpar128} fpar129={fpar129} fpar127={fpar127}
+.ENDS IMW65R072M1H_L0
+
+********************************************************************************
+
+.SUBCKT IMW65R072M1H_L1 drain gate source PARAMS: dVth=0 Ls=4.11E-09 Ld=2.36E-09 Lg=9.65E-09
+.PARAM Rs=2.23E-03      Rg=4.79E-02       Rd=7.98E-05       fpar127=2.838
+Lg    gate   g1   {Lg}
+Rg    g1     g    {Rg}
+Ls    source s1   {Ls}
+Rs    s1     s    {Rs}
+Ld    drain  d1   {Ld}
+Rd    d1     dd   {Rd}
+X$MF  dd     g     s  Pow	Tj  SiCMOS_650V    PARAMS: dVth={dVth} fpar127={fpar127}
+ETj	Tj	w	VALUE = {TEMP}
+RTj	w	0	1u
+.ENDS
+
+.SUBCKT IMW65R072M1H_L3 drain gate source Tj Tcase PARAMS: dVth=0 Ls=4.11E-09 Ld=2.36E-09 Lg=9.65E-09 Zthtype=0
+.PARAM Rs=2.23E-03      Rg=4.79E-02       Rd=7.98E-05       fpar127=2.838
+.PARAM lzth={limit(Zthtype,0,1)}
+Lg    gate   g1   {Lg}
+Rg    g1     g    {Rg}
+Ls    source s1   {Ls}
+Rs    s1     s    {Rs}
+Ld    drain  d1   {Ld}
+Rd    d1     dd   {Rd}
+X$MF  dd     g     s  Pow	Tj  SiCMOS_650V    PARAMS: dVth={dVth} fpar127={fpar127}
+GPOW    0   Tj  VALUE = {IF(time > 0,LIMIT(V(Pow,0),-1e6,1e6),0)}
+RGPOW   Tj  0   1Meg
+C_CZth1      Tj     0      1.310851e-04
+C_CZth2      0      1      3.953420e-04
+C_CZth3      0      2      1.675943e-03
+C_CZth4      0      3      3.303041e-02
+C_CZth5      0      4      2.241279e-02
+R_Rth1       Tj     1      {0.027863+lzth*0.008359}
+R_Rth2       1      2      {0.133876+lzth*0.040162}
+R_Rth3       2      3      {0.334894+lzth*0.100468}
+R_Rth4       3      4      {0.155003+lzth*0.046501}
+R_Rth5       4      Tcase  {0.348365+lzth*0.104508}
+.ENDS
+
+********************************************************************************
+
+.SUBCKT IMZA65R072M1H_L0 drain gate source source_sense  PARAMS:  Ls=2.85E-09 Ld=2.40E-09 Lg=8.60E-09 Lssk=5.78E-09
+.PARAM fpar128=1.076638478 fpar129=0.9962494709999999 Rs=1.82E-03 Rg=5.16E-02 Rssk=4.70E-02 fpar127=2.838
+Ld     drain    dd   Ld
+Lg     gate     g    Lg
+Ls     source   s    Ls
+Rssk   source_k sk1  Rssk
+Lssk   sk1      s    Lssk
+X1  dd  g  s  tech_sicmos_L0  PARAMS: Rs={Rs} Rg={Rg} fpar128={fpar128} fpar129={fpar129} fpar127={fpar127}
+.ENDS IMZA65R072M1H_L0
+
+********************************************************************************
+
+.SUBCKT IMZA65R072M1H_L1 drain gate source source_k PARAMS: dVth=0 Ls=2.85E-09 Ld=2.40E-09 Lg=8.60E-09 Lssk=5.78E-09
+.PARAM Rs=1.82E-03      Rg=5.16E-02       Rd=1.21E-04       Rssk=4.70E-02      fpar127=2.838
+Lg    gate   g1   {Lg}
+Rg    g1     g    {Rg}
+Ls    source s1   {Ls}
+Rs    s1     s    {Rs}
+Ld    drain  d1   {Ld}
+Rd    d1     dd   {Rd}
+Lssk  s      sk1  {Lssk}
+Rssk  sk1    source_k  {Rssk}
+X$MF  dd     g     s  Pow	Tj  SiCMOS_650V    PARAMS: dVth={dVth} fpar127={fpar127}
+ETj	Tj	w	VALUE = {TEMP}
+RTj	w	0	1u
+.ENDS
+
+.SUBCKT IMZA65R072M1H_L3 drain gate source source_k Tj Tcase PARAMS: dVth=0 Ls=2.85E-09 Ld=2.40E-09 Lg=8.60E-09 Lssk=5.78E-09 Zthtype=0
+.PARAM Rs=1.82E-03      Rg=5.16E-02       Rd=1.21E-04       Rssk=4.70E-02      fpar127=2.838
+.PARAM lzth={limit(Zthtype,0,1)}
+Lg    gate   g1   {Lg}
+Rg    g1     g    {Rg}
+Ls    source s1   {Ls}
+Rs    s1     s    {Rs}
+Ld    drain  d1   {Ld}
+Rd    d1     dd   {Rd}
+Lssk  s      sk1  {Lssk}
+Rssk  sk1    source_k  {Rssk}
+X$MF  dd     g     s  Pow	Tj  SiCMOS_650V    PARAMS: dVth={dVth} fpar127={fpar127}
+GPOW    0   Tj  VALUE = {IF(time > 0,LIMIT(V(Pow,0),-1e6,1e6),0)}
+RGPOW   Tj  0   1Meg
+C_CZth1      Tj     0      1.310851e-04
+C_CZth2      0      1      3.953420e-04
+C_CZth3      0      2      1.675943e-03
+C_CZth4      0      3      3.303041e-02
+C_CZth5      0      4      2.241279e-02
+R_Rth1       Tj     1      {0.027863+lzth*0.008359}
+R_Rth2       1      2      {0.133876+lzth*0.040162}
+R_Rth3       2      3      {0.334894+lzth*0.100468}
+R_Rth4       3      4      {0.155003+lzth*0.046501}
+R_Rth5       4      Tcase  {0.348365+lzth*0.104508}
+.ENDS
+
+********************************************************************************
+
+.SUBCKT IMW65R107M1H_L0 drain gate source  PARAMS:  Ls=4.11E-09 Ld=2.36E-09 Lg=9.65E-09
+.PARAM fpar128=1.085825489 fpar129=1.0082665259999999 Rs=2.23E-03 Rg=4.79E-02 fpar127=1.891
+Ld     drain    dd   Ld
+Lg     gate     g    Lg
+Ls     source   s    Ls
+X1  dd  g  s  tech_sicmos_L0  PARAMS: Rs={Rs} Rg={Rg} fpar128={fpar128} fpar129={fpar129} fpar127={fpar127}
+.ENDS IMW65R107M1H_L0
+
+********************************************************************************
+
+.SUBCKT IMW65R107M1H_L1 drain gate source PARAMS: dVth=0 Ls=4.11E-09 Ld=2.36E-09 Lg=9.65E-09
+.PARAM Rs=2.23E-03      Rg=4.79E-02       Rd=7.98E-05       fpar127=1.891
+Lg    gate   g1   {Lg}
+Rg    g1     g    {Rg}
+Ls    source s1   {Ls}
+Rs    s1     s    {Rs}
+Ld    drain  d1   {Ld}
+Rd    d1     dd   {Rd}
+X$MF  dd     g     s  Pow	Tj  SiCMOS_650V    PARAMS: dVth={dVth} fpar127={fpar127}
+ETj	Tj	w	VALUE = {TEMP}
+RTj	w	0	1u
+.ENDS
+
+.SUBCKT IMW65R107M1H_L3 drain gate source Tj Tcase PARAMS: dVth=0 Ls=4.11E-09 Ld=2.36E-09 Lg=9.65E-09 Zthtype=0
+.PARAM Rs=2.23E-03      Rg=4.79E-02       Rd=7.98E-05       fpar127=1.891
+.PARAM lzth={limit(Zthtype,0,1)}
+Lg    gate   g1   {Lg}
+Rg    g1     g    {Rg}
+Ls    source s1   {Ls}
+Rs    s1     s    {Rs}
+Ld    drain  d1   {Ld}
+Rd    d1     dd   {Rd}
+X$MF  dd     g     s  Pow	Tj  SiCMOS_650V    PARAMS: dVth={dVth} fpar127={fpar127}
+GPOW    0   Tj  VALUE = {IF(time > 0,LIMIT(V(Pow,0),-1e6,1e6),0)}
+RGPOW   Tj  0   1Meg
+C_CZth1      Tj     0      1.065067e-04
+C_CZth2      0      1      3.212154e-04
+C_CZth3      0      2      1.361704e-03
+C_CZth4      0      3      2.683721e-02
+C_CZth5      0      4      1.821039e-02
+R_Rth1       Tj     1      {0.034293+lzth*0.010288}
+R_Rth2       1      2      {0.164771+lzth*0.049430}
+R_Rth3       2      3      {0.412177+lzth*0.123653}
+R_Rth4       3      4      {0.190773+lzth*0.057232}
+R_Rth5       4      Tcase  {0.428756+lzth*0.128625}
+.ENDS
+
+********************************************************************************
+
+.SUBCKT IMZA65R107M1H_L0 drain gate source source_sense  PARAMS:  Ls=2.85E-09 Ld=2.40E-09 Lg=8.60E-09 Lssk=5.78E-09
+.PARAM fpar128=1.085825489 fpar129=1.0082665259999999 Rs=1.82E-03 Rg=5.16E-02 Rssk=4.70E-02 fpar127=1.891
+Ld     drain    dd   Ld
+Lg     gate     g    Lg
+Ls     source   s    Ls
+Rssk   source_k sk1  Rssk
+Lssk   sk1      s    Lssk
+X1  dd  g  s  tech_sicmos_L0  PARAMS: Rs={Rs} Rg={Rg} fpar128={fpar128} fpar129={fpar129} fpar127={fpar127}
+.ENDS IMZA65R107M1H_L0
+
+********************************************************************************
+
+.SUBCKT IMZA65R107M1H_L1 drain gate source source_k PARAMS: dVth=0 Ls=2.85E-09 Ld=2.40E-09 Lg=8.60E-09 Lssk=5.78E-09
+.PARAM Rs=1.82E-03      Rg=5.16E-02       Rd=1.21E-04       Rssk=4.70E-02      fpar127=1.891
+Lg    gate   g1   {Lg}
+Rg    g1     g    {Rg}
+Ls    source s1   {Ls}
+Rs    s1     s    {Rs}
+Ld    drain  d1   {Ld}
+Rd    d1     dd   {Rd}
+Lssk  s      sk1  {Lssk}
+Rssk  sk1    source_k  {Rssk}
+X$MF  dd     g     s  Pow	Tj  SiCMOS_650V    PARAMS: dVth={dVth} fpar127={fpar127}
+ETj	Tj	w	VALUE = {TEMP}
+RTj	w	0	1u
+.ENDS
+
+.SUBCKT IMZA65R107M1H_L3 drain gate source source_k Tj Tcase PARAMS: dVth=0 Ls=2.85E-09 Ld=2.40E-09 Lg=8.60E-09 Lssk=5.78E-09 Zthtype=0
+.PARAM Rs=1.82E-03      Rg=5.16E-02       Rd=1.21E-04       Rssk=4.70E-02      fpar127=1.891
+.PARAM lzth={limit(Zthtype,0,1)}
+Lg    gate   g1   {Lg}
+Rg    g1     g    {Rg}
+Ls    source s1   {Ls}
+Rs    s1     s    {Rs}
+Ld    drain  d1   {Ld}
+Rd    d1     dd   {Rd}
+Lssk  s      sk1  {Lssk}
+Rssk  sk1    source_k  {Rssk}
+X$MF  dd     g     s  Pow	Tj  SiCMOS_650V    PARAMS: dVth={dVth} fpar127={fpar127}
+GPOW    0   Tj  VALUE = {IF(time > 0,LIMIT(V(Pow,0),-1e6,1e6),0)}
+RGPOW   Tj  0   1Meg
+C_CZth1      Tj     0      1.065067e-04
+C_CZth2      0      1      3.212154e-04
+C_CZth3      0      2      1.361704e-03
+C_CZth4      0      3      2.683721e-02
+C_CZth5      0      4      1.821039e-02
+R_Rth1       Tj     1      {0.034293+lzth*0.010288}
+R_Rth2       1      2      {0.164771+lzth*0.049430}
+R_Rth3       2      3      {0.412177+lzth*0.123653}
+R_Rth4       3      4      {0.190773+lzth*0.057232}
+R_Rth5       4      Tcase  {0.428756+lzth*0.128625}
+.ENDS
+
+********************************************************************************
+
+.SUBCKT IMW65R030M1H_L0 drain gate source  PARAMS:  Ls=3.33E-09 Ld=2.18E-09 Lg=9.14E-09
+.PARAM fpar128=1.1448 fpar129=1.0 Rs=7.39E-04 Rg=4.54E-02 fpar127=6.278
+Ld     drain    dd   Ld
+Lg     gate     g    Lg
+Ls     source   s    Ls
+X1  dd  g  s  tech_sicmos_L0  PARAMS: Rs={Rs} Rg={Rg} fpar128={fpar128} fpar129={fpar129} fpar127={fpar127}
+.ENDS IMW65R030M1H_L0
+
+********************************************************************************
+
+.SUBCKT IMW65R030M1H_L1 drain gate source PARAMS: dVth=0 Ls=3.33E-09 Ld=2.18E-09 Lg=9.14E-09
+.PARAM Rs=7.39E-04      Rg=4.54E-02       Rd=7.79E-05       fpar127=6.278
+Lg    gate   g1   {Lg}
+Rg    g1     g    {Rg}
+Ls    source s1   {Ls}
+Rs    s1     s    {Rs}
+Ld    drain  d1   {Ld}
+Rd    d1     dd   {Rd}
+X$MF  dd     g     s  Pow	Tj  SiCMOS_650V    PARAMS: dVth={dVth} fpar127={fpar127}
+ETj	Tj	w	VALUE = {TEMP}
+RTj	w	0	1u
+.ENDS
+
+.SUBCKT IMW65R030M1H_L3 drain gate source Tj Tcase PARAMS: dVth=0 Ls=3.33E-09 Ld=2.18E-09 Lg=9.14E-09 Zthtype=0
+.PARAM Rs=7.39E-04      Rg=4.54E-02       Rd=7.79E-05       fpar127=6.278
+.PARAM lzth={limit(Zthtype,0,1)}
+Lg    gate   g1   {Lg}
+Rg    g1     g    {Rg}
+Ls    source s1   {Ls}
+Rs    s1     s    {Rs}
+Ld    drain  d1   {Ld}
+Rd    d1     dd   {Rd}
+X$MF  dd     g     s  Pow	Tj  SiCMOS_650V    PARAMS: dVth={dVth} fpar127={fpar127}
+GPOW    0   Tj  VALUE = {IF(time > 0,LIMIT(V(Pow,0),-1e6,1e6),0)}
+RGPOW   Tj  0   1Meg
+C_CZth1      Tj     0      2.242246e-04
+C_CZth2      0      1      6.762429e-04
+C_CZth3      0      2      2.866745e-03
+C_CZth4      0      3      5.649939e-02
+C_CZth5      0      4      3.833766e-02
+R_Rth1       Tj     1      {0.016289+lzth*0.004887}
+R_Rth2       1      2      {0.078266+lzth*0.023479}
+R_Rth3       2      3      {0.195784+lzth*0.058735}
+R_Rth4       3      4      {0.090617+lzth*0.027185}
+R_Rth5       4      Tcase  {0.203659+lzth*0.061097}
+.ENDS
+
+********************************************************************************
+
+.SUBCKT IMZA65R030M1H_L0 drain gate source source_sense  PARAMS:  Ls=2.50E-09 Ld=2.29E-09 Lg=7.95E-09 Lssk=5.34E-09
+.PARAM fpar128=1.1448 fpar129=1.0 Rs=9.01E-04 Rg=4.80E-02 Rssk=4.41E-02 fpar127=6.278
+Ld     drain    dd   Ld
+Lg     gate     g    Lg
+Ls     source   s    Ls
+Rssk   source_k sk1  Rssk
+Lssk   sk1      s    Lssk
+X1  dd  g  s  tech_sicmos_L0  PARAMS: Rs={Rs} Rg={Rg} fpar128={fpar128} fpar129={fpar129} fpar127={fpar127}
+.ENDS IMZA65R030M1H_L0
+
+********************************************************************************
+
+.SUBCKT IMZA65R030M1H_L1 drain gate source source_k PARAMS: dVth=0 Ls=2.50E-09 Ld=2.29E-09 Lg=7.95E-09 Lssk=5.34E-09
+.PARAM Rs=9.01E-04      Rg=4.80E-02       Rd=1.20E-04       Rssk=4.41E-02      fpar127=6.278
+Lg    gate   g1   {Lg}
+Rg    g1     g    {Rg}
+Ls    source s1   {Ls}
+Rs    s1     s    {Rs}
+Ld    drain  d1   {Ld}
+Rd    d1     dd   {Rd}
+Lssk  s      sk1  {Lssk}
+Rssk  sk1    source_k  {Rssk}
+X$MF  dd     g     s  Pow	Tj  SiCMOS_650V    PARAMS: dVth={dVth} fpar127={fpar127}
+ETj	Tj	w	VALUE = {TEMP}
+RTj	w	0	1u
+.ENDS
+
+.SUBCKT IMZA65R030M1H_L3 drain gate source source_k Tj Tcase PARAMS: dVth=0 Ls=2.50E-09 Ld=2.29E-09 Lg=7.95E-09 Lssk=5.34E-09 Zthtype=0
+.PARAM Rs=9.01E-04      Rg=4.80E-02       Rd=1.20E-04       Rssk=4.41E-02      fpar127=6.278
+.PARAM lzth={limit(Zthtype,0,1)}
+Lg    gate   g1   {Lg}
+Rg    g1     g    {Rg}
+Ls    source s1   {Ls}
+Rs    s1     s    {Rs}
+Ld    drain  d1   {Ld}
+Rd    d1     dd   {Rd}
+Lssk  s      sk1  {Lssk}
+Rssk  sk1    source_k  {Rssk}
+X$MF  dd     g     s  Pow	Tj  SiCMOS_650V    PARAMS: dVth={dVth} fpar127={fpar127}
+GPOW    0   Tj  VALUE = {IF(time > 0,LIMIT(V(Pow,0),-1e6,1e6),0)}
+RGPOW   Tj  0   1Meg
+C_CZth1      Tj     0      2.242246e-04
+C_CZth2      0      1      6.762429e-04
+C_CZth3      0      2      2.866745e-03
+C_CZth4      0      3      5.649939e-02
+C_CZth5      0      4      3.833766e-02
+R_Rth1       Tj     1      {0.016289+lzth*0.004887}
+R_Rth2       1      2      {0.078266+lzth*0.023479}
+R_Rth3       2      3      {0.195784+lzth*0.058735}
+R_Rth4       3      4      {0.090617+lzth*0.027185}
+R_Rth5       4      Tcase  {0.203659+lzth*0.061097}
+.ENDS
+
+********************************************************************************
+
+.SUBCKT IMW65R039M1H_L0 drain gate source  PARAMS:  Ls=3.71E-09 Ld=2.25E-09 Lg=9.59E-09
+.PARAM fpar128=1.0668 fpar129=1.0 Rs=1.00E-03 Rg=4.83E-02 fpar127=5.324
+Ld     drain    dd   Ld
+Lg     gate     g    Lg
+Ls     source   s    Ls
+X1  dd  g  s  tech_sicmos_L0  PARAMS: Rs={Rs} Rg={Rg} fpar128={fpar128} fpar129={fpar129} fpar127={fpar127}
+.ENDS IMW65R039M1H_L0
+
+********************************************************************************
+
+.SUBCKT IMW65R039M1H_L1 drain gate source PARAMS: dVth=0 Ls=3.71E-09 Ld=2.25E-09 Lg=9.59E-09
+.PARAM Rs=1.00E-03      Rg=4.83E-02       Rd=7.84E-05       fpar127=5.324
+Lg    gate   g1   {Lg}
+Rg    g1     g    {Rg}
+Ls    source s1   {Ls}
+Rs    s1     s    {Rs}
+Ld    drain  d1   {Ld}
+Rd    d1     dd   {Rd}
+X$MF  dd     g     s  Pow	Tj  SiCMOS_650V    PARAMS: dVth={dVth} fpar127={fpar127}
+ETj	Tj	w	VALUE = {TEMP}
+RTj	w	0	1u
+.ENDS
+
+.SUBCKT IMW65R039M1H_L3 drain gate source Tj Tcase PARAMS: dVth=0 Ls=3.71E-09 Ld=2.25E-09 Lg=9.59E-09 Zthtype=0
+.PARAM Rs=1.00E-03      Rg=4.83E-02       Rd=7.84E-05       fpar127=5.324
+.PARAM lzth={limit(Zthtype,0,1)}
+Lg    gate   g1   {Lg}
+Rg    g1     g    {Rg}
+Ls    source s1   {Ls}
+Rs    s1     s    {Rs}
+Ld    drain  d1   {Ld}
+Rd    d1     dd   {Rd}
+X$MF  dd     g     s  Pow	Tj  SiCMOS_650V    PARAMS: dVth={dVth} fpar127={fpar127}
+GPOW    0   Tj  VALUE = {IF(time > 0,LIMIT(V(Pow,0),-1e6,1e6),0)}
+RGPOW   Tj  0   1Meg
+C_CZth1      Tj     0      2.004832e-04
+C_CZth2      0      1      6.046408e-04
+C_CZth3      0      2      2.563207e-03
+C_CZth4      0      3      5.051710e-02
+C_CZth5      0      4      3.427838e-02
+R_Rth1       Tj     1      {0.018218+lzth*0.005466}
+R_Rth2       1      2      {0.087535+lzth*0.026260}
+R_Rth3       2      3      {0.218969+lzth*0.065691}
+R_Rth4       3      4      {0.101348+lzth*0.030404}
+R_Rth5       4      Tcase  {0.227777+lzth*0.068332}
+.ENDS
+
+********************************************************************************
+
+.SUBCKT IMZA65R039M1H_L0 drain gate source source_sense  PARAMS:  Ls=2.50E-09 Ld=2.29E-09 Lg=7.95E-09 Lssk=5.34E-09
+.PARAM fpar128=1.0668 fpar129=1.0 Rs=9.01E-04 Rg=4.80E-02 Rssk=4.41E-02 fpar127=5.324
+Ld     drain    dd   Ld
+Lg     gate     g    Lg
+Ls     source   s    Ls
+Rssk   source_k sk1  Rssk
+Lssk   sk1      s    Lssk
+X1  dd  g  s  tech_sicmos_L0  PARAMS: Rs={Rs} Rg={Rg} fpar128={fpar128} fpar129={fpar129} fpar127={fpar127}
+.ENDS IMZA65R039M1H_L0
+
+********************************************************************************
+
+.SUBCKT IMZA65R039M1H_L1 drain gate source source_k PARAMS: dVth=0 Ls=2.50E-09 Ld=2.29E-09 Lg=7.95E-09 Lssk=5.34E-09
+.PARAM Rs=9.01E-04      Rg=4.80E-02       Rd=1.20E-04       Rssk=4.41E-02      fpar127=5.324
+Lg    gate   g1   {Lg}
+Rg    g1     g    {Rg}
+Ls    source s1   {Ls}
+Rs    s1     s    {Rs}
+Ld    drain  d1   {Ld}
+Rd    d1     dd   {Rd}
+Lssk  s      sk1  {Lssk}
+Rssk  sk1    source_k  {Rssk}
+X$MF  dd     g     s  Pow	Tj  SiCMOS_650V    PARAMS: dVth={dVth} fpar127={fpar127}
+ETj	Tj	w	VALUE = {TEMP}
+RTj	w	0	1u
+.ENDS
+
+.SUBCKT IMZA65R039M1H_L3 drain gate source source_k Tj Tcase PARAMS: dVth=0 Ls=2.50E-09 Ld=2.29E-09 Lg=7.95E-09 Lssk=5.34E-09 Zthtype=0
+.PARAM Rs=9.01E-04      Rg=4.80E-02       Rd=1.20E-04       Rssk=4.41E-02      fpar127=5.324
+.PARAM lzth={limit(Zthtype,0,1)}
+Lg    gate   g1   {Lg}
+Rg    g1     g    {Rg}
+Ls    source s1   {Ls}
+Rs    s1     s    {Rs}
+Ld    drain  d1   {Ld}
+Rd    d1     dd   {Rd}
+Lssk  s      sk1  {Lssk}
+Rssk  sk1    source_k  {Rssk}
+X$MF  dd     g     s  Pow	Tj  SiCMOS_650V    PARAMS: dVth={dVth} fpar127={fpar127}
+GPOW    0   Tj  VALUE = {IF(time > 0,LIMIT(V(Pow,0),-1e6,1e6),0)}
+RGPOW   Tj  0   1Meg
+C_CZth1      Tj     0      2.004832e-04
+C_CZth2      0      1      6.046408e-04
+C_CZth3      0      2      2.563207e-03
+C_CZth4      0      3      5.051710e-02
+C_CZth5      0      4      3.427838e-02
+R_Rth1       Tj     1      {0.018218+lzth*0.005466}
+R_Rth2       1      2      {0.087535+lzth*0.026260}
+R_Rth3       2      3      {0.218969+lzth*0.065691}
+R_Rth4       3      4      {0.101348+lzth*0.030404}
+R_Rth5       4      Tcase  {0.227777+lzth*0.068332}
+.ENDS
+
+********************************************************************************
+
+.SUBCKT IMW65R057M1H_L0 drain gate source  PARAMS:  Ls=3.71E-09 Ld=2.25E-09 Lg=9.59E-09
+.PARAM fpar128=1.0614 fpar129=1.0 Rs=1.00E-03 Rg=4.83E-02 fpar127=3.553
+Ld     drain    dd   Ld
+Lg     gate     g    Lg
+Ls     source   s    Ls
+X1  dd  g  s  tech_sicmos_L0  PARAMS: Rs={Rs} Rg={Rg} fpar128={fpar128} fpar129={fpar129} fpar127={fpar127}
+.ENDS IMW65R057M1H_L0
+
+********************************************************************************
+
+.SUBCKT IMW65R057M1H_L1 drain gate source PARAMS: dVth=0 Ls=3.71E-09 Ld=2.25E-09 Lg=9.59E-09
+.PARAM Rs=1.00E-03      Rg=4.83E-02       Rd=7.84E-05       fpar127=3.553
+Lg    gate   g1   {Lg}
+Rg    g1     g    {Rg}
+Ls    source s1   {Ls}
+Rs    s1     s    {Rs}
+Ld    drain  d1   {Ld}
+Rd    d1     dd   {Rd}
+X$MF  dd     g     s  Pow	Tj  SiCMOS_650V    PARAMS: dVth={dVth} fpar127={fpar127}
+ETj	Tj	w	VALUE = {TEMP}
+RTj	w	0	1u
+.ENDS
+
+.SUBCKT IMW65R057M1H_L3 drain gate source Tj Tcase PARAMS: dVth=0 Ls=3.71E-09 Ld=2.25E-09 Lg=9.59E-09 Zthtype=0
+.PARAM Rs=1.00E-03      Rg=4.83E-02       Rd=7.84E-05       fpar127=3.553
+.PARAM lzth={limit(Zthtype,0,1)}
+Lg    gate   g1   {Lg}
+Rg    g1     g    {Rg}
+Ls    source s1   {Ls}
+Rs    s1     s    {Rs}
+Ld    drain  d1   {Ld}
+Rd    d1     dd   {Rd}
+X$MF  dd     g     s  Pow	Tj  SiCMOS_650V    PARAMS: dVth={dVth} fpar127={fpar127}
+GPOW    0   Tj  VALUE = {IF(time > 0,LIMIT(V(Pow,0),-1e6,1e6),0)}
+RGPOW   Tj  0   1Meg
+C_CZth1      Tj     0      1.508059e-04
+C_CZth2      0      1      4.548183e-04
+C_CZth3      0      2      1.928076e-03
+C_CZth4      0      3      3.799959e-02
+C_CZth5      0      4      2.578462e-02
+R_Rth1       Tj     1      {0.024220+lzth*0.007266}
+R_Rth2       1      2      {0.116369+lzth*0.034910}
+R_Rth3       2      3      {0.291100+lzth*0.087330}
+R_Rth4       3      4      {0.134734+lzth*0.040420}
+R_Rth5       4      Tcase  {0.302809+lzth*0.090842}
+.ENDS
+
+********************************************************************************
+
+.SUBCKT IMZA65R057M1H_L0 drain gate source source_sense  PARAMS:  Ls=2.50E-09 Ld=2.29E-09 Lg=7.95E-09 Lssk=5.34E-09
+.PARAM fpar128=1.0614 fpar129=1.0 Rs=9.01E-04 Rg=4.80E-02 Rssk=4.41E-02 fpar127=3.553
+Ld     drain    dd   Ld
+Lg     gate     g    Lg
+Ls     source   s    Ls
+Rssk   source_k sk1  Rssk
+Lssk   sk1      s    Lssk
+X1  dd  g  s  tech_sicmos_L0  PARAMS: Rs={Rs} Rg={Rg} fpar128={fpar128} fpar129={fpar129} fpar127={fpar127}
+.ENDS IMZA65R057M1H_L0
+
+********************************************************************************
+
+.SUBCKT IMZA65R057M1H_L1 drain gate source source_k PARAMS: dVth=0 Ls=2.50E-09 Ld=2.29E-09 Lg=7.95E-09 Lssk=5.34E-09
+.PARAM Rs=9.01E-04      Rg=4.80E-02       Rd=1.20E-04       Rssk=4.41E-02      fpar127=3.553
+Lg    gate   g1   {Lg}
+Rg    g1     g    {Rg}
+Ls    source s1   {Ls}
+Rs    s1     s    {Rs}
+Ld    drain  d1   {Ld}
+Rd    d1     dd   {Rd}
+Lssk  s      sk1  {Lssk}
+Rssk  sk1    source_k  {Rssk}
+X$MF  dd     g     s  Pow	Tj  SiCMOS_650V    PARAMS: dVth={dVth} fpar127={fpar127}
+ETj	Tj	w	VALUE = {TEMP}
+RTj	w	0	1u
+.ENDS
+
+.SUBCKT IMZA65R057M1H_L3 drain gate source source_k Tj Tcase PARAMS: dVth=0 Ls=2.50E-09 Ld=2.29E-09 Lg=7.95E-09 Lssk=5.34E-09 Zthtype=0
+.PARAM Rs=9.01E-04      Rg=4.80E-02       Rd=1.20E-04       Rssk=4.41E-02      fpar127=3.553
+.PARAM lzth={limit(Zthtype,0,1)}
+Lg    gate   g1   {Lg}
+Rg    g1     g    {Rg}
+Ls    source s1   {Ls}
+Rs    s1     s    {Rs}
+Ld    drain  d1   {Ld}
+Rd    d1     dd   {Rd}
+Lssk  s      sk1  {Lssk}
+Rssk  sk1    source_k  {Rssk}
+X$MF  dd     g     s  Pow	Tj  SiCMOS_650V    PARAMS: dVth={dVth} fpar127={fpar127}
+GPOW    0   Tj  VALUE = {IF(time > 0,LIMIT(V(Pow,0),-1e6,1e6),0)}
+RGPOW   Tj  0   1Meg
+C_CZth1      Tj     0      1.508059e-04
+C_CZth2      0      1      4.548183e-04
+C_CZth3      0      2      1.928076e-03
+C_CZth4      0      3      3.799959e-02
+C_CZth5      0      4      2.578462e-02
+R_Rth1       Tj     1      {0.024220+lzth*0.007266}
+R_Rth2       1      2      {0.116369+lzth*0.034910}
+R_Rth3       2      3      {0.291100+lzth*0.087330}
+R_Rth4       3      4      {0.134734+lzth*0.040420}
+R_Rth5       4      Tcase  {0.302809+lzth*0.090842}
+.ENDS
+
+********************************************************************************
+
+.SUBCKT IMW65R083M1H_L0 drain gate source  PARAMS:  Ls=4.11E-09 Ld=2.36E-09 Lg=9.65E-09
+.PARAM fpar128=1.0732 fpar129=1.0 Rs=2.23E-03 Rg=4.79E-02 fpar127=2.382
+Ld     drain    dd   Ld
+Lg     gate     g    Lg
+Ls     source   s    Ls
+X1  dd  g  s  tech_sicmos_L0  PARAMS: Rs={Rs} Rg={Rg} fpar128={fpar128} fpar129={fpar129} fpar127={fpar127}
+.ENDS IMW65R083M1H_L0
+
+********************************************************************************
+
+.SUBCKT IMW65R083M1H_L1 drain gate source PARAMS: dVth=0 Ls=4.11E-09 Ld=2.36E-09 Lg=9.65E-09
+.PARAM Rs=2.23E-03      Rg=4.79E-02       Rd=7.98E-05       fpar127=2.382
+Lg    gate   g1   {Lg}
+Rg    g1     g    {Rg}
+Ls    source s1   {Ls}
+Rs    s1     s    {Rs}
+Ld    drain  d1   {Ld}
+Rd    d1     dd   {Rd}
+X$MF  dd     g     s  Pow	Tj  SiCMOS_650V    PARAMS: dVth={dVth} fpar127={fpar127}
+ETj	Tj	w	VALUE = {TEMP}
+RTj	w	0	1u
+.ENDS
+
+.SUBCKT IMW65R083M1H_L3 drain gate source Tj Tcase PARAMS: dVth=0 Ls=4.11E-09 Ld=2.36E-09 Lg=9.65E-09 Zthtype=0
+.PARAM Rs=2.23E-03      Rg=4.79E-02       Rd=7.98E-05       fpar127=2.382
+.PARAM lzth={limit(Zthtype,0,1)}
+Lg    gate   g1   {Lg}
+Rg    g1     g    {Rg}
+Ls    source s1   {Ls}
+Rs    s1     s    {Rs}
+Ld    drain  d1   {Ld}
+Rd    d1     dd   {Rd}
+X$MF  dd     g     s  Pow	Tj  SiCMOS_650V    PARAMS: dVth={dVth} fpar127={fpar127}
+GPOW    0   Tj  VALUE = {IF(time > 0,LIMIT(V(Pow,0),-1e6,1e6),0)}
+RGPOW   Tj  0   1Meg
+C_CZth1      Tj     0      1.183407e-04
+C_CZth2      0      1      3.569060e-04
+C_CZth3      0      2      1.513004e-03
+C_CZth4      0      3      2.981912e-02
+C_CZth5      0      4      2.023377e-02
+R_Rth1       Tj     1      {0.030864+lzth*0.009260}
+R_Rth2       1      2      {0.148294+lzth*0.044487}
+R_Rth3       2      3      {0.370959+lzth*0.111288}
+R_Rth4       3      4      {0.171696+lzth*0.051508}
+R_Rth5       4      Tcase  {0.385881+lzth*0.115763}
+.ENDS
+
+********************************************************************************
+
+.SUBCKT IMZA65R083M1H_L0 drain gate source source_sense  PARAMS:  Ls=2.85E-09 Ld=2.40E-09 Lg=8.60E-09 Lssk=5.78E-09
+.PARAM fpar128=1.0732 fpar129=1.0 Rs=1.82E-03 Rg=5.16E-02 Rssk=4.70E-02 fpar127=2.382
+Ld     drain    dd   Ld
+Lg     gate     g    Lg
+Ls     source   s    Ls
+Rssk   source_k sk1  Rssk
+Lssk   sk1      s    Lssk
+X1  dd  g  s  tech_sicmos_L0  PARAMS: Rs={Rs} Rg={Rg} fpar128={fpar128} fpar129={fpar129} fpar127={fpar127}
+.ENDS IMZA65R083M1H_L0
+
+********************************************************************************
+
+.SUBCKT IMZA65R083M1H_L1 drain gate source source_k PARAMS: dVth=0 Ls=2.85E-09 Ld=2.40E-09 Lg=8.60E-09 Lssk=5.78E-09
+.PARAM Rs=1.82E-03      Rg=5.16E-02       Rd=1.21E-04       Rssk=4.70E-02      fpar127=2.382
+Lg    gate   g1   {Lg}
+Rg    g1     g    {Rg}
+Ls    source s1   {Ls}
+Rs    s1     s    {Rs}
+Ld    drain  d1   {Ld}
+Rd    d1     dd   {Rd}
+Lssk  s      sk1  {Lssk}
+Rssk  sk1    source_k  {Rssk}
+X$MF  dd     g     s  Pow	Tj  SiCMOS_650V    PARAMS: dVth={dVth} fpar127={fpar127}
+ETj	Tj	w	VALUE = {TEMP}
+RTj	w	0	1u
+.ENDS
+
+.SUBCKT IMZA65R083M1H_L3 drain gate source source_k Tj Tcase PARAMS: dVth=0 Ls=2.85E-09 Ld=2.40E-09 Lg=8.60E-09 Lssk=5.78E-09 Zthtype=0
+.PARAM Rs=1.82E-03      Rg=5.16E-02       Rd=1.21E-04       Rssk=4.70E-02      fpar127=2.382
+.PARAM lzth={limit(Zthtype,0,1)}
+Lg    gate   g1   {Lg}
+Rg    g1     g    {Rg}
+Ls    source s1   {Ls}
+Rs    s1     s    {Rs}
+Ld    drain  d1   {Ld}
+Rd    d1     dd   {Rd}
+Lssk  s      sk1  {Lssk}
+Rssk  sk1    source_k  {Rssk}
+X$MF  dd     g     s  Pow	Tj  SiCMOS_650V    PARAMS: dVth={dVth} fpar127={fpar127}
+GPOW    0   Tj  VALUE = {IF(time > 0,LIMIT(V(Pow,0),-1e6,1e6),0)}
+RGPOW   Tj  0   1Meg
+C_CZth1      Tj     0      1.183407e-04
+C_CZth2      0      1      3.569060e-04
+C_CZth3      0      2      1.513004e-03
+C_CZth4      0      3      2.981912e-02
+C_CZth5      0      4      2.023377e-02
+R_Rth1       Tj     1      {0.030864+lzth*0.009260}
+R_Rth2       1      2      {0.148294+lzth*0.044487}
+R_Rth3       2      3      {0.370959+lzth*0.111288}
+R_Rth4       3      4      {0.171696+lzth*0.051508}
+R_Rth5       4      Tcase  {0.385881+lzth*0.115763}
+.ENDS
+
+********************************************************************************
+
+.SUBCKT IMBG65R048M1H_L0 drain gate source source_sense  PARAMS:  Ls=3.30E-09 Ld=1.63E-10 Lg=7.54E-09 Lssk=4.72E-09
+.PARAM fpar128=1.074566409 fpar129=0.9944033729999999 Rs=7.86E-04 Rg=3.64E-02 Rssk=3.29E-02 fpar127=4.269
+Ld     drain    dd   Ld
+Lg     gate     g    Lg
+Ls     source   s    Ls
+Rssk   source_k sk1  Rssk
+Lssk   sk1      s    Lssk
+X1  dd  g  s  tech_sicmos_L0  PARAMS: Rs={Rs} Rg={Rg} fpar128={fpar128} fpar129={fpar129} fpar127={fpar127}
+.ENDS IMBG65R048M1H_L0
+
+********************************************************************************
+
+.SUBCKT IMBG65R048M1H_L1 drain gate source source_k PARAMS: dVth=0 Ls=3.30E-09 Ld=1.63E-10 Lg=7.54E-09 Lssk=4.72E-09
+.PARAM Rs=7.86E-04      Rg=3.64E-02       Rd=2.32E-06       Rssk=3.29E-02      fpar127=4.269
+Lg    gate   g1   {Lg}
+Rg    g1     g    {Rg}
+Ls    source s1   {Ls}
+Rs    s1     s    {Rs}
+Ld    drain  d1   {Ld}
+Rd    d1     dd   {Rd}
+Lssk  s      sk1  {Lssk}
+Rssk  sk1    source_k  {Rssk}
+X$MF  dd     g     s  Pow	Tj  SiCMOS_650V    PARAMS: dVth={dVth} fpar127={fpar127}
+ETj	Tj	w	VALUE = {TEMP}
+RTj	w	0	1u
+.ENDS
+
+.SUBCKT IMBG65R048M1H_L3 drain gate source source_k Tj Tcase PARAMS: dVth=0 Ls=3.30E-09 Ld=1.63E-10 Lg=7.54E-09 Lssk=4.72E-09 Zthtype=0
+.PARAM Rs=7.86E-04      Rg=3.64E-02       Rd=2.32E-06       Rssk=3.29E-02      fpar127=4.269
+.PARAM lzth={limit(Zthtype,0,1)}
+Lg    gate   g1   {Lg}
+Rg    g1     g    {Rg}
+Ls    source s1   {Ls}
+Rs    s1     s    {Rs}
+Ld    drain  d1   {Ld}
+Rd    d1     dd   {Rd}
+Lssk  s      sk1  {Lssk}
+Rssk  sk1    source_k  {Rssk}
+X$MF  dd     g     s  Pow	Tj  SiCMOS_650V    PARAMS: dVth={dVth} fpar127={fpar127}
+GPOW    0   Tj  VALUE = {IF(time > 0,LIMIT(V(Pow,0),-1e6,1e6),0)}
+RGPOW   Tj  0   1Meg
+C_CZth1    Tj   0       6.226268e-05
+C_CZth2    0    1       2.039259e-04
+C_CZth3    0    2       9.564634e-04
+C_CZth4    0    3       5.778049e-03
+C_CZth5    0    4       4.529878e-02
+R_Rth1     Tj   1       {0.040073+lzth*0.000000}
+R_Rth2     1    2       {0.178903+lzth*0.000000}
+R_Rth3     2    3       {0.306965+lzth*0.000000}
+R_Rth4     3    4       {0.211132+lzth*0.000000}
+R_Rth5     4    Tcase   {0.082927+lzth*0.000000}
+.ENDS
+
+********************************************************************************
+
+.SUBCKT IMBG65R072M1H_L0 drain gate source source_sense  PARAMS:  Ls=3.30E-09 Ld=1.63E-10 Lg=7.54E-09 Lssk=4.72E-09
+.PARAM fpar128=1.076638478 fpar129=0.9962494709999999 Rs=7.86E-04 Rg=3.64E-02 Rssk=3.29E-02 fpar127=2.838
+Ld     drain    dd   Ld
+Lg     gate     g    Lg
+Ls     source   s    Ls
+Rssk   source_k sk1  Rssk
+Lssk   sk1      s    Lssk
+X1  dd  g  s  tech_sicmos_L0  PARAMS: Rs={Rs} Rg={Rg} fpar128={fpar128} fpar129={fpar129} fpar127={fpar127}
+.ENDS IMBG65R072M1H_L0
+
+********************************************************************************
+
+.SUBCKT IMBG65R072M1H_L1 drain gate source source_k PARAMS: dVth=0 Ls=3.30E-09 Ld=1.63E-10 Lg=7.54E-09 Lssk=4.72E-09
+.PARAM Rs=7.86E-04      Rg=3.64E-02       Rd=2.32E-06       Rssk=3.29E-02      fpar127=2.838
+Lg    gate   g1   {Lg}
+Rg    g1     g    {Rg}
+Ls    source s1   {Ls}
+Rs    s1     s    {Rs}
+Ld    drain  d1   {Ld}
+Rd    d1     dd   {Rd}
+Lssk  s      sk1  {Lssk}
+Rssk  sk1    source_k  {Rssk}
+X$MF  dd     g     s  Pow	Tj  SiCMOS_650V    PARAMS: dVth={dVth} fpar127={fpar127}
+ETj	Tj	w	VALUE = {TEMP}
+RTj	w	0	1u
+.ENDS
+
+.SUBCKT IMBG65R072M1H_L3 drain gate source source_k Tj Tcase PARAMS: dVth=0 Ls=3.30E-09 Ld=1.63E-10 Lg=7.54E-09 Lssk=4.72E-09 Zthtype=0
+.PARAM Rs=7.86E-04      Rg=3.64E-02       Rd=2.32E-06       Rssk=3.29E-02      fpar127=2.838
+.PARAM lzth={limit(Zthtype,0,1)}
+Lg    gate   g1   {Lg}
+Rg    g1     g    {Rg}
+Ls    source s1   {Ls}
+Rs    s1     s    {Rs}
+Ld    drain  d1   {Ld}
+Rd    d1     dd   {Rd}
+Lssk  s      sk1  {Lssk}
+Rssk  sk1    source_k  {Rssk}
+X$MF  dd     g     s  Pow	Tj  SiCMOS_650V    PARAMS: dVth={dVth} fpar127={fpar127}
+GPOW    0   Tj  VALUE = {IF(time > 0,LIMIT(V(Pow,0),-1e6,1e6),0)}
+RGPOW   Tj  0   1Meg
+C_CZth1    Tj   0       4.771533e-05
+C_CZth2    0    1       1.562796e-04
+C_CZth3    0    2       7.329907e-04
+C_CZth4    0    3       4.428037e-03
+C_CZth5    0    4       3.471495e-02
+R_Rth1     Tj   1       {0.052290+lzth*0.000000}
+R_Rth2     1    2       {0.233446+lzth*0.000000}
+R_Rth3     2    3       {0.400552+lzth*0.000000}
+R_Rth4     3    4       {0.275502+lzth*0.000000}
+R_Rth5     4    Tcase   {0.108210+lzth*0.000000}
+.ENDS
+
+********************************************************************************
+
+.SUBCKT IMBG65R107M1H_L0 drain gate source source_sense  PARAMS:  Ls=4.01E-09 Ld=2.30E-10 Lg=8.97E-09 Lssk=4.96E-09
+.PARAM fpar128=1.085825489 fpar129=1.0082665259999999 Rs=1.74E-03 Rg=4.65E-02 Rssk=3.75E-02 fpar127=1.891
+Ld     drain    dd   Ld
+Lg     gate     g    Lg
+Ls     source   s    Ls
+Rssk   source_k sk1  Rssk
+Lssk   sk1      s    Lssk
+X1  dd  g  s  tech_sicmos_L0  PARAMS: Rs={Rs} Rg={Rg} fpar128={fpar128} fpar129={fpar129} fpar127={fpar127}
+.ENDS IMBG65R107M1H_L0
+
+********************************************************************************
+
+.SUBCKT IMBG65R107M1H_L1 drain gate source source_k PARAMS: dVth=0 Ls=4.01E-09 Ld=2.30E-10 Lg=8.97E-09 Lssk=4.96E-09
+.PARAM Rs=1.74E-03      Rg=4.65E-02       Rd=6.04E-06       Rssk=3.75E-02      fpar127=1.891
+Lg    gate   g1   {Lg}
+Rg    g1     g    {Rg}
+Ls    source s1   {Ls}
+Rs    s1     s    {Rs}
+Ld    drain  d1   {Ld}
+Rd    d1     dd   {Rd}
+Lssk  s      sk1  {Lssk}
+Rssk  sk1    source_k  {Rssk}
+X$MF  dd     g     s  Pow	Tj  SiCMOS_650V    PARAMS: dVth={dVth} fpar127={fpar127}
+ETj	Tj	w	VALUE = {TEMP}
+RTj	w	0	1u
+.ENDS
+
+.SUBCKT IMBG65R107M1H_L3 drain gate source source_k Tj Tcase PARAMS: dVth=0 Ls=4.01E-09 Ld=2.30E-10 Lg=8.97E-09 Lssk=4.96E-09 Zthtype=0
+.PARAM Rs=1.74E-03      Rg=4.65E-02       Rd=6.04E-06       Rssk=3.75E-02      fpar127=1.891
+.PARAM lzth={limit(Zthtype,0,1)}
+Lg    gate   g1   {Lg}
+Rg    g1     g    {Rg}
+Ls    source s1   {Ls}
+Rs    s1     s    {Rs}
+Ld    drain  d1   {Ld}
+Rd    d1     dd   {Rd}
+Lssk  s      sk1  {Lssk}
+Rssk  sk1    source_k  {Rssk}
+X$MF  dd     g     s  Pow	Tj  SiCMOS_650V    PARAMS: dVth={dVth} fpar127={fpar127}
+GPOW    0   Tj  VALUE = {IF(time > 0,LIMIT(V(Pow,0),-1e6,1e6),0)}
+RGPOW   Tj  0   1Meg
+C_CZth1    Tj   0       3.754074e-05
+C_CZth2    0    1       1.229553e-04
+C_CZth3    0    2       5.766912e-04
+C_CZth4    0    3       3.483824e-03
+C_CZth5    0    4       2.731250e-02
+R_Rth1     Tj   1       {0.066463+lzth*0.000000}
+R_Rth2     1    2       {0.296717+lzth*0.000000}
+R_Rth3     2    3       {0.509113+lzth*0.000000}
+R_Rth4     3    4       {0.350170+lzth*0.000000}
+R_Rth5     4    Tcase   {0.137537+lzth*0.000000}
+.ENDS
+
+********************************************************************************
+
+.SUBCKT IMBG65R163M1H_L0 drain gate source source_sense  PARAMS:  Ls=4.64E-09 Ld=2.45E-10 Lg=8.85E-09 Lssk=5.05E-09
+.PARAM fpar128=1.0859 fpar129=1.0 Rs=3.55E-03 Rg=4.55E-02 Rssk=3.80E-02 fpar127=1.216
+Ld     drain    dd   Ld
+Lg     gate     g    Lg
+Ls     source   s    Ls
+Rssk   source_k sk1  Rssk
+Lssk   sk1      s    Lssk
+X1  dd  g  s  tech_sicmos_L0  PARAMS: Rs={Rs} Rg={Rg} fpar128={fpar128} fpar129={fpar129} fpar127={fpar127}
+.ENDS IMBG65R163M1H_L0
+
+********************************************************************************
+
+.SUBCKT IMBG65R163M1H_L1 drain gate source source_k PARAMS: dVth=0 Ls=4.64E-09 Ld=2.45E-10 Lg=8.85E-09 Lssk=5.05E-09
+.PARAM Rs=3.55E-03      Rg=4.55E-02       Rd=7.81E-06       Rssk=3.80E-02      fpar127=1.216
+Lg    gate   g1   {Lg}
+Rg    g1     g    {Rg}
+Ls    source s1   {Ls}
+Rs    s1     s    {Rs}
+Ld    drain  d1   {Ld}
+Rd    d1     dd   {Rd}
+Lssk  s      sk1  {Lssk}
+Rssk  sk1    source_k  {Rssk}
+X$MF  dd     g     s  Pow	Tj  SiCMOS_650V    PARAMS: dVth={dVth} fpar127={fpar127}
+ETj	Tj	w	VALUE = {TEMP}
+RTj	w	0	1u
+.ENDS
+
+.SUBCKT IMBG65R163M1H_L3 drain gate source source_k Tj Tcase PARAMS: dVth=0 Ls=4.64E-09 Ld=2.45E-10 Lg=8.85E-09 Lssk=5.05E-09 Zthtype=0
+.PARAM Rs=3.55E-03      Rg=4.55E-02       Rd=7.81E-06       Rssk=3.80E-02      fpar127=1.216
+.PARAM lzth={limit(Zthtype,0,1)}
+Lg    gate   g1   {Lg}
+Rg    g1     g    {Rg}
+Ls    source s1   {Ls}
+Rs    s1     s    {Rs}
+Ld    drain  d1   {Ld}
+Rd    d1     dd   {Rd}
+Lssk  s      sk1  {Lssk}
+Rssk  sk1    source_k  {Rssk}
+X$MF  dd     g     s  Pow	Tj  SiCMOS_650V    PARAMS: dVth={dVth} fpar127={fpar127}
+GPOW    0   Tj  VALUE = {IF(time > 0,LIMIT(V(Pow,0),-1e6,1e6),0)}
+RGPOW   Tj  0   1Meg
+C_CZth1    Tj   0       2.900875e-05
+C_CZth2    0    1       9.501091e-05
+C_CZth3    0    2       4.456250e-04
+C_CZth4    0    3       2.692045e-03
+C_CZth5    0    4       2.110511e-02
+R_Rth1     Tj   1       {0.086010+lzth*0.000000}
+R_Rth2     1    2       {0.383986+lzth*0.000000}
+R_Rth3     2    3       {0.658852+lzth*0.000000}
+R_Rth4     3    4       {0.453162+lzth*0.000000}
+R_Rth5     4    Tcase   {0.177990+lzth*0.000000}
+.ENDS
+
+********************************************************************************
+
+.SUBCKT IMBG65R260M1H_L0 drain gate source source_sense  PARAMS:  Ls=5.90E-09 Ld=2.58E-10 Lg=8.75E-09 Lssk=5.03E-09
+.PARAM fpar128=1.1192 fpar129=1.012 Rs=1.52E-02 Rg=4.53E-02 Rssk=3.90E-02 fpar127=0.763
+Ld     drain    dd   Ld
+Lg     gate     g    Lg
+Ls     source   s    Ls
+Rssk   source_k sk1  Rssk
+Lssk   sk1      s    Lssk
+X1  dd  g  s  tech_sicmos_L0  PARAMS: Rs={Rs} Rg={Rg} fpar128={fpar128} fpar129={fpar129} fpar127={fpar127}
+.ENDS IMBG65R260M1H_L0
+
+********************************************************************************
+
+.SUBCKT IMBG65R260M1H_L1 drain gate source source_k PARAMS: dVth=0 Ls=5.90E-09 Ld=2.58E-10 Lg=8.75E-09 Lssk=5.03E-09
+.PARAM Rs=1.52E-02      Rg=4.53E-02       Rd=9.69E-06       Rssk=3.90E-02      fpar127=0.763
+Lg    gate   g1   {Lg}
+Rg    g1     g    {Rg}
+Ls    source s1   {Ls}
+Rs    s1     s    {Rs}
+Ld    drain  d1   {Ld}
+Rd    d1     dd   {Rd}
+Lssk  s      sk1  {Lssk}
+Rssk  sk1    source_k  {Rssk}
+X$MF  dd     g     s  Pow	Tj  SiCMOS_650V    PARAMS: dVth={dVth} fpar127={fpar127}
+ETj	Tj	w	VALUE = {TEMP}
+RTj	w	0	1u
+.ENDS
+
+.SUBCKT IMBG65R260M1H_L3 drain gate source source_k Tj Tcase PARAMS: dVth=0 Ls=5.90E-09 Ld=2.58E-10 Lg=8.75E-09 Lssk=5.03E-09 Zthtype=0
+.PARAM Rs=1.52E-02      Rg=4.53E-02       Rd=9.69E-06       Rssk=3.90E-02      fpar127=0.763
+.PARAM lzth={limit(Zthtype,0,1)}
+Lg    gate   g1   {Lg}
+Rg    g1     g    {Rg}
+Ls    source s1   {Ls}
+Rs    s1     s    {Rs}
+Ld    drain  d1   {Ld}
+Rd    d1     dd   {Rd}
+Lssk  s      sk1  {Lssk}
+Rssk  sk1    source_k  {Rssk}
+X$MF  dd     g     s  Pow	Tj  SiCMOS_650V    PARAMS: dVth={dVth} fpar127={fpar127}
+GPOW    0   Tj  VALUE = {IF(time > 0,LIMIT(V(Pow,0),-1e6,1e6),0)}
+RGPOW   Tj  0   1Meg
+C_CZth1    Tj   0       2.219800e-05
+C_CZth2    0    1       7.270400e-05
+C_CZth3    0    2       3.410000e-04
+C_CZth4    0    3       2.060000e-03
+C_CZth5    0    4       1.615000e-02
+R_Rth1     Tj   1       {0.112400+lzth*0.000000}
+R_Rth2     1    2       {0.501800+lzth*0.000000}
+R_Rth3     2    3       {0.861000+lzth*0.000000}
+R_Rth4     3    4       {0.592200+lzth*0.000000}
+R_Rth5     4    Tcase   {0.232600+lzth*0.000000}
+.ENDS
+
+********************************************************************************
+
+.SUBCKT IMBG65R022M1H_L0 drain gate source source_sense  PARAMS:  Ls=2.64E-09 Ld=1.78E-10 Lg=9.08E-09 Lssk=4.72E-09
+.PARAM fpar128=1.136 fpar129=1.0039 Rs=9.11E-04 Rg=4.66E-02 Rssk=3.30E-02 fpar127=8.747
+Ld     drain    dd   Ld
+Lg     gate     g    Lg
+Ls     source   s    Ls
+Rssk   source_k sk1  Rssk
+Lssk   sk1      s    Lssk
+X1  dd  g  s  tech_sicmos_L0  PARAMS: Rs={Rs} Rg={Rg} fpar128={fpar128} fpar129={fpar129} fpar127={fpar127}
+.ENDS IMBG65R022M1H_L0
+
+********************************************************************************
+
+.SUBCKT IMBG65R022M1H_L1 drain gate source source_k PARAMS: dVth=0 Ls=2.64E-09 Ld=1.78E-10 Lg=9.08E-09 Lssk=4.72E-09
+.PARAM Rs=9.11E-04      Rg=4.66E-02       Rd=2.25E-06       Rssk=3.30E-02      fpar127=8.747
+Lg    gate   g1   {Lg}
+Rg    g1     g    {Rg}
+Ls    source s1   {Ls}
+Rs    s1     s    {Rs}
+Ld    drain  d1   {Ld}
+Rd    d1     dd   {Rd}
+Lssk  s      sk1  {Lssk}
+Rssk  sk1    source_k  {Rssk}
+X$MF  dd     g     s  Pow	Tj  SiCMOS_650V    PARAMS: dVth={dVth} fpar127={fpar127}
+ETj	Tj	w	VALUE = {TEMP}
+RTj	w	0	1u
+.ENDS
+
+.SUBCKT IMBG65R022M1H_L3 drain gate source source_k Tj Tcase PARAMS: dVth=0 Ls=2.64E-09 Ld=1.78E-10 Lg=9.08E-09 Lssk=4.72E-09 Zthtype=0
+.PARAM Rs=9.11E-04      Rg=4.66E-02       Rd=2.25E-06       Rssk=3.30E-02      fpar127=8.747
+.PARAM lzth={limit(Zthtype,0,1)}
+Lg    gate   g1   {Lg}
+Rg    g1     g    {Rg}
+Ls    source s1   {Ls}
+Rs    s1     s    {Rs}
+Ld    drain  d1   {Ld}
+Rd    d1     dd   {Rd}
+Lssk  s      sk1  {Lssk}
+Rssk  sk1    source_k  {Rssk}
+X$MF  dd     g     s  Pow	Tj  SiCMOS_650V    PARAMS: dVth={dVth} fpar127={fpar127}
+GPOW    0   Tj  VALUE = {IF(time > 0,LIMIT(V(Pow,0),-1e6,1e6),0)}
+RGPOW   Tj  0   1Meg
+C_CZth1    Tj   0       1.021108e-04
+C_CZth2    0    1       3.344384e-04
+C_CZth3    0    2       1.568600e-03
+C_CZth4    0    3       9.476000e-03
+C_CZth5    0    4       7.429000e-02
+R_Rth1     Tj   1       {0.024435+lzth*0.000000}
+R_Rth2     1    2       {0.109087+lzth*0.000000}
+R_Rth3     2    3       {0.187174+lzth*0.000000}
+R_Rth4     3    4       {0.128739+lzth*0.000000}
+R_Rth5     4    Tcase   {0.050565+lzth*0.000000}
+.ENDS
+
+********************************************************************************
+
+.SUBCKT IMBG65R030M1H_L0 drain gate source source_sense  PARAMS:  Ls=2.56E-09 Ld=1.30E-10 Lg=7.29E-09 Lssk=4.03E-09
+.PARAM fpar128=1.1448 fpar129=1.0 Rs=4.25E-04 Rg=3.52E-02 Rssk=2.82E-02 fpar127=6.278
+Ld     drain    dd   Ld
+Lg     gate     g    Lg
+Ls     source   s    Ls
+Rssk   source_k sk1  Rssk
+Lssk   sk1      s    Lssk
+X1  dd  g  s  tech_sicmos_L0  PARAMS: Rs={Rs} Rg={Rg} fpar128={fpar128} fpar129={fpar129} fpar127={fpar127}
+.ENDS IMBG65R030M1H_L0
+
+********************************************************************************
+
+.SUBCKT IMBG65R030M1H_L1 drain gate source source_k PARAMS: dVth=0 Ls=2.56E-09 Ld=1.30E-10 Lg=7.29E-09 Lssk=4.03E-09
+.PARAM Rs=4.25E-04      Rg=3.52E-02       Rd=1.39E-06       Rssk=2.82E-02      fpar127=6.278
+Lg    gate   g1   {Lg}
+Rg    g1     g    {Rg}
+Ls    source s1   {Ls}
+Rs    s1     s    {Rs}
+Ld    drain  d1   {Ld}
+Rd    d1     dd   {Rd}
+Lssk  s      sk1  {Lssk}
+Rssk  sk1    source_k  {Rssk}
+X$MF  dd     g     s  Pow	Tj  SiCMOS_650V    PARAMS: dVth={dVth} fpar127={fpar127}
+ETj	Tj	w	VALUE = {TEMP}
+RTj	w	0	1u
+.ENDS
+
+.SUBCKT IMBG65R030M1H_L3 drain gate source source_k Tj Tcase PARAMS: dVth=0 Ls=2.56E-09 Ld=1.30E-10 Lg=7.29E-09 Lssk=4.03E-09 Zthtype=0
+.PARAM Rs=4.25E-04      Rg=3.52E-02       Rd=1.39E-06       Rssk=2.82E-02      fpar127=6.278
+.PARAM lzth={limit(Zthtype,0,1)}
+Lg    gate   g1   {Lg}
+Rg    g1     g    {Rg}
+Ls    source s1   {Ls}
+Rs    s1     s    {Rs}
+Ld    drain  d1   {Ld}
+Rd    d1     dd   {Rd}
+Lssk  s      sk1  {Lssk}
+Rssk  sk1    source_k  {Rssk}
+X$MF  dd     g     s  Pow	Tj  SiCMOS_650V    PARAMS: dVth={dVth} fpar127={fpar127}
+GPOW    0   Tj  VALUE = {IF(time > 0,LIMIT(V(Pow,0),-1e6,1e6),0)}
+RGPOW   Tj  0   1Meg
+C_CZth1    Tj   0       7.977406e-05
+C_CZth2    0    1       2.612800e-04
+C_CZth3    0    2       1.225469e-03
+C_CZth4    0    3       7.403125e-03
+C_CZth5    0    4       5.803906e-02
+R_Rth1     Tj   1       {0.031277+lzth*0.000000}
+R_Rth2     1    2       {0.139631+lzth*0.000000}
+R_Rth3     2    3       {0.239583+lzth*0.000000}
+R_Rth4     3    4       {0.164786+lzth*0.000000}
+R_Rth5     4    Tcase   {0.064723+lzth*0.000000}
+.ENDS
+
+********************************************************************************
+
+.SUBCKT IMBG65R039M1H_L0 drain gate source source_sense  PARAMS:  Ls=2.56E-09 Ld=1.30E-10 Lg=7.29E-09 Lssk=4.03E-09
+.PARAM fpar128=1.0668 fpar129=1.0 Rs=4.25E-04 Rg=3.52E-02 Rssk=2.82E-02 fpar127=5.324
+Ld     drain    dd   Ld
+Lg     gate     g    Lg
+Ls     source   s    Ls
+Rssk   source_k sk1  Rssk
+Lssk   sk1      s    Lssk
+X1  dd  g  s  tech_sicmos_L0  PARAMS: Rs={Rs} Rg={Rg} fpar128={fpar128} fpar129={fpar129} fpar127={fpar127}
+.ENDS IMBG65R039M1H_L0
+
+********************************************************************************
+
+.SUBCKT IMBG65R039M1H_L1 drain gate source source_k PARAMS: dVth=0 Ls=2.56E-09 Ld=1.30E-10 Lg=7.29E-09 Lssk=4.03E-09
+.PARAM Rs=4.25E-04      Rg=3.52E-02       Rd=1.39E-06       Rssk=2.82E-02      fpar127=5.324
+Lg    gate   g1   {Lg}
+Rg    g1     g    {Rg}
+Ls    source s1   {Ls}
+Rs    s1     s    {Rs}
+Ld    drain  d1   {Ld}
+Rd    d1     dd   {Rd}
+Lssk  s      sk1  {Lssk}
+Rssk  sk1    source_k  {Rssk}
+X$MF  dd     g     s  Pow	Tj  SiCMOS_650V    PARAMS: dVth={dVth} fpar127={fpar127}
+ETj	Tj	w	VALUE = {TEMP}
+RTj	w	0	1u
+.ENDS
+
+.SUBCKT IMBG65R039M1H_L3 drain gate source source_k Tj Tcase PARAMS: dVth=0 Ls=2.56E-09 Ld=1.30E-10 Lg=7.29E-09 Lssk=4.03E-09 Zthtype=0
+.PARAM Rs=4.25E-04      Rg=3.52E-02       Rd=1.39E-06       Rssk=2.82E-02      fpar127=5.324
+.PARAM lzth={limit(Zthtype,0,1)}
+Lg    gate   g1   {Lg}
+Rg    g1     g    {Rg}
+Ls    source s1   {Ls}
+Rs    s1     s    {Rs}
+Ld    drain  d1   {Ld}
+Rd    d1     dd   {Rd}
+Lssk  s      sk1  {Lssk}
+Rssk  sk1    source_k  {Rssk}
+X$MF  dd     g     s  Pow	Tj  SiCMOS_650V    PARAMS: dVth={dVth} fpar127={fpar127}
+GPOW    0   Tj  VALUE = {IF(time > 0,LIMIT(V(Pow,0),-1e6,1e6),0)}
+RGPOW   Tj  0   1Meg
+C_CZth1    Tj   0       7.190901e-05
+C_CZth2    0    1       2.355200e-04
+C_CZth3    0    2       1.104648e-03
+C_CZth4    0    3       6.673239e-03
+C_CZth5    0    4       5.231690e-02
+R_Rth1     Tj   1       {0.034697+lzth*0.000000}
+R_Rth2     1    2       {0.154903+lzth*0.000000}
+R_Rth3     2    3       {0.265787+lzth*0.000000}
+R_Rth4     3    4       {0.182810+lzth*0.000000}
+R_Rth5     4    Tcase   {0.071803+lzth*0.000000}
+.ENDS
+
+********************************************************************************
+
+.SUBCKT IMBG65R057M1H_L0 drain gate source source_sense  PARAMS:  Ls=3.30E-09 Ld=1.63E-10 Lg=7.54E-09 Lssk=4.72E-09
+.PARAM fpar128=1.0614 fpar129=1.00431 Rs=7.86E-04 Rg=3.64E-02 Rssk=3.29E-02 fpar127=3.553
+Ld     drain    dd   Ld
+Lg     gate     g    Lg
+Ls     source   s    Ls
+Rssk   source_k sk1  Rssk
+Lssk   sk1      s    Lssk
+X1  dd  g  s  tech_sicmos_L0  PARAMS: Rs={Rs} Rg={Rg} fpar128={fpar128} fpar129={fpar129} fpar127={fpar127}
+.ENDS IMBG65R057M1H_L0
+
+********************************************************************************
+
+.SUBCKT IMBG65R057M1H_L1 drain gate source source_k PARAMS: dVth=0 Ls=3.30E-09 Ld=1.63E-10 Lg=7.54E-09 Lssk=4.72E-09
+.PARAM Rs=7.86E-04      Rg=3.64E-02       Rd=2.32E-06       Rssk=3.29E-02      fpar127=3.553
+Lg    gate   g1   {Lg}
+Rg    g1     g    {Rg}
+Ls    source s1   {Ls}
+Rs    s1     s    {Rs}
+Ld    drain  d1   {Ld}
+Rd    d1     dd   {Rd}
+Lssk  s      sk1  {Lssk}
+Rssk  sk1    source_k  {Rssk}
+X$MF  dd     g     s  Pow	Tj  SiCMOS_650V    PARAMS: dVth={dVth} fpar127={fpar127}
+ETj	Tj	w	VALUE = {TEMP}
+RTj	w	0	1u
+.ENDS
+
+.SUBCKT IMBG65R057M1H_L3 drain gate source source_k Tj Tcase PARAMS: dVth=0 Ls=3.30E-09 Ld=1.63E-10 Lg=7.54E-09 Lssk=4.72E-09 Zthtype=0
+.PARAM Rs=7.86E-04      Rg=3.64E-02       Rd=2.32E-06       Rssk=3.29E-02      fpar127=3.553
+.PARAM lzth={limit(Zthtype,0,1)}
+Lg    gate   g1   {Lg}
+Rg    g1     g    {Rg}
+Ls    source s1   {Ls}
+Rs    s1     s    {Rs}
+Ld    drain  d1   {Ld}
+Rd    d1     dd   {Rd}
+Lssk  s      sk1  {Lssk}
+Rssk  sk1    source_k  {Rssk}
+X$MF  dd     g     s  Pow	Tj  SiCMOS_650V    PARAMS: dVth={dVth} fpar127={fpar127}
+GPOW    0   Tj  VALUE = {IF(time > 0,LIMIT(V(Pow,0),-1e6,1e6),0)}
+RGPOW   Tj  0   1Meg
+C_CZth1    Tj   0       5.489828e-05
+C_CZth2    0    1       1.798056e-04
+C_CZth3    0    2       8.433333e-04
+C_CZth4    0    3       5.094624e-03
+C_CZth5    0    4       3.994086e-02
+R_Rth1     Tj   1       {0.045449+lzth*0.000000}
+R_Rth2     1    2       {0.202902+lzth*0.000000}
+R_Rth3     2    3       {0.348143+lzth*0.000000}
+R_Rth4     3    4       {0.239455+lzth*0.000000}
+R_Rth5     4    Tcase   {0.094051+lzth*0.000000}
+.ENDS
+
+********************************************************************************
+
+.SUBCKT IMBG65R083M1H_L0 drain gate source source_sense  PARAMS:  Ls=3.30E-09 Ld=1.63E-10 Lg=7.54E-09 Lssk=4.72E-09
+.PARAM fpar128=1.0732 fpar129=1.0 Rs=7.86E-04 Rg=3.64E-02 Rssk=3.29E-02 fpar127=2.382
+Ld     drain    dd   Ld
+Lg     gate     g    Lg
+Ls     source   s    Ls
+Rssk   source_k sk1  Rssk
+Lssk   sk1      s    Lssk
+X1  dd  g  s  tech_sicmos_L0  PARAMS: Rs={Rs} Rg={Rg} fpar128={fpar128} fpar129={fpar129} fpar127={fpar127}
+.ENDS IMBG65R083M1H_L0
+
+********************************************************************************
+
+.SUBCKT IMBG65R083M1H_L1 drain gate source source_k PARAMS: dVth=0 Ls=3.30E-09 Ld=1.63E-10 Lg=7.54E-09 Lssk=4.72E-09
+.PARAM Rs=7.86E-04      Rg=3.64E-02       Rd=2.32E-06       Rssk=3.29E-02      fpar127=2.382
+Lg    gate   g1   {Lg}
+Rg    g1     g    {Rg}
+Ls    source s1   {Ls}
+Rs    s1     s    {Rs}
+Ld    drain  d1   {Ld}
+Rd    d1     dd   {Rd}
+Lssk  s      sk1  {Lssk}
+Rssk  sk1    source_k  {Rssk}
+X$MF  dd     g     s  Pow	Tj  SiCMOS_650V    PARAMS: dVth={dVth} fpar127={fpar127}
+ETj	Tj	w	VALUE = {TEMP}
+RTj	w	0	1u
+.ENDS
+
+.SUBCKT IMBG65R083M1H_L3 drain gate source source_k Tj Tcase PARAMS: dVth=0 Ls=3.30E-09 Ld=1.63E-10 Lg=7.54E-09 Lssk=4.72E-09 Zthtype=0
+.PARAM Rs=7.86E-04      Rg=3.64E-02       Rd=2.32E-06       Rssk=3.29E-02      fpar127=2.382
+.PARAM lzth={limit(Zthtype,0,1)}
+Lg    gate   g1   {Lg}
+Rg    g1     g    {Rg}
+Ls    source s1   {Ls}
+Rs    s1     s    {Rs}
+Ld    drain  d1   {Ld}
+Rd    d1     dd   {Rd}
+Lssk  s      sk1  {Lssk}
+Rssk  sk1    source_k  {Rssk}
+X$MF  dd     g     s  Pow	Tj  SiCMOS_650V    PARAMS: dVth={dVth} fpar127={fpar127}
+GPOW    0   Tj  VALUE = {IF(time > 0,LIMIT(V(Pow,0),-1e6,1e6),0)}
+RGPOW   Tj  0   1Meg
+C_CZth1    Tj   0       4.290370e-05
+C_CZth2    0    1       1.405203e-04
+C_CZth3    0    2       6.590756e-04
+C_CZth4    0    3       3.981513e-03
+C_CZth5    0    4       3.121429e-02
+R_Rth1     Tj   1       {0.058155+lzth*0.000000}
+R_Rth2     1    2       {0.259627+lzth*0.000000}
+R_Rth3     2    3       {0.445474+lzth*0.000000}
+R_Rth4     3    4       {0.306399+lzth*0.000000}
+R_Rth5     4    Tcase   {0.120345+lzth*0.000000}
+.ENDS
+
+********************************************************************************

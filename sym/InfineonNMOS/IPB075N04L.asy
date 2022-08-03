@@ -17,7 +17,7 @@ WINDOW 0 56 32 Left 2
 WINDOW 3 56 72 Left 2
 SYMATTR Value IPB075N04L
 SYMATTR Prefix X
-SYMATTR ModelFile OptiMOS3_40V.lib
+SYMATTR ModelFile OptiMOS3_40V_LTSpice.lib
 SYMATTR Description N-Channel MOSFET transistor
 PIN 48 0 NONE 0
 PINATTR PinName D

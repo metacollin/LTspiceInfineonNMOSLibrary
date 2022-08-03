@@ -1,9 +1,9 @@
 *****************************************************************
 * INFINEON Power Transistors                                    *
-* PSPICE Library for                                            *
+* LTSPICE Library for                                            *
 *       OptiMOS5                                                *
 * n-channel Transistors                                         *
-* Version 13032020                                              *
+* Version 03082021                                              *
 *                                                               *
 *****************************************************************
 *                                                               *
@@ -36,6 +36,7 @@
 * This library contains electrical models of the following      *
 * Infineon transistors:                                         *
 *                                                               *
+*    BSC004NE2LS5                                               *
 *    BSC009NE2LS5                                               *
 *    BSC009NE2LS5I                                              *
 *    BSC026NE2LS5                                               *
@@ -780,6 +781,137 @@ G_TH      0   Tj  VALUE =
 
 *********************************************************************************************************
 
+.SUBCKT S5_25_j_var dd g s0 sp Tj PARAMS: a=1 Rsp=1 dVth=0 dR=0 dgfs=0 Inn=1
++Unn=1 Rmax=1 gmin=1 Rs=1 Rp=1 dC=0 Rm=1u
+
+.PARAM b0=210         p0=5.65        p1=-21.8m      p2=38u         mubet=1.7      fbet=0
+.PARAM Vth0=2.18      c=905.1m       Fm=70m         Fn=1           al=500m        auth=3m
+.PARAM dvx=550m       dvgs=100m      auth_sub=1.65m
+
+.PARAM Rd=1.88m       nmu=3.68       Rf=730m
+
+.PARAM lnIsj=-25.33   ndi=1.12       Rdi=2m         nmu2=702m      n_Isj=3        UB=30
+.PARAM ab=16m         ab2=0          UT=100m        lB=-23         ta=2n
+
+.PARAM kbq=85.8u      Tref=298       T0=273
+
+.PARAM f3=680p
+
+.PARAM ps7=0          remp=10p       f1=950p        g1=280m        nc=800m        bb=1.44
+
+.PARAM f2=200p        f2b=300p       U0=2.3         nd=1.1
+
+
+.PARAM Vmin=1.78      Vmax=2.58      dCmax=330m
+.PARAM Vth={Vth0+(Vmax-Vth0)*limit(dVth,0,1)-(Vmin-Vth0)*limit(dVth,-1,0)}
+.PARAM q0={b0*((1-fbet)*(T0/Tref)**mubet+fbet)*a}
+.PARAM q1={(Unn-Inn*Rs-Vth0)*q0}
+.PARAM q2={(Fm*SQRT(0.4)-c)*Inn*q0}
+.PARAM Rlim={(q1+2*q2*Rmax-SQRT(q1**2+4*q2))/(2*q2)}
+.PARAM dRd={Rd/a+if(dVth==0,limit(dR,0,1)*max(Rlim-Rd/a-Rs-Rp,0),0)}
+.PARAM bm={c/((1/gmin-Rs)**2*Inn*a*((1-fbet)*(T0/Tref)**mubet+fbet))}
+.PARAM bet={b0+(b0-bm)*if(dR==0,if(dVth==0,limit(dgfs,-1,0),0),0)}
+.PARAM dC1={1+dCmax*limit(dC,0,1)}
+.PARAM dC2={1+dCmax*limit(dC,0,1)}
+
+.PARAM Cgs0={f3*a*dC1}
+
+.PARAM Cds4={(f2*a+f2b*sqrt(a))*dC1}
+
+.PARAM Cdg3={(remp*sqrt(a))*dC2}
+.PARAM Cdg6={f1*a*dC2}
+.PARAM dRdi={Rdi/a}
+
+.FUNC Ue(g,y,w)  {(g-Vth+auth*(w-Tref)+Fm*y**Fn)}
+.FUNC Ue1(g,y,w) {Ue(g,y,w)+(1+limit(Ue(g,y,w)+dvx,0,1)**2*(2*limit(Ue(g,y,w)+dvx,0,1)-3))*(dvgs+(auth_sub-auth)*(w-Tref))}
+
+.FUNC I0(Uee,p,pp,z1) {if(Uee>pp,(Uee-c*z1)*z1,p*(pp-p)/c*exp((Uee-pp)/p))}
+.FUNC Ih(Uds,T,p,Uee) {bet*((1-fbet)*(T0/T)**mubet+fbet)*I0(Uee,p,min(2*p,p+c*Uds),min(Uds,Uee/(2*c)))}
+.FUNC Jh(d,g,w,y,s,x) {a*((Ih(s*y+min(d,0),w,(p0+(p1+p2*w)*w)*kbq*w,Ue1(g,y,w))+exp(min(lB+(d-UB-ab*(w-Tref))/UT,24))))}
+
+.FUNC Idiode(Usd,Tj,Iss) {exp(min(ln(Iss)+Usd/(ndi*kbq*Tj),7))-Iss}
+.FUNC Idiod(Usd,Tj)      {a*Idiode(Usd,Tj,exp(min(lnIsj+(Tj/Tref-1)*1.12/(ndi*kbq*Tj),7))*(Tj/Tref)**n_Isj)}
+
+.FUNC Pr(Vss0,Vssp)  {Vss0*Vss0/Rm+Vssp*Vssp/Rsp}
+
+C_Cgs  g      s      {Cgs0}
+
+E_Eds4 d      edep4  VALUE {V(d,s)-1/(1-nd)*U0*((limit(1+V(d,s)/U0,0,2*UB))**(1-nd)-1)}
+C_Cds4 edep4  s      {Cds4}
+
+
+C_Cdg3 d    g   {Cdg3}
+E_Edg6 d    ox6 VALUE {max(V(d,g),-bb)-(1/(g1*(1-nc))*((1/(1+g1*max(V(d,g)+bb,0)))**(nc-1)-(1/(1+g1*bb))**(nc-1)))}
+C_Cdg6 ox6  g   {Cdg6}
+
+Rfp     s sp    {Rsp}
+
+G_chan   d5a   s  VALUE={Jh(V(d5a,s),V(g,s),T0+limit(V(Tj),-200,300),(SQRT(1+4*al*max(V(d5a,s),0))-1)/2/al,sgn(V(d5a,s)),0)}
+Rd06     d5a  d5  1u
+V_sm     d    d5  0
+G_RMos   d1    d  VALUE={V(d1,d)/(Rf*dRd+(1-Rf)*dRd*((limit(V(Tj),-200,999)+T0)/Tref)**nmu)}
+V_sense  dd   d1  0
+G_Rdio   d2   d1  VALUE={V(d2,d1)/(dRdi*((limit(V(Tj),-200,999)+T0)/Tref)**nmu2)}
+V_sense2 d2   d3  0
+
+Dbody s d3 dbody
+.model dbody D (BV= {UB*10},CJO ={Cds4/1000},TT ={ta},IS ={a*exp(lnIsj)} m={0.3} RS={dRdi*1m} n={ndi})
+
+
+R1        g    s  1G
+Rd01      d    s  500Meg
+Rd02     d2    s  500Meg
+Rd03     d1    d  1k
+Rssp      g   sp  100Meg
+
+Rmet      s    s0 {Rm}
+
+
+G_TH      0   Tj  VALUE =
++{(I(V_sense)-I(V_sense2))*V(d1,d)+I(V_sm)*V(d,s)+I(V_sense2)*V(d1,s)+Pr(V(s,s0),V(s,sp))}
+
+
+.ENDS
+
+*********************************************************************************************************
+
+.SUBCKT BSC004NE2LS5 drain gate source Tj Tcase PARAMS: dVth=0 dRdson=0 dgfs=0 dC=0 Zthtype=0 Ls=0.3n Ld=1n Lg=3n
+
+.PARAM Rs=159u      Rg=0.7       Rd=10u       Rm=21u
+
+.PARAM Inn=50       Unn=10       Rmax=450u    gmin=152
+.PARAM act=11.38    Rsp=0.5     
+
+
+X1  d1 g s sp Tj S5_25_j_var PARAMS: a={act} Rsp={Rsp} dVth={dVth} dR={dRdson} dgfs={dgfs} Inn={Inn} Unn={Unn}
+                                        +Rmax={Rmax} gmin={gmin} Rs={Rs} Rp={Rd} dC={dC} Rm={Rm}
+Rg    g1     g    {Rg}
+Lg    gate   g1   {Lg*if(dgfs==99,0,1)}
+Gs    s1     s    VALUE={V(s1,s)/(Rs*(1+(limit(V(Tj),-200,999)-25)*4m)-Rm)}
+Rsa   s1     s    1Meg
+Ls    source s1   {Ls*if(dgfs==99,0,1)}
+Rda   d1     d2   {Rd}
+Ld    drain  d2   {Ld*if(dgfs==99,0,1)}
+Rsb   source s1    10
+Rga   gate   g1    10
+Rdb   drain  d2    10
+
+Rth1  Tj      t1              {2.2m+limit(Zthtype,0,1)*812.41u}
+Rth2  t1      t2              {31.16m+limit(Zthtype,0,1)*11.54m}
+Rth3  t2      t3              {109.85m+limit(Zthtype,0,1)*5.06m}
+Rth4  t3      t4              {125.6m+limit(Zthtype,0,1)*96.87m}
+Rth5  t4      Tcase           {235.37m+limit(Zthtype,0,1)*181.54m}
+Cth1  Tj      0               63.37u
+Cth2  t1      0               465.57u
+Cth3  t2      0               2.57m
+Cth4  t3      0               2.01m
+Cth5  t4      0               44.31m
+Cth6  Tcase   0               30m
+
+.ENDS
+
+**********
+
 .SUBCKT BSC009NE2LS5 drain gate source Tj Tcase PARAMS: dVth=0 dRdson=0 dgfs=0 dC=0 Zthtype=0 Ls=0.3n Ld=1n Lg=3n
 
 .PARAM Rs=192u      Rg=1         Rd=10u       Rm=19u
@@ -1350,6 +1482,33 @@ Cth6  Tcase   0               10m
 
 **********
 
+.SUBCKT BSC004NE2LS5_L1 drain gate source PARAMS: dVth=0 dRdson=0 dgfs=0 dC=0 Ls=0.3n Ld=1n Lg=3n
+
+.PARAM Rs=159u      Rg=0.7       Rd=10u       Rm=21u
+.PARAM Inn=50       Unn=10       Rmax=450u    gmin=152
+.PARAM act=11.38    Rsp=0.5     
+
+X1  d1 g s sp Tj1 S5_25_j_var PARAMS: a={act} Rsp={Rsp} dVth={dVth} dR={dRdson} dgfs={dgfs} Inn={Inn} Unn={Unn}
++Rmax={Rmax} gmin={gmin} Rs={Rs} Rp={Rd} dC={dC} Rm={Rm}
+
+Rg    g1     g    {Rg}
+Lg    gate   g1   {Lg*if(dgfs==99,0,1)}
+Gs    s1     s    VALUE={V(s1,s)/(Rs*(1+(limit(V(Tj),-200,999)-25)*4m)-Rm)}
+Rsa   s1     s    1Meg
+Ls    source s1   {Ls*if(dgfs==99,0,1)}
+Rda   d1     d2   {Rd}
+Ld    drain  d2   {Ld*if(dgfs==99,0,1)}
+
+E1    Tj     w    VALUE={TEMP}
+Vp    Tj1    Tj   0
+R1    Tj     Tj1  1u
+G_power 0    Tj   VALUE={V(s1,s)*V(s1,s)/(Rs*(1+(limit(V(Tj),-200,999)-25)*4m)-Rm)+V(g,g1)*V(g,g1)/Rg+V(d1,d2)*V(d1,d2)/Rd+I(Vp)}
+R2      w    0    1u
+
+.ENDS
+
+**********
+
 .SUBCKT BSC009NE2LS5_L1 drain gate source PARAMS: dVth=0 dRdson=0 dgfs=0 dC=0 Ls=0.3n Ld=1n Lg=3n
 
 .PARAM Rs=192u      Rg=1         Rd=10u       Rm=19u
@@ -1720,6 +1879,44 @@ R2      w    0    1u
 .ENDS
 
 **********
+
+.SUBCKT BSC004NE2LS5_L0 drain gate source
+
+Lg     gate   g1   3n
+Ld     drain  d1   1n
+Ls     source s1   0.3n
+Rs     s1     s2   159u
+
+Rg     g1     g2   0.7
+
+M1     d2     g2    s2    s2    DMOS    L=1u   W=1u
+.MODEL DMOS NMOS ( KP=1707  VTO=2.18  THETA=0  VMAX=1.5e5  ETA=0.01  LEVEL=3)
+Rd     d1    d2    0.16m  TC=7m
+
+Dbd     s2    d2    Dbt
+.MODEL     Dbt    D(BV=30  M=0.8  CJO=2.28n  VJ=2.3V)
+Rsp     s2    s3     0.5
+Dbd1    s3    d2     Dbt1
+.MODEL     Dbt1    D(BV=1000   M=0.8  CJO=1.35n  VJ=2.3V)
+Dbody   s2   21    DBODY
+.MODEL DBODY  D(IS=96.7p  N=1.12  RS=0.04u  EG=1.12  TT=3n)
+Rdiode  d1  21    0.18m  TC=10m
+
+.MODEL   sw    NMOS(VTO=0  KP=10   LEVEL=1)
+Maux      g2   c    a    a   sw
+Maux2     b    d    g2    g2   sw
+Eaux      c    a    d2    g2   1
+Eaux2     d    g2   d2    g2   -1
+Cox       b    d2   10.81n
+.MODEL     DGD    D(M=0.36  CJO=10.81n  VJ=0.5)
+Rpar      b    d2   1Meg
+Dgd       a    d2   DGD
+Rpar2     d2   a    10Meg
+Cgs     g2    s2    7.74n
+
+.ENDS BSC004NE2LS5_L0
+
+*****************
 
 .SUBCKT BSC009NE2LS5_L0  drain  gate  source
 

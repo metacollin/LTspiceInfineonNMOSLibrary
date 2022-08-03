@@ -17,7 +17,7 @@ WINDOW 0 56 32 Left 2
 WINDOW 3 56 72 Left 2
 SYMATTR Value IPT015N10N5
 SYMATTR Prefix X
-SYMATTR ModelFile OptiMOS5_100V_PSpice.lib
+SYMATTR ModelFile OptiMOS5_100V_LTSpice.lib
 SYMATTR Description N-Channel MOSFET transistor
 PIN 48 0 NONE 0
 PINATTR PinName D

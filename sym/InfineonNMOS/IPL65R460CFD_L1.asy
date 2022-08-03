@@ -17,7 +17,7 @@ WINDOW 0 56 32 Left 2
 WINDOW 3 56 72 Left 2
 SYMATTR Value IPL65R460CFD_L1
 SYMATTR Prefix X
-SYMATTR ModelFile Infineon - Simulation Model - PSpice - CoolMOS™ - CFD2 - 650V.lib
+SYMATTR ModelFile SimulationModel_Power_CoolMOS_CFD2_MOSFET_650V_Spice.lib
 SYMATTR Description N-Channel MOSFET transistor
 PIN 48 0 NONE 0
 PINATTR PinName D

@@ -17,7 +17,7 @@ WINDOW 0 56 32 Left 2
 WINDOW 3 56 72 Left 2
 SYMATTR Value BSC010NE2LS
 SYMATTR Prefix X
-SYMATTR ModelFile OptiMOS_34V_PSpice.lib
+SYMATTR ModelFile PowerStage3x3_LTSpice.lib
 SYMATTR Description N-Channel MOSFET transistor
 PIN 48 0 NONE 0
 PINATTR PinName D

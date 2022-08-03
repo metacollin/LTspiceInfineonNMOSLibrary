@@ -2,8 +2,10 @@
 * INFINEON Power Transistors                                    *
 * LTSPICE Library for OptiMOS3 Power Transistors                *
 *                                                               *
+* This file also contains simplified models that are compatible *
+* to standard Spice.                                            *
 *                                                               *
-* Version 230720                                                *
+* Version 040122                                                *
 *                                                               *
 *****************************************************************
 *                                                               *
@@ -71,7 +73,7 @@
 .PARAM Rd=110m        rpara=3m       nmu=2.82       Rf=310m
 
 .PARAM lnIsj=-25.77   ndi=1.19       Rdi=10.47m     nmu2=-16.5m    n_Isj=3        UB=175.03
-.PARAM ab=115.6m      ab2=-105u      UT=100m        lB=-23         td=200n        ta=50n
+.PARAM ab=115.6m      ab2=-105u      UT=100m        lB=-23         ta=50n
 
 .PARAM kbq=85.8u      Tref=298       T0=273
 
@@ -128,7 +130,7 @@
 
 C_Cgs  g      s      {Cgs0}
 
-E_Eds2 d      edep2  VALUE {V(d,s)-I(V_sense3)/Cds2}
+E_Eds2 d      edep2  VALUE {if(qs8==0,0,V(d,s)-(exp(qs8*max(V(d,s),-1))-1)/min(qs8,-1u)-min(V(d,s)+1,0)*exp(-qs8))}
 C_Cds2 edep2  s      {Cds2}
 
 C_Cds5 d      sp     {Cds5}
@@ -153,18 +155,12 @@ Rd06     d5a  d5  1u
 V_sm     d    d5  0
 G_RMos   d1    d  VALUE={V(d1,d)/(Rf*dRd+(1-Rf)*dRd*((limit(V(Tj),-200,999)+T0)/Tref)**nmu)/(1+rpara*(I(V_sense)/a)**2)}
 V_sense  dd   d1  0
-G_diode   s   d3  VALUE={Idiod(V(s,d3),T0+limit(V(Tj),-200,499))}
 G_Rdio   d2   d1  VALUE={V(d2,d1)/(dRdi*((limit(V(Tj),-200,999)+T0)/Tref)**nmu2)}
 V_sense2 d2   d3  0
 
+Dbody s d3 dbody
+.model dbody D (BV= {UB*10},CJO ={Cds2/1000},TT ={ta},IS ={a*exp(lnIsj)} m={0.3} RS={dRdi*1m} n={ndi})
 
-L_L001 a c {td/(ta+td)}
-R_R001 a b {1/ta}
-V_sense3 c 0 0
-E_E001 b 0 VALUE {I(V_sense2)}
-E_E002 e 0 VALUE {Cds2*((exp(qs8*max(V(d,s),-1))-1)/min(qs8,-1u)-min(V(d,s)+1,0)*exp(-qs8))}
-R_R002 e c 1
-R_R003 a 0 500Meg
 
 R1        g    s  1G
 Rd01      d    s  500Meg
@@ -798,7 +794,7 @@ Cth6  Tcase   0               220m
 
 **********
 
-.SUBCKT BSC190N15NS3 drain gate source Tj Tcase PARAMS: dVth=0 dRdson=0 dgfs=0 dC=0 Zthtype=0 Ls=1n Ld=1n Lg=3n
+.SUBCKT BSC190N15NS3 drain gate source Tj Tcase PARAMS: dVth=0 dRdson=0 dgfs=0 dC=0 Zthtype=0 Ls=350p Ld=100p Lg=2.2n
 
 .PARAM Rs=404u      Rg=2.4       Rd=50u       Rm=233u
 .PARAM Inn=50       Unn=10       Rmax=19m     gmin=33
@@ -880,7 +876,7 @@ Cth6  Tcase   0               10m
 
 **********
 
-.SUBCKT BSC360N15NS3 drain gate source Tj Tcase PARAMS: dVth=0 dRdson=0 dgfs=0 dC=0 Zthtype=0 Ls=1n Ld=1n Lg=3n
+.SUBCKT BSC360N15NS3 drain gate source Tj Tcase PARAMS: dVth=0 dRdson=0 dgfs=0 dC=0 Zthtype=0 Ls=350p Ld=100p Lg=2.2n
 
 .PARAM Rs=251u      Rg=2.1       Rd=50u       Rm=80u
 .PARAM Inn=10       Unn=10       Rmax=36m     gmin=10.48
@@ -1085,7 +1081,7 @@ Cth6  Tcase   0               220m
 
 **********
 
-.SUBCKT BSC520N15NS3 drain gate source Tj Tcase PARAMS: dVth=0 dRdson=0 dgfs=0 dC=0 Zthtype=0 Ls=1n Ld=1n Lg=3n
+.SUBCKT BSC520N15NS3 drain gate source Tj Tcase PARAMS: dVth=0 dRdson=0 dgfs=0 dC=0 Zthtype=0 Ls=460p Ld=100p Lg=2.2n
 
 .PARAM Rs=603u      Rg=2.1       Rd=50u       Rm=411u
 .PARAM Inn=18       Unn=10       Rmax=52m     gmin=11.68
@@ -1126,7 +1122,7 @@ Cth6  Tcase   0               30m
 
 **********
 
-.SUBCKT BSZ520N15NS3 drain gate source Tj Tcase PARAMS: dVth=0 dRdson=0 dgfs=0 dC=0 Zthtype=0 Ls=1n Ld=1n Lg=3n
+.SUBCKT BSZ520N15NS3 drain gate source Tj Tcase PARAMS: dVth=0 dRdson=0 dgfs=0 dC=0 Zthtype=0 Ls=250p Ld=100p Lg=1.2n
 
 .PARAM Rs=514u      Rg=2.1       Rd=50u       Rm=281u
 .PARAM Inn=18       Unn=10       Rmax=52m     gmin=12
@@ -1167,7 +1163,7 @@ Cth6  Tcase   0               10m
 
 **********
 
-.SUBCKT BSZ900N15NS3 drain gate source Tj Tcase PARAMS: dVth=0 dRdson=0 dgfs=0 dC=0 Zthtype=0 Ls=1n Ld=1n Lg=3n
+.SUBCKT BSZ900N15NS3 drain gate source Tj Tcase PARAMS: dVth=0 dRdson=0 dgfs=0 dC=0 Zthtype=0 Ls=250p Ld=100p Lg=1.2n
 
 .PARAM Rs=954u      Rg=1.7       Rd=50u       Rm=721u
 .PARAM Inn=10.3     Unn=10       Rmax=90m     gmin=7
@@ -1597,7 +1593,7 @@ R2      w    0    1u
 
 **********
 
-.SUBCKT BSC190N15NS3_L1 drain gate source PARAMS: dVth=0 dRdson=0 dgfs=0 dC=0 Ls=1n Ld=1n Lg=3n
+.SUBCKT BSC190N15NS3_L1 drain gate source PARAMS: dVth=0 dRdson=0 dgfs=0 dC=0 Ls=350p Ld=100p Lg=2.2n
 
 .PARAM Rs=404u      Rg=2.4       Rd=50u       Rm=233u
 .PARAM Inn=50       Unn=10       Rmax=19m     gmin=33
@@ -1649,7 +1645,7 @@ R2      w    0    1u
 
 **********
 
-.SUBCKT BSC360N15NS3_L1 drain gate source PARAMS: dVth=0 dRdson=0 dgfs=0 dC=0 Ls=1n Ld=1n Lg=3n
+.SUBCKT BSC360N15NS3_L1 drain gate source PARAMS: dVth=0 dRdson=0 dgfs=0 dC=0 Ls=350p Ld=100p Lg=2.2n
 
 .PARAM Rs=251u      Rg=2.1       Rd=50u       Rm=80u
 .PARAM Inn=10       Unn=10       Rmax=36m     gmin=10.48
@@ -1779,7 +1775,7 @@ R2      w    0    1u
 
 **********
 
-.SUBCKT BSC520N15NS3_L1 drain gate source PARAMS: dVth=0 dRdson=0 dgfs=0 dC=0 Ls=1n Ld=1n Lg=3n
+.SUBCKT BSC520N15NS3_L1 drain gate source PARAMS: dVth=0 dRdson=0 dgfs=0 dC=0 Ls=460p Ld=100p Lg=2.2n
 
 .PARAM Rs=603u      Rg=2.1       Rd=50u       Rm=411u
 .PARAM Inn=18       Unn=10       Rmax=52m     gmin=11.68
@@ -1805,7 +1801,7 @@ R2      w    0    1u
 
 **********
 
-.SUBCKT BSZ520N15NS3_L1 drain gate source PARAMS: dVth=0 dRdson=0 dgfs=0 dC=0 Ls=1n Ld=1n Lg=3n
+.SUBCKT BSZ520N15NS3_L1 drain gate source PARAMS: dVth=0 dRdson=0 dgfs=0 dC=0 Ls=250p Ld=100p Lg=1.2n
 
 .PARAM Rs=514u      Rg=2.1       Rd=50u       Rm=281u
 .PARAM Inn=18       Unn=10       Rmax=52m     gmin=12
@@ -1831,7 +1827,7 @@ R2      w    0    1u
 
 **********
 
-.SUBCKT BSZ900N15NS3_L1 drain gate source PARAMS: dVth=0 dRdson=0 dgfs=0 dC=0 Ls=1n Ld=1n Lg=3n
+.SUBCKT BSZ900N15NS3_L1 drain gate source PARAMS: dVth=0 dRdson=0 dgfs=0 dC=0 Ls=250p Ld=100p Lg=1.2n
 
 .PARAM Rs=954u      Rg=1.7       Rd=50u       Rm=721u
 .PARAM Inn=10.3     Unn=10       Rmax=90m     gmin=7
@@ -2459,9 +2455,9 @@ Cgs     g2    s2    1.81n
 
 .SUBCKT BSC190N15NS3_L0  drain  gate  source
 
-Lg     gate  g1    3n
-Ld     drain d1    1n
-Ls     source s1   1n
+Lg     gate  g1    2.2n
+Ld     drain d1    100p
+Ls     source s1   350p
 Rs      s1    s2   404u
 
 Rg     g1    g2     2.4
@@ -2539,9 +2535,9 @@ Cgs     g2    s2    1.16n
 
 .SUBCKT BSC360N15NS3_L0  drain  gate  source
 
-Lg     gate  g1    3n
-Ld     drain d1    1n
-Ls     source s1   1n
+Lg     gate  g1    2.2n
+Ld     drain d1    100p
+Ls     source s1   350p
 Rs      s1    s2   251u
 
 Rg     g1    g2     2.1
@@ -2739,9 +2735,9 @@ Cgs     g2    s2    0.66n
 
 .SUBCKT BSC520N15NS3_L0  drain  gate  source
 
-Lg     gate  g1    3n
-Ld     drain d1    1n
-Ls     source s1   1n
+Lg     gate  g1    2.2n
+Ld     drain d1    100p
+Ls     source s1   460p
 Rs      s1    s2   603u
 
 Rg     g1    g2     2.1
@@ -2779,9 +2775,9 @@ Cgs     g2    s2    0.66n
 
 .SUBCKT BSZ520N15NS3_L0  drain  gate  source
 
-Lg     gate  g1    3n
-Ld     drain d1    1n
-Ls     source s1   1n
+Lg     gate  g1    1.2n
+Ld     drain d1    100p
+Ls     source s1   250p
 Rs      s1    s2   514u
 
 Rg     g1    g2     2.1
@@ -2819,9 +2815,9 @@ Cgs     g2    s2    0.66n
 
 .SUBCKT BSZ900N15NS3_L0  drain  gate  source
 
-Lg     gate  g1    3n
-Ld     drain d1    1n
-Ls     source s1   1n
+Lg     gate  g1    1.2n
+Ld     drain d1    100p
+Ls     source s1   250p
 Rs      s1    s2   954u
 
 Rg     g1    g2     1.7
@@ -2855,4 +2851,4 @@ Cgs     g2    s2    0.37n
 
 .ENDS  BSZ900N15NS3_L0
 
-******
+

@@ -17,7 +17,7 @@ WINDOW 0 56 32 Left 2
 WINDOW 3 56 72 Left 2
 SYMATTR Value IPB65R190CFDA_L0
 SYMATTR Prefix X
-SYMATTR ModelFile IFX_CFDA_650V.lib
+SYMATTR ModelFile SimulationModel_Power_CoolMOS_CFDA_MOSFET_650V_Spice.lib
 SYMATTR Description N-Channel MOSFET transistor
 PIN 48 0 NONE 0
 PINATTR PinName D
