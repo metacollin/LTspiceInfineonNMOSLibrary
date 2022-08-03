@@ -11,7 +11,9 @@ When available, it uses their native LTSpice libraries, but when not,  PSpice li
 There are no encrypted symbols included unfortunately, but only a handful of Infineon's models use encryption so this is not too big an issue.
 
 Current model & symbol count:
+
 **6779** N-channel MOSFETs
+
 **427** P-channel MOSFETs
 
 Total Symbols: **7203**
